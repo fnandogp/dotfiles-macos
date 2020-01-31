@@ -1,4 +1,4 @@
-" Set the leader key
+" Set the Leader key
 let mapleader=','
 
 " Set the directories used to find packages.
@@ -22,12 +22,8 @@ Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the gutte
 Plug 'tpope/vim-dispatch' " Asynchronous build and test dispatcher
 Plug 'machakann/vim-highlightedyank' " Make the yanked region apparent!
 Plug 'vim-airline/vim-airline' " lean & mean status/tabline for vim that's light as air
-Plug 'scrooloose/nerdtree' " A tree explorer plugin for vim.
-Plug 'Xuyuanp/nerdtree-git-plugin' " A plugin of NERDTree showing git status
-Plug 'scrooloose/nerdcommenter' " Vim plugin for intensely orgasmic commenting
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim' " Vim plugin for the Perl module / CLI script 'ack'
+Plug 'preservim/nerdtree' " A tree explorer plugin for vim.
+Plug 'preservim/nerdcommenter' " Vim plugin for intensely orgasmic commenting
 
 Plug 'dense-analysis/ale' " Check syntax in Vim asynchronously and fix files, with Language Server Protocol (LSP) support
 Plug 'SirVer/ultisnips' " The ultimate snippet solution for Vim.
@@ -96,16 +92,16 @@ nnoremap // yiw/\V<C-r>=escape(@",'/\')<CR><CR>
 vnoremap <M-/> "hy:%s/<C-r>h//gc<left><left><left>
 
 " Toggle the search highlighting state on or off persistently
-nnoremap <leader><Space> :set hlsearch! hlsearch?<CR>
+nnoremap <Leader><Space> :set hlsearch! hlsearch?<CR>
 
 " Source current file
-nnoremap  <silent> <leader>vr :so ~/.nvimrc<CR>
+nnoremap  <silent> <Leader>vr :so ~/.nvimrc<CR>
 
 " Save / Quit keymaps
-noremap  <silent> <leader>w :w<CR>
-vnoremap <silent> <leader>w <C-c>:w<CR>
-inoremap <silent> <leader>w <C-o>:w<CR>
-noremap  <silent> <leader>q :q<CR>
+noremap  <silent> <Leader>w :w<CR>
+vnoremap <silent> <Leader>w <C-c>:w<CR>
+inoremap <silent> <Leader>w <C-o>:w<CR>
+noremap  <silent> <Leader>q :q<CR>
 
 " Window navigation keymaps
 tnoremap <Esc> <C-\><C-n>
@@ -124,10 +120,10 @@ nnoremap <M-S-k> <C-w>K
 nnoremap <M-S-l> <C-w>L
 
 " Window resize
-nnoremap <silent> <leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
-nnoremap <silent> <leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
-nnoremap <silent> <leader>> :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
-nnoremap <silent> <leader>< :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+nnoremap <silent> <Leader>> :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Leader>< :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
 
 " Copy selected text to system clipboard
 vnoremap <C-c> "+y
@@ -139,6 +135,8 @@ nnoremap <Leader>term :vsp \| term<CR>i
 " Stay in visual mode when indenting. You will never have to run gv after performing an indentation.
 vnoremap < <gv
 vnoremap > >gv
+
+autocmd VimEnter * setlocal nobuflisted
 
 
 """""""""""""""
@@ -158,39 +156,18 @@ let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeQuitOnOpen=1
 let NERDTreeShowHidden=1
 " Open nerdtree
-map <leader>e :NERDTreeToggle<CR>
+map <Leader>e :NERDTreeToggle<CR>
 " Find and reveal the file for the active
-map <leader>f :NERDTreeFind %<CR>
+"map <Leader>f :NERDTreeFind %<CR>
 
-augroup nerdtree_init
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"augroup nerdtree_init
+  "autocmd StdinReadPre * let s:std_in=1
+  "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | wincmd p | ene | exe 'NERDTree' argv()[0] | endif
-augroup END
+  "autocmd StdinReadPre * let s:std_in=1
+  "autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | wincmd p | ene | exe 'NERDTree' argv()[0] | endif
+"augroup END
 
-
-""""""""""""""""""""
-" junegunn/fzf.vim "
-""""""""""""""""""""
-"let $FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-
-nnoremap <silent> <leader>p :Files<CR>
-nnoremap <silent> <leader>P :Buffers<CR>
-nnoremap <silent> <Leader>@ :Tags<CR>
-nnoremap <silent> <leader>F :BLines<CR>
-nnoremap <silent> <leader>? :History<CR>
-"nnoremap <silent> <leader>/ :execute 'Ack! ' . input('Ack! ')<CR>
-"nnoremap <silent> <leader>. :AgIn<Space>
-
-augroup fzf_term
-  " Close fzf on Esc key press
-  autocmd! FileType fzf
-  autocmd  FileType fzf set laststatus=0 noshowmode noruler
-        \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-  autocmd  FileType fzf tnoremap <buffer> <silent> <Esc> <C-\><C-n>:q!<CR>
-augroup END
 
 
 """"""""""""""""""""
@@ -236,8 +213,8 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 "nmap <silent> <C-c> <Plug>(coc-cursors-position)
 "nmap <silent> <C-d> <Plug>(coc-cursors-word)
 "xmap <silent> <C-d> <Plug>(coc-cursors-range)
-"" use normal command like `<leader>xi(`
-"nmap <leader>x  <Plug>(coc-cursors-operator)
+"" use normal command like `<Leader>xi(`
+"nmap <Leader>x  <Plug>(coc-cursors-operator)
 
 nmap <silent> <C-n> <Plug>(coc-cursors-word)*
 xmap <silent> <C-n> y/\V<C-r>=escape(@",'/\')<CR><CR>gN<Plug>(coc-cursors-range)gn
@@ -246,11 +223,6 @@ xmap <silent> <C-n> y/\V<C-r>=escape(@",'/\')<CR><CR>gN<Plug>(coc-cursors-range)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-"" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 "" Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -266,17 +238,11 @@ endfunction
 "" Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-"" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-"" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a <Plug>(coc-codeaction-selected)
-nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
-nmap <leader>ac <Plug>(coc-codeaction)
+"nmap <Leader>ac <Plug>(coc-codeaction)
 " Fix autofix problem of current line
-nmap <leader>af <Plug>(coc-fix-current)
+"nmap <Leader>af <Plug>(coc-fix-current)
 
 "" Create mappings for function text object, requires document symbols feature of languageserver.
 
@@ -302,25 +268,6 @@ command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <Space>a :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <Space>e :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <Space>c :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <Space>o :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <Space>s :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <Space>j :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <Space>k :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <Space>p :<C-u>CocListResume<CR>
-
-
 " Using snippets
 inoremap <silent><expr> <C-j>
       \ pumvisible() ? coc#_select_confirm() :
@@ -336,17 +283,33 @@ endfunction
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-l> <Plug>(coc-snippets-expand-jump)
 
-
-"""""""""""""""""""""""""
-" Shougo/neosnippet.vim "
-"""""""""""""""""""""""""
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/snippets/'
+" Keymappings
+"" Listing
+nnoremap <silent> <Leader>p :CocList files<CR>
+nnoremap <silent> <Leader>P :CocList buffers<CR>
+nnoremap <silent> <Leader><Space>a :CocList actions<CR>
+nnoremap <silent> <Leader><Space>d :CocList --auto-preview --normal diagnostics<CR>
+nnoremap <silent> <Leader><Space>f :CocFix<CR>
+nnoremap <silent> <Leader><Space>g :CocList grep<CR>
+nnoremap <silent> <Leader><Space>G :exe 'CocList -I --input='.expand('<cword>').' grep'<CR>
+nnoremap <silent> <Leader><Space>s :CocList --interactive symbols<CR>
+nnoremap <silent> <Leader><Space>l :CocList --interactive lines<CR>
+nnoremap <silent> <Leader><Space>o :CocList --auto-preview outline<CR>
+nnoremap <silent> <Leader><Space>y :CocList --auto-preview --normal yank<CR>
+"" Rename and Refactor
+nmap <Leader><Space>rn <Plug>(coc-rename)
+nmap <Leader><Space>rr <Plug>(coc-refactor)
+"" Gotos
+nmap <silent> <Leader><Space>gd <Plug>(coc-definition)
+nmap <silent> <Leader><Space>gy <Plug>(coc-type-definition)
+nmap <silent> <Leader><Space>gi <Plug>(coc-implementation)
+nmap <silent> <Leader><Space>gr <Plug>(coc-references)
 
 
 """"""""""""""""""""""
 " dense-analysis/ale "
 """"""""""""""""""""""
+let g:ale_disable_lsp = 1
 let g:ale_completion_enabled = 1
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
@@ -392,7 +355,7 @@ let g:mta_filetypes = {
 """""""""""""""""""
 " mattn/emmet-vim "
 """""""""""""""""""
-let g:user_emmet_leader_key=','
+let g:user_emmet_Leader_key=','
 let g:user_emmet_settings = {
       \  'javascript.jsx' : {
       \      'extends' : 'jsx',

@@ -1,0 +1,36 @@
+##
+## Aliases
+##
+
+# Config file
+#alias cfg_zsh="nvim $HOME/dotfiles/.zshrc"
+#alias cfg_i3="nvim $HOME/dotfiles/.i3/config"
+#alias cfg_vim="nvim $HOME/dotfiles/"
+
+# Common
+alias s="sudo"
+#alias vim="vim -u DEFAULTS"
+#alias v="nvim"
+alias ssh-fitzroyit="ssh-add -K ~/.ssh/id_rsa_fernando_fitzroyit"
+
+alias ws="cd $HOME/workspace"
+alias wsf="cd $HOME/workspace/fitzroy-it"
+alias wsc="cd $HOME/workspace/canopy"
+
+alias gcz="git cz"
+alias cz="git cz"
+
+# Laravel
+alias art="php artisan"
+alias migrate="php artisan migrate"
+alias pu="phpunit"
+alias puf="phpunit --filter"
+
+# Laradock
+alias dc="docker-compose"
+alias dcup="docker-compose up -d"
+alias dcexec="docker-compose exec --user=laradock workspace bash"
+alias dcstop="docker-compose stop"
+
+# Python
+alias python="python3"

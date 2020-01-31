@@ -1,0 +1,5 @@
+{
+  "list.source.files.args": ["--hidden", "--files"],
+  "suggest.enablePreview": true,
+  "diagnostic.displayByAle": true
+}
