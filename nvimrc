@@ -16,7 +16,6 @@ call plug#begin('~/.vim/pack')
 
 Plug 'dracula/vim' " A dark theme for Vim https://draculatheme.com/vim
 Plug 'tpope/vim-surround' " Surround.vim is all about surroundings: parentheses, brackets, quotes, XML tags, and more.
-""""" Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes (partial) hunks.
 Plug 'tpope/vim-dispatch' " Asynchronous build and test dispatcher
@@ -40,8 +39,6 @@ Plug 'pangloss/vim-javascript' " Vastly improved Javascript indentation and synt
 Plug 'elzr/vim-json' " A better JSON for Vim
 Plug 'mxw/vim-jsx' " React JSX syntax highlighting and indenting for vim.
 Plug 'leafgarland/typescript-vim' " Typescript syntax files for Vim
-
-"Plug 'dart-lang/dart-vim-plugin'
 
 " Automatically executes `filetype plugin indent` on and `syntax enable`.
 " Initialize plugin system
@@ -287,23 +284,23 @@ imap <C-l> <Plug>(coc-snippets-expand-jump)
 "" Listing
 nnoremap <silent> <Leader>p :CocList files<CR>
 nnoremap <silent> <Leader>P :CocList buffers<CR>
-nnoremap <silent> <Leader><Space>a :CocList actions<CR>
-nnoremap <silent> <Leader><Space>d :CocList --auto-preview --normal diagnostics<CR>
-nnoremap <silent> <Leader><Space>f :CocFix<CR>
-nnoremap <silent> <Leader><Space>g :CocList grep<CR>
-nnoremap <silent> <Leader><Space>G :exe 'CocList -I --input='.expand('<cword>').' grep'<CR>
-nnoremap <silent> <Leader><Space>s :CocList --interactive symbols<CR>
-nnoremap <silent> <Leader><Space>l :CocList --interactive lines<CR>
-nnoremap <silent> <Leader><Space>o :CocList --auto-preview outline<CR>
-nnoremap <silent> <Leader><Space>y :CocList --auto-preview --normal yank<CR>
+nnoremap <silent> <Leader>ma :CocList actions<CR>
+nnoremap <silent> <Leader>md :CocList --auto-preview --normal diagnostics<CR>
+nnoremap <silent> <Leader>mf :CocFix<CR>
+nnoremap <silent> <Leader>mg :CocList --interactive --auto-preview grep<CR>
+nnoremap <silent> <Leader>mG :exe 'CocList --auto-preview --input='.expand('<cword>').' grep'<CR>
+nnoremap <silent> <Leader>ms :CocList --interactive --auto-preview symbols<CR>
+nnoremap <silent> <Leader>ml :CocList --interactive --auto-preview lines<CR>
+nnoremap <silent> <Leader>mo :CocList --auto-preview outline<CR>
+nnoremap <silent> <Leader>my :CocList --auto-preview --normal yank<CR>
 "" Rename and Refactor
-nmap <Leader><Space>rn <Plug>(coc-rename)
-nmap <Leader><Space>rr <Plug>(coc-refactor)
+nmap <silent> <Leader>rn <Plug>(coc-rename)
+nmap <silent> <Leader>rr <Plug>(coc-refactor)
 "" Gotos
-nmap <silent> <Leader><Space>gd <Plug>(coc-definition)
-nmap <silent> <Leader><Space>gy <Plug>(coc-type-definition)
-nmap <silent> <Leader><Space>gi <Plug>(coc-implementation)
-nmap <silent> <Leader><Space>gr <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 
 """"""""""""""""""""""
@@ -367,9 +364,4 @@ let g:user_emmet_settings = {
 " vim-json "
 """"""""""""
 let g:vim_json_syntax_conceal = 0
-
-""""""""""
-" tagbar "
-""""""""""
-"nmap <Leader>b :TagbarToggle<CR>
 

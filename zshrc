@@ -16,30 +16,23 @@ antigen bundle brew
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle popstas/zsh-command-time
+antigen bundle zsh-users/zsh-completions
 
 # Load the theme.
 antigen theme avit
 
 # Defaults
 export EDITOR=/usr/bin/vim
+export TERM=xterm-256color
 
 # source custom files
 source ~/.pathrc
 source ~/.aliasrc
-source ~/.phpvrc
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Python
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
-#export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-
-# PHP
-#eval "$(phpenv init -)"
 
 # Tell Antigen that you're done.
 antigen apply
