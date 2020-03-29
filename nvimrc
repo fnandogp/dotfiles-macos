@@ -20,7 +20,7 @@ Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes (partial) hunks.
 Plug 'tpope/vim-dispatch' " Asynchronous build and test dispatcher
 Plug 'machakann/vim-highlightedyank' " Make the yanked region apparent!
-Plug 'vim-airline/vim-airline' " lean & mean status/tabline for vim that's light as air
+Plug 'itchyny/lightline.vim' " A light and configurable statusline/tabline plugin for Vim
 Plug 'preservim/nerdtree' " A tree explorer plugin for vim.
 Plug 'preservim/nerdcommenter' " Vim plugin for intensely orgasmic commenting
 
@@ -81,6 +81,7 @@ set cmdheight=2 " Better display for messages
 set updatetime=300 " You will have bad experience for diagnostic messages when it's default 4000.
 set shortmess+=c " don't give |ins-completion-menu| messages.
 set signcolumn=yes " always show signcolumns
+set noshowmode
 
 " Auto save files when focus is lost and on buffer switch
 au FocusLost * silent! wa
