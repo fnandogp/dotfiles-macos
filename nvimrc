@@ -189,16 +189,8 @@ let g:UltiSnipsEditSplit='vertical'
 """""""""""""""""""""
 " neoclide/coc.nvim "
 """""""""""""""""""""
-" use <Tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-imap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
+" use <C-j> for trigger completion
+inoremap <silent><expr> <c-space> coc#refresh()
 
 "Use <Tab> and <S-Tab> to navigate the completion list:
 imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
