@@ -35,10 +35,16 @@ Plug 'janko/vim-test' " Run your tests at the speed of thought
 Plug 'Valloric/MatchTagAlways' " A Vim plugin that always highlights the enclosing html/xml tags
 Plug 'mattn/emmet-vim' " emmet for vim
 Plug 'ap/vim-css-color' " Preview colours in source code while editing
-Plug 'pangloss/vim-javascript' " Vastly improved Javascript indentation and syntax support in Vim.
+
 Plug 'elzr/vim-json' " A better JSON for Vim
-Plug 'mxw/vim-jsx' " React JSX syntax highlighting and indenting for vim.
-Plug 'leafgarland/typescript-vim' " Typescript syntax files for Vim
+Plug 'yuezk/vim-js' " The most accurate syntax highlighting plugin for JavaScript and Flow.js
+Plug 'HerringtonDarkholme/yats.vim' " Yet Another TypeScript Syntax: The most advanced TypeScript Syntax Highlighting in Vim
+Plug 'maxmellon/vim-jsx-pretty' " JSX and TSX syntax pretty highlighting for vim
+
+"Plug 'pangloss/vim-javascript' " Vastly improved Javascript indentation and syntax support in Vim.
+"Plug 'leafgarland/typescript-vim' " Typescript syntax files for Vim
+"Plug 'ianks/vim-tsx' "
+"Plug 'MaxMEllon/vim-jsx-pretty' "JSX and TSX syntax pretty highlighting for vim.
 
 " Automatically executes `filetype plugin indent` on and `syntax enable`.
 " Initialize plugin system
