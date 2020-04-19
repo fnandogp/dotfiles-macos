@@ -20,10 +20,12 @@ Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes (partial) hunks.
 Plug 'tpope/vim-dispatch' " Asynchronous build and test dispatcher
 Plug 'machakann/vim-highlightedyank' " Make the yanked region apparent!
-Plug 'itchyny/lightline.vim' " A light and configurable statusline/tabline plugin for Vim
+Plug 'vim-airline/vim-airline' " lean & mean status/tabline for vim that's light as air
 Plug 'preservim/nerdtree' " A tree explorer plugin for vim.
 Plug 'preservim/nerdcommenter' " Vim plugin for intensely orgasmic commenting
-
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " Extra syntax and highlight for nerdtree files
+Plug 'ryanoasis/vim-devicons' " Adds file type icons to Vim plugins
+Plug 'kassio/neoterm' " Wrapper of some vim/neovim's :terminal functions.
 Plug 'dense-analysis/ale' " Check syntax in Vim asynchronously and fix files, with Language Server Protocol (LSP) support
 Plug 'SirVer/ultisnips' " The ultimate snippet solution for Vim.
 Plug 'honza/vim-snippets' "
@@ -40,11 +42,7 @@ Plug 'elzr/vim-json' " A better JSON for Vim
 Plug 'yuezk/vim-js' " The most accurate syntax highlighting plugin for JavaScript and Flow.js
 Plug 'HerringtonDarkholme/yats.vim' " Yet Another TypeScript Syntax: The most advanced TypeScript Syntax Highlighting in Vim
 Plug 'maxmellon/vim-jsx-pretty' " JSX and TSX syntax pretty highlighting for vim
-
-"Plug 'pangloss/vim-javascript' " Vastly improved Javascript indentation and syntax support in Vim.
-"Plug 'leafgarland/typescript-vim' " Typescript syntax files for Vim
-"Plug 'ianks/vim-tsx' "
-"Plug 'MaxMEllon/vim-jsx-pretty' "JSX and TSX syntax pretty highlighting for vim.
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Vim bundle for http://styled-components.com based javascript files.
 
 " Automatically executes `filetype plugin indent` on and `syntax enable`.
 " Initialize plugin system
@@ -61,6 +59,7 @@ set encoding=utf-8 " String-encoding used internally
 set nobackup
 set nowritebackup
 set noswapfile
+set autoread
 set splitbelow splitright " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
 set tabstop=2 " Show existing tab with 2 spaces width
 set shiftwidth=2 " When indenting with '>', use 2 spaces width
@@ -88,7 +87,6 @@ au FocusLost * silent! wa
 set autowriteall
 
 " Reload window
-nnoremap <F5> :edit!<CR>
 
 "search for the next occurrence of a select text
 vnoremap // y/\V<C-r>=escape(@",'/\')<CR><CR>
@@ -106,6 +104,10 @@ noremap  <silent> <Leader>w :w<CR>
 vnoremap <silent> <Leader>w <C-c>:w<CR>
 inoremap <silent> <Leader>w <C-o>:w<CR>
 noremap  <silent> <Leader>q :q<CR>
+" Delete and Close the current buffer
+noremap  <silent> <Leader>Q :bdelete!<CR>
+"Reload the current buffer
+nnoremap <silent> <Leader>R :edit!<CR>
 
 " Window navigation keymaps
 tnoremap <Esc> <C-\><C-n>
@@ -134,7 +136,7 @@ vnoremap <C-c> "+y
 map <C-v> "+P
 
 " Open terminal
-nnoremap <Leader>term :vsp \| term<CR>i
+nnoremap <Leader>tn :vert Tnew<CR>
 
 " Stay in visual mode when indenting. You will never have to run gv after performing an indentation.
 vnoremap < <gv
@@ -160,7 +162,7 @@ let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeQuitOnOpen=1
 let NERDTreeShowHidden=1
 " Open nerdtree
-map <Leader>e :NERDTreeToggle<CR>
+map <silent> <Leader>e :NERDTreeToggle<CR>
 " Find and reveal the file for the active
 "map <Leader>f :NERDTreeFind %<CR>
 
@@ -172,7 +174,20 @@ map <Leader>e :NERDTreeToggle<CR>
   "autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | wincmd p | ene | exe 'NERDTree' argv()[0] | endif
 "augroup END
 
+"""""""""""""""""""
+" airline/airline "
+"""""""""""""""""""
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_tab_type = 0
 
+let g:airline#extensions#ale#enabled = 1
+
+let g:airline#extensions#capslock#enabled = 1
+
+let g:airline#extensions#coc#enabled = 1
+let airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
+let airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
 
 """"""""""""""""""""
 " SirVer/ultisnips "
@@ -277,7 +292,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-l> <Plug>(coc-snippets-expand-jump)
+"imap <C-l> <Plug>(coc-snippets-expand-jump)
 
 " Keymappings
 "" Listing
@@ -300,13 +315,15 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+"" Coc LSP
+nmap <silent> <Leader>mR :CocRestart<CR>
 
 
 """"""""""""""""""""""
 " dense-analysis/ale "
 """"""""""""""""""""""
 let g:ale_disable_lsp = 1
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
       \   '*': ['trim_whitespace'],
@@ -323,19 +340,19 @@ nnoremap <silent> <Leader>f :ALEFix<CR>
 """"""""""""""""""
 " janko/vim-test "
 """"""""""""""""""
-nmap <silent> tn :TestNearest<CR>
-nmap <silent> tf :TestFile<CR>
-nmap <silent> ts :TestSuite<CR>
-nmap <silent> tl :TestLast<CR>
-nmap <silent> tg :TestVisit<CR>
+"nmap <silent> tn :TestNearest<CR>
+"nmap <silent> tf :TestFile<CR>
+"nmap <silent> ts :TestSuite<CR>
+"nmap <silent> tl :TestLast<CR>
+"nmap <silent> tg :TestVisit<CR>
 
-let test#strategy = 'dispatch'
+"let test#strategy = 'dispatch'
 
-" Close qf term on Esc key press
-augroup qf_term
-  autocmd!
-  autocmd FileType qf nnoremap <buffer> <silent> <Esc> :q!<CR>
-augroup END
+"" Close qf term on Esc key press
+"augroup qf_term
+  "autocmd!
+  "autocmd FileType qf nnoremap <buffer> <silent> <Esc> :q!<CR>
+"augroup END
 
 
 """""""""""""""""""""""""""
@@ -343,7 +360,6 @@ augroup END
 """""""""""""""""""""""""""
 let g:mta_filetypes = {
       \ 'html' : 1,
-      \ 'jsx' : 1,
       \ 'blade' : 1,
       \}
 
@@ -351,12 +367,8 @@ let g:mta_filetypes = {
 """""""""""""""""""
 " mattn/emmet-vim "
 """""""""""""""""""
-let g:user_emmet_Leader_key=','
-let g:user_emmet_settings = {
-      \  'javascript.jsx' : {
-      \      'extends' : 'jsx',
-      \  },
-      \}
+let g:user_emmet_install_global=0
+autocmd FileType html,css,javascript.jsx,typescriptreact EmmetInstall
 
 
 """"""""""""
