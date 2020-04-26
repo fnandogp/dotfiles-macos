@@ -307,6 +307,8 @@ nnoremap <silent> <Leader>ms :CocList --interactive --auto-preview symbols<CR>
 nnoremap <silent> <Leader>ml :CocList --interactive --auto-preview lines<CR>
 nnoremap <silent> <Leader>mo :CocList --auto-preview outline<CR>
 nnoremap <silent> <Leader>my :CocList --auto-preview --normal yank<CR>
+nnoremap <silent> <Leader>mO :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
+
 "" Rename and Refactor
 nmap <silent> <Leader>rn <Plug>(coc-rename)
 nmap <silent> <Leader>rr <Plug>(coc-refactor)
