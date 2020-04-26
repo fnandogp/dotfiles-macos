@@ -1,5 +1,6 @@
 {
   "list.source.files.args": ["--hidden", "--files"],
-  "suggest.enablePreview": true,
-  "diagnostic.displayByAle": true
+  "suggest.enablePreview": false,
+  "diagnostic.displayByAle": true,
+  "typescript.preferences.importModuleSpecifier": "relative"
 }
