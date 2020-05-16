@@ -27,6 +27,9 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " Extra syntax and highlight for 
 Plug 'ryanoasis/vim-devicons' " Adds file type icons to Vim plugins
 Plug 'kassio/neoterm' " Wrapper of some vim/neovim's :terminal functions.
 Plug 'dense-analysis/ale' " Check syntax in Vim asynchronously and fix files, with Language Server Protocol (LSP) support
+
+Plug 'epilande/vim-es2015-snippets' " ES2015 code snippets
+Plug 'epilande/vim-react-snippets' " React code snippets
 Plug 'SirVer/ultisnips' " The ultimate snippet solution for Vim.
 Plug 'honza/vim-snippets' "
 
@@ -194,8 +197,8 @@ let airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
 """"""""""""""""""""
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger='<Nul>'
-let g:UltiSnipsJumpForwardTrigger='<Nul>'
-let g:UltiSnipsJumpBackwardTrigger='<Nul>'
+let g:UltiSnipsJumpForwardTrigger='<C-l>'
+let g:UltiSnipsJumpBackwardTrigger='<C-h>'
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit='vertical'
