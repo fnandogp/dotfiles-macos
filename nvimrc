@@ -145,8 +145,9 @@ nnoremap <Leader>tn :vert Tnew<CR>
 vnoremap < <gv
 vnoremap > >gv
 
-autocmd VimEnter * setlocal nobuflisted
-
+" Move selected line up (J) or down (K)
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 """""""""""""""
 " dracula/vim "
