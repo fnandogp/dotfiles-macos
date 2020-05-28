@@ -374,7 +374,7 @@ let g:mta_filetypes = {
 " mattn/emmet-vim "
 """""""""""""""""""
 let g:user_emmet_install_global=0
-autocmd FileType html,css,javascript.jsx,typescriptreact EmmetInstall
+autocmd FileType html,css,javascript.jsx,javascriptreact,typescriptreact EmmetInstall
 
 
 """"""""""""
