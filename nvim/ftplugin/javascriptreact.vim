@@ -1,8 +1,8 @@
 """""""
-" TSX "
+" JSX "
 """""""
 let b:ale_fixers = ['prettier', 'eslint']
 
 augroup addUltiSnips
-  autocmd BufEnter *.tsx :exec ':UltiSnipsAddFiletypes javascript'
+  autocmd BufEnter *.jsx :exec ':UltiSnipsAddFiletypes javascript'
 augroup end
