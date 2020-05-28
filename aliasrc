@@ -9,8 +9,9 @@
 
 # Common
 alias s="sudo"
-#alias vim="vim -u DEFAULTS"
-#alias v="nvim"
+alias vim="vim -u DEFAULTS"
+alias v="nvim"
+alias n="nvim"
 alias ssh-fitzroyit="ssh-add -K ~/.ssh/id_rsa_fernando_fitzroyit"
 
 alias ws="cd $HOME/workspace"
