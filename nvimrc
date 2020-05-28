@@ -382,3 +382,7 @@ autocmd FileType html,css,javascript.jsx,javascriptreact,typescriptreact EmmetIn
 """"""""""""
 let g:vim_json_syntax_conceal = 0
 
+
+augroup filetypedetect
+  au BufRead,BufNewFile *file set filetype=ruby
+augroup END
