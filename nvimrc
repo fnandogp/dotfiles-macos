@@ -208,6 +208,35 @@ let g:UltiSnipsEditSplit='vertical'
 """""""""""""""""""""
 " neoclide/coc.nvim "
 """""""""""""""""""""
+let g:coc_global_extensions = [
+    \ 'coc-actions',
+    \ 'coc-css',
+    \ 'coc-cssmodules',
+    \ 'coc-emmet',
+    \ 'coc-emoji',
+    \ 'coc-explorer',
+    \ 'coc-floaterm',
+    \ 'coc-git',
+    \ 'coc-highlight',
+    \ 'coc-html',
+    \ 'coc-json',
+    \ 'coc-lists',
+    \ 'coc-marketplace',
+    \ 'coc-pairs',
+    \ 'coc-phpls',
+    \ 'coc-prettier',
+    \ 'coc-python',
+    \ 'coc-snippets',
+    \ 'coc-svg',
+    \ 'coc-tailwindcss',
+    \ 'coc-tsserver',
+    \ 'coc-ultisnips',
+    \ 'coc-vimlsp',
+    \ 'coc-xml',
+    \ 'coc-yaml',
+    \ 'coc-yank',
+    \ ]
+
 " use <C-j> for trigger completion
 inoremap <silent><expr> <c-space> coc#refresh()
 
