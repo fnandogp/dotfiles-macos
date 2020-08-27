@@ -1,4 +1,4 @@
-source ~/.antigen.zsh
+source ~/antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
@@ -9,7 +9,6 @@ antigen bundle git-flow
 antigen bundle docker
 antigen bundle yarn
 antigen bundle npm
-antigen bundle composer
 antigen bundle aws
 antigen bundle brew
 

@@ -28,14 +28,5 @@ export PATH="$PATH:$ANDROID_HOME/build-tools/29.0.2"
 export PATH="$HOME/.fastlane/bin:$PATH"
 
 
-# NVM
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-
-# heroku autocomplete setup
-HEROKU_AC_ZSH_SETUP_PATH=/Users/fnandogp/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
-
 . $(brew --prefix asdf)/asdf.sh
 . ~/.asdf/plugins/java/set-java-home.zsh
