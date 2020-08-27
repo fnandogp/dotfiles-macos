@@ -28,40 +28,18 @@ Sync your dotfiles
 rcup
 ```
 
-## VIM / NEOVIM
+## Brew 
 
-Apart from placing every dotfile in the correct places, some other
-configurations are require.
+To install (or upgrade) packages from your `Brewfile`, run the following
+command:
 
-Simply open you `nvim` and it will download every needed plugin.
-
-### CoC Extenstions
-
-Some extension need to be installed manually.
-
-Open your `nvim` and execute the following command for each one of the
-extensions.
-
-```
-:CocInstall <extension>
-
-# e.g. :CocInstall coc-ultisnips
+```bash
+brew bundle install --file ~/.dotfiles/Brewfile
 ```
 
-List of extensions used:
-```
-coc-css
-coc-git
-coc-highlight
-coc-html
-coc-json
-coc-lists
-coc-pairs
-coc-phpls
-coc-python
-coc-snippets
-coc-tailwindcss
-coc-tsserver
-coc-ultisnips
-coc-yank
+
+In case you want to update your `Brewfile`, run the following command:
+
+```bash
+brew bundle dump --file ~/.dotfiles/Brewfile -f
 ```
