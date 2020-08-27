@@ -80,7 +80,6 @@ cask "insomnia"
 cask "istat-menus"
 cask "itau"
 cask "kitty"
-cask "lastpass"
 cask "macdown"
 cask "megasync"
 cask "mongodb-compass"
@@ -103,6 +102,7 @@ cask "yt-music"
 cask "zoomus"
 mas "Amphetamine", id: 937984704
 mas "Dato", id: 1470584107
+mas "LastPass", id: 926036361
 mas "NordVPN IKE", id: 1116599239
 mas "Transporter", id: 1450874784
 mas "Xcode", id: 497799835
