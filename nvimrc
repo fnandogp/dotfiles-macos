@@ -14,7 +14,7 @@ endif
 
 call plug#begin('~/.vim/pack')
 
-Plug 'dracula/vim' " A dark theme for Vim https://draculatheme.com/vim
+Plug 'morhetz/gruvbox' " Retro groove color scheme for Vim
 Plug 'tpope/vim-surround' " Surround.vim is all about surroundings: parentheses, brackets, quotes, XML tags, and more.
 Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes (partial) hunks.
@@ -27,6 +27,7 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " Extra syntax and highlight for 
 Plug 'ryanoasis/vim-devicons' " Adds file type icons to Vim plugins
 Plug 'kassio/neoterm' " Wrapper of some vim/neovim's :terminal functions.
 Plug 'dense-analysis/ale' " Check syntax in Vim asynchronously and fix files, with Language Server Protocol (LSP) support
+Plug 'mhinz/vim-startify' " The fancy start screen for Vim.
 
 Plug 'epilande/vim-es2015-snippets' " ES2015 code snippets
 Plug 'epilande/vim-react-snippets' " React code snippets
@@ -152,7 +153,7 @@ vnoremap K :m '<-2<CR>gv=gv
 """""""""""""""
 " dracula/vim "
 """""""""""""""
-color dracula
+colorscheme gruvbox
 
 
 """""""""""""""""""""""
@@ -167,8 +168,7 @@ let NERDTreeQuitOnOpen=1
 let NERDTreeShowHidden=1
 " Open nerdtree
 map <silent> <Leader>e :NERDTreeToggle<CR>
-" Find and reveal the file for the active
-"map <Leader>f :NERDTreeFind %<CR>
+map <silent> <Leader>E :NERDTreeFind %<CR>
 
 "augroup nerdtree_init
   "autocmd StdinReadPre * let s:std_in=1
@@ -237,36 +237,39 @@ let g:coc_global_extensions = [
     \ 'coc-yank',
     \ ]
 
-" use <C-j> for trigger completion
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-"Use <Tab> and <S-Tab> to navigate the completion list:
-imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-"Use <C-j> to confirm completion
-inoremap <expr> <C-j> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+let g:coc_snippet_next = '<tab>'
 
-"To make coc.nvim format your code on <C-j>, use keymap:
-inoremap <silent><expr> <C-j> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
-"Close the preview window when completion is done.
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-"" Start multiple cursors session
-"nmap <silent> <C-c> <Plug>(coc-cursors-position)
-"nmap <silent> <C-d> <Plug>(coc-cursors-word)
-"xmap <silent> <C-d> <Plug>(coc-cursors-range)
-"" use normal command like `<Leader>xi(`
-"nmap <Leader>x  <Plug>(coc-cursors-operator)
-
-nmap <silent> <C-n> <Plug>(coc-cursors-word)*
-xmap <silent> <C-n> y/\V<C-r>=escape(@",'/\')<CR><CR>gN<Plug>(coc-cursors-range)gn
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
 
 "" Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -283,22 +286,17 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 
-" Remap for do codeAction of current line
-"nmap <Leader>ac <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-"nmap <Leader>af <Plug>(coc-fix-current)
-
-"" Create mappings for function text object, requires document symbols feature of languageserver.
-
-"xmap if <Plug>(coc-funcobj-i)
-"xmap af <Plug>(coc-funcobj-a)
-"omap if <Plug>(coc-funcobj-i)
-"omap af <Plug>(coc-funcobj-a)
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 
 " Use <Tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <Tab> <Plug>(coc-range-select)
-xmap <silent> <Tab> <Plug>(coc-range-select)
-xmap <silent> <S-Tab> <Plug>(coc-range-select-backword)
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -309,23 +307,17 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
 
-" Using snippets
-inoremap <silent><expr> <C-j>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+" Use <C-j> for select text for visual placeholder of snippet.
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
 " Use <C-j> for both expand and jump (make expand higher priority.)
-"imap <C-l> <Plug>(coc-snippets-expand-jump)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " Keymappings
 "" Listing
