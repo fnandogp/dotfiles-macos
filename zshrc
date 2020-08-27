@@ -19,7 +19,7 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle popstas/zsh-command-time
 
 # Load the theme.
-antigen theme avit
+antigen theme lambda
 
 # source custom files
 source ~/.pathrc
