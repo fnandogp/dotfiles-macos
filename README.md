@@ -1,16 +1,28 @@
 # Dotfiles (Mac OS)
 My Mac OS dotfiles
 
-## Download
+## Installation
+
+First of all, install [Homebrew](https://brew.sh/):
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+And then, manually install Git (not installed by default):
+
+```bash
+brew install git
+```
 
 Clone the project and place it on your home directory under the name
 `.dotfiles`.
 
 ```bash
 git clone git@github.com:fnandogp/dotfiles-macos.git ~/.dotfiles
+// OR
+git clone https://github.com:fnandogp/dotfiles-macos.git ~/.dotfiles
 ```
-
-## Requirements
 
 Install the [rcm](https://github.com/thoughtbot/rcm)
 
@@ -20,21 +32,17 @@ brew tap thoughtbot/formulae
 brew install thoughtbot/formulae/rcm
 ```
 
-## Sync
-
 Sync your dotfiles
 
 ```bash
 rcup
 ```
 
-## Brew 
-
 To install (or upgrade) packages from your `Brewfile`, run the following
 command:
 
 ```bash
-brew bundle install --file ~/.dotfiles/Brewfile
+brew bundle install
 ```
 
 
