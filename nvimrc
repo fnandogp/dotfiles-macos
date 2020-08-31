@@ -17,7 +17,8 @@ call plug#begin('~/.vim/pack')
 Plug 'morhetz/gruvbox' " Retro groove color scheme for Vim
 Plug 'tpope/vim-surround' " Surround.vim is all about surroundings: parentheses, brackets, quotes, XML tags, and more.
 Plug 'tpope/vim-fugitive' " Git wrapper
-Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes (partial) hunks.
+"Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes (partial) hunks.
+Plug 'airblade/vim-rooter' " Changes Vim working directory to project root
 Plug 'tpope/vim-dispatch' " Asynchronous build and test dispatcher
 Plug 'machakann/vim-highlightedyank' " Make the yanked region apparent!
 Plug 'vim-airline/vim-airline' " lean & mean status/tabline for vim that's light as air
@@ -170,13 +171,6 @@ let NERDTreeShowHidden=1
 map <silent> <Leader>e :NERDTreeToggle<CR>
 map <silent> <Leader>E :NERDTreeFind %<CR>
 
-"augroup nerdtree_init
-  "autocmd StdinReadPre * let s:std_in=1
-  "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-  "autocmd StdinReadPre * let s:std_in=1
-  "autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | wincmd p | ene | exe 'NERDTree' argv()[0] | endif
-"augroup END
 
 """""""""""""""""""
 " airline/airline "
@@ -213,8 +207,6 @@ let g:coc_global_extensions = [
     \ 'coc-css',
     \ 'coc-cssmodules',
     \ 'coc-emmet',
-    \ 'coc-emoji',
-    \ 'coc-explorer',
     \ 'coc-floaterm',
     \ 'coc-git',
     \ 'coc-highlight',
@@ -427,10 +419,10 @@ let g:startify_session_dir = '~/.config/nvim/session'
 
 
 let g:startify_lists = [
-          \ { 'type': 'files',     'header': ['   Files']                        },
-          \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
-          \ { 'type': 'sessions',  'header': ['   Sessions']                     },
-          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']                    },
+          \ { 'type': 'files',     'header': ['Files']                        },
+          \ { 'type': 'dir',       'header': ['Current Directory '. getcwd()] },
+          \ { 'type': 'sessions',  'header': ['Sessions']                     },
+          \ { 'type': 'bookmarks', 'header': ['Bookmarks']                    },
           \ ]
 
 
