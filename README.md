@@ -73,8 +73,9 @@ asdf global ruby 2.x.x # replace it with you current installed version
 # Python
 asdf plugin add python
 asdf install python latest:3
+asdf install python latest:2
 asdf list python
-asdf global python 3.x.x # replace it with you current installed version
+asdf global python 3.x.x 2.7.x # replace it with you current installed version
 
 # PHP
 asdf plugin add php https://github.com/asdf-community/asdf-php.git
@@ -84,5 +85,7 @@ PHP_WITHOUT_PEAR=yes asdf install php <versions>
 # Java
 asdf plugin add java https://github.com/halcyon/asdf-java.git
 asdf list java
-asdf install java <versions>
+asdf install java latest:openjdk-10
+adsf global java openjdk-10x # replace it with you current installed version
+
 ```

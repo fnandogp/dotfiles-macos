@@ -17,11 +17,11 @@ call plug#begin('~/.vim/pack')
 Plug 'morhetz/gruvbox' " Retro groove color scheme for Vim
 Plug 'tpope/vim-surround' " Surround.vim is all about surroundings: parentheses, brackets, quotes, XML tags, and more.
 Plug 'tpope/vim-fugitive' " Git wrapper
-"Plug 'airblade/vim-gitgutter' " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes (partial) hunks.
 Plug 'airblade/vim-rooter' " Changes Vim working directory to project root
 Plug 'tpope/vim-dispatch' " Asynchronous build and test dispatcher
 Plug 'machakann/vim-highlightedyank' " Make the yanked region apparent!
-Plug 'vim-airline/vim-airline' " lean & mean status/tabline for vim that's light as air
+"Plug 'vim-airline/vim-airline' " lean & mean status/tabline for vim that's light as air
+Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree' " A tree explorer plugin for vim.
 Plug 'preservim/nerdcommenter' " Vim plugin for intensely orgasmic commenting
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " Extra syntax and highlight for nerdtree files
@@ -30,6 +30,7 @@ Plug 'kassio/neoterm' " Wrapper of some vim/neovim's :terminal functions.
 Plug 'dense-analysis/ale' " Check syntax in Vim asynchronously and fix files, with Language Server Protocol (LSP) support
 Plug 'mhinz/vim-startify' " The fancy start screen for Vim.
 
+
 Plug 'epilande/vim-es2015-snippets' " ES2015 code snippets
 Plug 'epilande/vim-react-snippets' " React code snippets
 Plug 'SirVer/ultisnips' " The ultimate snippet solution for Vim.
@@ -37,19 +38,15 @@ Plug 'honza/vim-snippets' "
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode
 
-Plug 'janko/vim-test' " Run your tests at the speed of thought
+" Plug 'janko/vim-test' " Run your tests at the speed of thought
 
-Plug 'Valloric/MatchTagAlways' " A Vim plugin that always highlights the enclosing html/xml tags
+Plug 'sheerun/vimrc' " Basic vim configuration for your .vimrc
+Plug 'sheerun/vim-polyglot' "A collection of language packs for Vim.
+
+"Plug 'kien/rainbow_parentheses.vim' "Better Rainbow Parentheses
 Plug 'mattn/emmet-vim' " emmet for vim
 Plug 'ap/vim-css-color' " Preview colours in source code while editing
 
-Plug 'elzr/vim-json' " A better JSON for Vim
-Plug 'yuezk/vim-js' " The most accurate syntax highlighting plugin for JavaScript and Flow.js
-Plug 'HerringtonDarkholme/yats.vim' " Yet Another TypeScript Syntax: The most advanced TypeScript Syntax Highlighting in Vim
-Plug 'maxmellon/vim-jsx-pretty' " JSX and TSX syntax pretty highlighting for vim
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Vim bundle for http://styled-components.com based javascript files.
-
-" Automatically executes `filetype plugin indent` on and `syntax enable`.
 " Initialize plugin system
 call plug#end()
 
@@ -57,39 +54,36 @@ call plug#end()
 """"""""""
 " Basics "
 """"""""""
-set number " Precede each line with its line number.
-set hidden
-set mouse=a " Enables mouse support
-set encoding=utf-8 " String-encoding used internally
-set nobackup
-set nowritebackup
-set noswapfile
-set autoread
-set splitbelow splitright " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
-set tabstop=2 " Show existing tab with 2 spaces width
-set shiftwidth=2 " When indenting with '>', use 2 spaces width
-set expandtab " On pressing tab, insert 2 spaces
-set list
-set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
+"set list
+"set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
 "set cursorline " Highlight the screen line of the cursor
-set ruler " show the cursor position all the time
-set showcmd " display incomplete commands
-set autoindent " always set autoindenting on
-set incsearch " While typing a search command, show where the pattern, as it was typed so far, matches.
-set scrolloff=5 " Minimal number of screen lines to keep above and below the cursor.
-" handle long lines correctly
-set wrap
-set textwidth=80
-set colorcolumn=80
-set cmdheight=2 " Better display for messages
-set updatetime=300 " You will have bad experience for diagnostic messages when it's default 4000.
-set shortmess+=c " don't give |ins-completion-menu| messages.
-set signcolumn=yes " always show signcolumns
-set noshowmode
+"set ruler " show the cursor position all the time
+"set showcmd " display incomplete commands
+"set autoindent " always set autoindenting on
+"set incsearch " While typing a search command, show where the pattern, as it was typed so far, matches.
+"set scrolloff=5 " Minimal number of screen lines to keep above and below the cursor.
+ "handle long lines correctly
+"set wrap
+"set textwidth=80
+"set colorcolumn=80
+"set cmdheight=2 " Better display for messages
+"set updatetime=300 " You will have bad experience for diagnostic messages when it's default 4000.
+"set shortmess+=c " don't give |ins-completion-menu| messages.
+"set signcolumn=yes " always show signcolumns
+"set noshowmode
 
 " Auto save files when focus is lost and on buffer switch
-au FocusLost * silent! wa
-set autowriteall
+"au FocusLost * silent! wa
+"set autowriteall
+
+" Triger `autoread` when files changes on disk
+"autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
+      "\ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
+
+" Notification after file change
+" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
+"autocmd FileChangedShellPost *
+      "\ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 " Reload window
 
@@ -156,7 +150,6 @@ vnoremap K :m '<-2<CR>gv=gv
 """""""""""
 colorscheme gruvbox
 
-
 """""""""""""""""""""""
 " scrooloose/nerdtree "
 """""""""""""""""""""""
@@ -172,20 +165,22 @@ map <silent> <Leader>e :NERDTreeToggle<CR>
 map <silent> <Leader>E :NERDTreeFind %<CR>
 
 
-"""""""""""""""""""
-" airline/airline "
-"""""""""""""""""""
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_tab_type = 0
 
-let g:airline#extensions#ale#enabled = 1
+"""""""""""""""""""""
+" itchyny/lightline "
+"""""""""""""""""""""
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'cocstatus': 'coc#status'
+      \ },
+      \ }
 
-let g:airline#extensions#capslock#enabled = 1
-
-let g:airline#extensions#coc#enabled = 1
-let airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
-let airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
+" Use auocmd to force lightline update.
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 """"""""""""""""""""
 " SirVer/ultisnips "
@@ -287,8 +282,8 @@ augroup mygroup
 augroup end
 
 " Use <Tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
+nmap <silent> <A-s> <Plug>(coc-range-select)
+xmap <silent> <A-s> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
 command! -nargs=0 Format :call CocAction('format')
@@ -313,18 +308,20 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " Keymappings
 "" Listing
-nnoremap <silent> <Leader>p :CocList files<CR>
-nnoremap <silent> <Leader>P :CocList buffers<CR>
-nnoremap <silent> <Leader>ma :CocList actions<CR>
-nnoremap <silent> <Leader>md :CocList --auto-preview --normal diagnostics<CR>
-nnoremap <silent> <Leader>mf :CocFix<CR>
-nnoremap <silent> <Leader>mg :CocList --interactive --auto-preview grep<CR>
-nnoremap <silent> <Leader>mG :exe 'CocList --auto-preview --input='.expand('<cword>').' grep'<CR>
-nnoremap <silent> <Leader>ms :CocList --interactive --auto-preview symbols<CR>
-nnoremap <silent> <Leader>ml :CocList --interactive --auto-preview lines<CR>
-nnoremap <silent> <Leader>mo :CocList --auto-preview outline<CR>
-nnoremap <silent> <Leader>my :CocList --auto-preview --normal yank<CR>
-nnoremap <silent> <Leader>mO :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
+nnoremap <silent><nowait> <Leader>p :CocList files<CR>
+nnoremap <silent><nowait> <Leader>P :CocList mru<CR>
+nnoremap <silent><nowait> <Leader>mb :CocList buffers<CR>
+nnoremap <silent><nowait> <Leader>ma :CocList actions<CR>
+nnoremap <silent><nowait> <Leader>mc  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <Leader>md :CocList --auto-preview --normal diagnostics<CR>
+nnoremap <silent><nowait> <Leader>mf :CocFix<CR>
+nnoremap <silent><nowait> <Leader>mg :CocList --interactive --auto-preview grep<CR>
+nnoremap <silent><nowait> <Leader>mG :exe 'CocList --auto-preview --input='.expand('<cword>').' grep'<CR>
+nnoremap <silent><nowait> <Leader>ms :CocList --interactive --auto-preview symbols<CR>
+nnoremap <silent><nowait> <Leader>ml :CocList --interactive --auto-preview lines<CR>
+nnoremap <silent><nowait> <Leader>mo :CocList --auto-preview outline<CR>
+nnoremap <silent><nowait> <Leader>my :CocList --auto-preview --normal yank<CR>
+nnoremap <silent><nowait> <Leader>mO :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
 
 "" Rename and Refactor
 nmap <silent> <Leader>rn <Plug>(coc-rename)
@@ -419,8 +416,8 @@ let g:startify_session_dir = '~/.config/nvim/session'
 
 
 let g:startify_lists = [
-          \ { 'type': 'files',     'header': ['Files']                        },
           \ { 'type': 'dir',       'header': ['Current Directory '. getcwd()] },
+          \ { 'type': 'files',     'header': ['Files']                        },
           \ { 'type': 'sessions',  'header': ['Sessions']                     },
           \ { 'type': 'bookmarks', 'header': ['Bookmarks']                    },
           \ ]
@@ -443,3 +440,33 @@ let g:startify_bookmarks = [
             \ ]
 
 let g:startify_enable_special = 0
+
+""""""""""""""""""""""""""""""""
+" kien/rainbow_parentheses.vim "
+""""""""""""""""""""""""""""""""
+"let g:rbpt_colorpairs = [
+    "\ ['brown',       'RoyalBlue3'],
+    "\ ['Darkblue',    'SeaGreen3'],
+    "\ ['darkgray',    'DarkOrchid3'],
+    "\ ['darkgreen',   'firebrick3'],
+    "\ ['darkcyan',    'RoyalBlue3'],
+    "\ ['darkred',     'SeaGreen3'],
+    "\ ['darkmagenta', 'DarkOrchid3'],
+    "\ ['brown',       'firebrick3'],
+    "\ ['gray',        'RoyalBlue3'],
+    "\ ['black',       'SeaGreen3'],
+    "\ ['darkmagenta', 'DarkOrchid3'],
+    "\ ['Darkblue',    'firebrick3'],
+    "\ ['darkgreen',   'RoyalBlue3'],
+    "\ ['darkcyan',    'SeaGreen3'],
+    "\ ['darkred',     'DarkOrchid3'],
+    "\ ['red',         'firebrick3'],
+    "\ ]
+
+"let g:rbpt_max = 16
+"let g:rbpt_loadcmd_toggle = 0
+
+"au VimEnter * RainbowParenthesesToggle
+"au Syntax * RainbowParenthesesLoadRound
+"au Syntax * RainbowParenthesesLoadSquare
+"au Syntax * RainbowParenthesesLoadBraces

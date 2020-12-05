@@ -33,5 +33,3 @@ alias dcup="docker-compose up -d"
 alias dcexec="docker-compose exec --user=laradock workspace bash"
 alias dcstop="docker-compose stop"
 
-# Python
-alias python="python3"

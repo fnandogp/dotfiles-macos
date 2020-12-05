@@ -25,6 +25,8 @@ antigen theme lambda
 source ~/.pathrc
 source ~/.aliasrc
 
+export EDITOR=$(which nano)
+
 # Tell Antigen that you're done.
 antigen apply
 
