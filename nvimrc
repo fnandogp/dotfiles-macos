@@ -11,12 +11,12 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC:
 endif
 
-
 call plug#begin('~/.vim/pack')
 
-Plug 'morhetz/gruvbox' " Retro groove color scheme for Vim
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'tpope/vim-surround' " Surround.vim is all about surroundings: parentheses, brackets, quotes, XML tags, and more.
 Plug 'tpope/vim-fugitive' " Git wrapper
+Plug 'tpope/vim-repeat' " Git wrapper
 Plug 'airblade/vim-rooter' " Changes Vim working directory to project root
 Plug 'tpope/vim-dispatch' " Asynchronous build and test dispatcher
 Plug 'machakann/vim-highlightedyank' " Make the yanked region apparent!
@@ -24,12 +24,13 @@ Plug 'machakann/vim-highlightedyank' " Make the yanked region apparent!
 Plug 'itchyny/lightline.vim'
 Plug 'preservim/nerdtree' " A tree explorer plugin for vim.
 Plug 'preservim/nerdcommenter' " Vim plugin for intensely orgasmic commenting
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " Extra syntax and highlight for nerdtree files
-Plug 'ryanoasis/vim-devicons' " Adds file type icons to Vim plugins
-Plug 'kassio/neoterm' " Wrapper of some vim/neovim's :terminal functions.
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " Extra syntax and highlight for nerdtree files
+"Plug 'ryanoasis/vim-devicons' " Adds file type icons to Vim plugins
 Plug 'dense-analysis/ale' " Check syntax in Vim asynchronously and fix files, with Language Server Protocol (LSP) support
 Plug 'mhinz/vim-startify' " The fancy start screen for Vim.
-
+Plug 'unblevable/quick-scope'
+Plug 'kassio/neoterm' " Wrapper of some vim/neovim's :terminal functions.
+Plug 'voldikss/vim-floaterm'
 
 Plug 'epilande/vim-es2015-snippets' " ES2015 code snippets
 Plug 'epilande/vim-react-snippets' " React code snippets
@@ -43,57 +44,22 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'} " Intellisense engine for vim8 &
 Plug 'sheerun/vimrc' " Basic vim configuration for your .vimrc
 Plug 'sheerun/vim-polyglot' "A collection of language packs for Vim.
 
-"Plug 'kien/rainbow_parentheses.vim' "Better Rainbow Parentheses
 Plug 'mattn/emmet-vim' " emmet for vim
-Plug 'ap/vim-css-color' " Preview colours in source code while editing
 
 " Initialize plugin system
 call plug#end()
 
-
-""""""""""
-" Basics "
-""""""""""
-"set list
-"set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
-"set cursorline " Highlight the screen line of the cursor
-"set ruler " show the cursor position all the time
-"set showcmd " display incomplete commands
-"set autoindent " always set autoindenting on
-"set incsearch " While typing a search command, show where the pattern, as it was typed so far, matches.
-"set scrolloff=5 " Minimal number of screen lines to keep above and below the cursor.
- "handle long lines correctly
-"set wrap
-"set textwidth=80
-"set colorcolumn=80
-"set cmdheight=2 " Better display for messages
-"set updatetime=300 " You will have bad experience for diagnostic messages when it's default 4000.
-"set shortmess+=c " don't give |ins-completion-menu| messages.
-"set signcolumn=yes " always show signcolumns
-"set noshowmode
-
 " Auto save files when focus is lost and on buffer switch
-"au FocusLost * silent! wa
-"set autowriteall
+au FocusLost * silent! wa
+set autowriteall
 
-" Triger `autoread` when files changes on disk
-"autocmd FocusGained,BufEnter,CursorHold,CursorHoldI *
-      "\ if mode() !~ '\v(c|r.?|!|t)' && getcmdwintype() == '' | checktime | endif
-
-" Notification after file change
-" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
-"autocmd FileChangedShellPost *
-      "\ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
-
-" Reload window
+"Delete all buffers
+nmap <Leader>bda :bufdo bd <cr>
 
 "search for the next occurrence of a select text
 vnoremap // y/\V<C-r>=escape(@",'/\')<CR><CR>
 nnoremap // yiw/\V<C-r>=escape(@",'/\')<CR><CR>
 vnoremap <M-/> "hy:%s/<C-r>h//gc<left><left><left>
-
-" Toggle the search highlighting state on or off persistently
-nnoremap <Leader><Space> :set hlsearch! hlsearch?<CR>
 
 " Source current file
 nnoremap  <silent> <Leader>vr :so ~/.nvimrc<CR>
@@ -124,12 +90,6 @@ nnoremap <M-S-j> <C-w>J
 nnoremap <M-S-k> <C-w>K
 nnoremap <M-S-l> <C-w>L
 
-" Window resize
-nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
-nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
-nnoremap <silent> <Leader>> :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
-nnoremap <silent> <Leader>< :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
-
 " Copy selected text to system clipboard
 vnoremap <C-c> "+y
 map <C-v> "+P
@@ -145,10 +105,28 @@ vnoremap > >gv
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-"""""""""""
-" gruvbox "
-"""""""""""
-colorscheme gruvbox
+" Quicky escape to normal mode
+imap jj <esc>
+
+" Easy insertion of a trailing ; or , from insert mode
+imap ;; <Esc>A;<Esc>
+imap ,, <Esc>A,<Esc>
+
+"""""""""
+" Theme "
+"""""""""
+colorscheme dracula
+
+
+""""""""""""
+" fugitive "
+""""""""""""
+nmap <silent> <Leader>gst :G<CR>
+command! -bang -bar -nargs=* Gp execute ':G push' <q-args>
+command! -bang -bar -nargs=* Gpsup execute ':G push --set-upstream origin $(git_current_branch)' <q-args>
+command! -bang -bar -nargs=* Gl execute ':G pull' <q-args>
+command! -bang -bar -nargs=* Gfv execute ':G fetch -v' <q-args>
+
 
 """""""""""""""""""""""
 " scrooloose/nerdtree "
@@ -164,6 +142,19 @@ let NERDTreeShowHidden=1
 map <silent> <Leader>e :NERDTreeToggle<CR>
 map <silent> <Leader>E :NERDTreeFind %<CR>
 
+""""""""""""
+" floaterm "
+""""""""""""
+let g:floaterm_keymap_new    = '<Leader>TT'
+let g:floaterm_keymap_next   = '<Leader>Tn'
+let g:floaterm_keymap_prev   = '<Leader>Tp'
+let g:floaterm_keymap_toggle = '<Leader>`'
+
+
+""""""""""""""
+" quickscope "
+""""""""""""""
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 
 """""""""""""""""""""
@@ -201,17 +192,13 @@ let g:coc_global_extensions = [
     \ 'coc-actions',
     \ 'coc-css',
     \ 'coc-cssmodules',
-    \ 'coc-emmet',
     \ 'coc-floaterm',
-    \ 'coc-git',
     \ 'coc-highlight',
     \ 'coc-html',
     \ 'coc-json',
     \ 'coc-lists',
     \ 'coc-marketplace',
-    \ 'coc-pairs',
     \ 'coc-phpls',
-    \ 'coc-prettier',
     \ 'coc-python',
     \ 'coc-snippets',
     \ 'coc-svg',
@@ -239,11 +226,7 @@ endfunction
 let g:coc_snippet_next = '<tab>'
 
 " Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
@@ -273,20 +256,12 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
 " Use <Tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 nmap <silent> <A-s> <Plug>(coc-range-select)
 xmap <silent> <A-s> <Plug>(coc-range-select)
 
 " Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+"command! -nargs=0 Format :call CocAction('format')
 
 " Use `:Fold` to fold current buffer
 command! -nargs=? Fold :call CocAction('fold', <f-args>)
@@ -308,20 +283,22 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " Keymappings
 "" Listing
-nnoremap <silent><nowait> <Leader>p :CocList files<CR>
-nnoremap <silent><nowait> <Leader>P :CocList mru<CR>
-nnoremap <silent><nowait> <Leader>mb :CocList buffers<CR>
-nnoremap <silent><nowait> <Leader>ma :CocList actions<CR>
-nnoremap <silent><nowait> <Leader>mc  :<C-u>CocList commands<cr>
-nnoremap <silent><nowait> <Leader>md :CocList --auto-preview --normal diagnostics<CR>
-nnoremap <silent><nowait> <Leader>mf :CocFix<CR>
-nnoremap <silent><nowait> <Leader>mg :CocList --interactive --auto-preview grep<CR>
-nnoremap <silent><nowait> <Leader>mG :exe 'CocList --auto-preview --input='.expand('<cword>').' grep'<CR>
-nnoremap <silent><nowait> <Leader>ms :CocList --interactive --auto-preview symbols<CR>
-nnoremap <silent><nowait> <Leader>ml :CocList --interactive --auto-preview lines<CR>
-nnoremap <silent><nowait> <Leader>mo :CocList --auto-preview outline<CR>
-nnoremap <silent><nowait> <Leader>my :CocList --auto-preview --normal yank<CR>
-nnoremap <silent><nowait> <Leader>mO :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
+nmap <silent><nowait> <Leader>p  :CocList files<CR>
+nmap <silent><nowait> <Leader>P  :CocList mru<CR>
+nmap <silent><nowait> <Leader>mb :CocList buffers<CR>
+nmap <silent><nowait> <Leader>ma <Plug>(coc-codeaction-cursor)
+xmap <silent><nowait> <leader>ma  <Plug>(coc-codeaction-selected)
+nmap <silent><nowait> <leader>ma  <Plug>(coc-codeaction-selected)
+nmap <silent><nowait> <Leader>mc :<C-u>CocList commands<cr>
+nmap <silent><nowait> <Leader>md :CocList --auto-preview --normal diagnostics<CR>
+nmap <silent><nowait> <Leader>mf :CocFix<CR>
+nmap <silent><nowait> <Leader>mg :CocList --interactive --auto-preview grep<CR>
+nmap <silent><nowait> <Leader>mG :exe 'CocList --auto-preview --input='.expand('<cword>').' grep'<CR>
+nmap <silent><nowait> <Leader>ms :CocList --interactive --auto-preview symbols<CR>
+nmap <silent><nowait> <Leader>ml :CocList --interactive --auto-preview lines<CR>
+nmap <silent><nowait> <Leader>mo :CocList --auto-preview outline<CR>
+nmap <silent><nowait> <Leader>my :CocList --auto-preview --normal yank<CR>
+nmap <silent><nowait> <Leader>mO :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
 
 "" Rename and Refactor
 nmap <silent> <Leader>rn <Plug>(coc-rename)
@@ -384,8 +361,7 @@ let g:mta_filetypes = {
 " mattn/emmet-vim "
 """""""""""""""""""
 let g:user_emmet_install_global=0
-autocmd FileType html,css,javascript.jsx,javascriptreact,typescriptreact EmmetInstall
-
+autocmd FileType html,css,javascript,javascriptreact,typescriptreact EmmetInstall
 
 """"""""""""
 " vim-json "
@@ -429,44 +405,9 @@ let g:startify_change_to_vcs_root = 1
 let g:startify_fortune_use_unicode = 1
 let g:startify_session_persistence = 1
 
-let g:webdevicons_enable_startify = 1
-
-function! StartifyEntryFormat()
-        return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
-    endfunction
-
 let g:startify_bookmarks = [
             \ { 'd': '~/.dotfiles' },
             \ ]
 
 let g:startify_enable_special = 0
 
-""""""""""""""""""""""""""""""""
-" kien/rainbow_parentheses.vim "
-""""""""""""""""""""""""""""""""
-"let g:rbpt_colorpairs = [
-    "\ ['brown',       'RoyalBlue3'],
-    "\ ['Darkblue',    'SeaGreen3'],
-    "\ ['darkgray',    'DarkOrchid3'],
-    "\ ['darkgreen',   'firebrick3'],
-    "\ ['darkcyan',    'RoyalBlue3'],
-    "\ ['darkred',     'SeaGreen3'],
-    "\ ['darkmagenta', 'DarkOrchid3'],
-    "\ ['brown',       'firebrick3'],
-    "\ ['gray',        'RoyalBlue3'],
-    "\ ['black',       'SeaGreen3'],
-    "\ ['darkmagenta', 'DarkOrchid3'],
-    "\ ['Darkblue',    'firebrick3'],
-    "\ ['darkgreen',   'RoyalBlue3'],
-    "\ ['darkcyan',    'SeaGreen3'],
-    "\ ['darkred',     'DarkOrchid3'],
-    "\ ['red',         'firebrick3'],
-    "\ ]
-
-"let g:rbpt_max = 16
-"let g:rbpt_loadcmd_toggle = 0
-
-"au VimEnter * RainbowParenthesesToggle
-"au Syntax * RainbowParenthesesLoadRound
-"au Syntax * RainbowParenthesesLoadSquare
-"au Syntax * RainbowParenthesesLoadBraces
