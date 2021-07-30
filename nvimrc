@@ -122,10 +122,14 @@ colorscheme dracula
 " fugitive "
 """"""""""""
 nmap <silent> <Leader>gst :G<CR>
-command! -bang -bar -nargs=* Gp execute ':G push' <q-args>
-command! -bang -bar -nargs=* Gpsup execute ':G push --set-upstream origin $(git_current_branch)' <q-args>
-command! -bang -bar -nargs=* Gl execute ':G pull' <q-args>
-command! -bang -bar -nargs=* Gfv execute ':G fetch -v' <q-args>
+command! -bang -bar -nargs=* Gpush execute 'Dispatch<bang> -dir=' .
+      \ fnameescape(FugitiveGitDir()) 'git push' <q-args>
+command! -bang -bar -nargs=* Gpsup execute 'Dispatch<bang> -dir=' .
+      \ fnameescape(FugitiveGitDir()) 'git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
+command! -bang -bar -nargs=* Gfetch execute 'Dispatch<bang> -dir=' .
+      \ fnameescape(FugitiveGitDir()) 'git fetch -v' <q-args>
+command! -bang -bar -nargs=* Gpull execute 'Dispatch<bang> -dir=' .
+      \ fnameescape(FugitiveGitDir()) 'git pull' <q-args>
 
 
 """""""""""""""""""""""
@@ -390,14 +394,12 @@ let g:startify_custom_header = [
 
 let g:startify_session_dir = '~/.config/nvim/session'
 
-
 let g:startify_lists = [
           \ { 'type': 'dir',       'header': ['Current Directory '. getcwd()] },
           \ { 'type': 'files',     'header': ['Files']                        },
           \ { 'type': 'sessions',  'header': ['Sessions']                     },
           \ { 'type': 'bookmarks', 'header': ['Bookmarks']                    },
           \ ]
-
 
 let g:startify_session_autoload = 1
 let g:startify_session_delete_buffers = 1
