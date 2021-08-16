@@ -107,6 +107,10 @@ nnoremap <M-S-l> <C-w>L
 vnoremap <C-c> "+y
 map <C-v> "+P
 
+" Paste without losing the yanked text
+vnoremap p "0p
+vnoremap P "0P
+
 " Open terminal
 nnoremap <Leader>tn :vert Tnew<CR>
 
