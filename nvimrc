@@ -38,6 +38,7 @@ Plug 'SirVer/ultisnips' " The ultimate snippet solution for Vim.
 Plug 'honza/vim-snippets' "
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " Intellisense engine for vim8 & neovim, full language server protocol support as VSCode
+Plug 'neoclide/jsonc.vim'
 
 " Plug 'janko/vim-test' " Run your tests at the speed of thought
 
@@ -139,14 +140,10 @@ colorscheme dracula
 " fugitive "
 """"""""""""
 nmap <silent> <Leader>gst :G<CR>
-command! -bang -bar -nargs=* Gpush execute 'Dispatch<bang> -dir=' .
-      \ fnameescape(FugitiveGitDir()) 'git push' <q-args>
-command! -bang -bar -nargs=* Gpsup execute 'Dispatch<bang> -dir=' .
-      \ fnameescape(FugitiveGitDir()) 'git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
-command! -bang -bar -nargs=* Gfetch execute 'Dispatch<bang> -dir=' .
-      \ fnameescape(FugitiveGitDir()) 'git fetch -v' <q-args>
-command! -bang -bar -nargs=* Gpull execute 'Dispatch<bang> -dir=' .
-      \ fnameescape(FugitiveGitDir()) 'git pull' <q-args>
+command! -bang -bar -nargs=* Gpush execute 'Dispatch<bang> -dir=' . fnameescape(FugitiveGitDir()) 'git push' <q-args>
+command! -bang -bar -nargs=* Gpsup execute 'Dispatch<bang> -dir=' .  fnameescape(FugitiveGitDir()) 'git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
+command! -bang -bar -nargs=* Gfetch execute 'Dispatch<bang> -dir=' . fnameescape(FugitiveGitDir()) 'git fetch -v' <q-args>
+command! -bang -bar -nargs=* Gpull execute 'Dispatch<bang> -dir=' .  fnameescape(FugitiveGitDir()) 'git pull' <q-args>
 
 
 """""""""""""""""""""""
