@@ -167,6 +167,7 @@ let g:floaterm_keymap_new    = '<Leader>TT'
 let g:floaterm_keymap_next   = '<Leader>Tn'
 let g:floaterm_keymap_prev   = '<Leader>Tp'
 let g:floaterm_keymap_toggle = '<Leader>`'
+let g:floaterm_keymap_toggle = '<C-t>'
 
 
 """"""""""""""
