@@ -1,7 +1,9 @@
 local M = {}
 
 function M.config()
-	local on_attach = function(_, bufnr)
+	print("start config")
+	local on_attach = function(client, bufnr)
+		print("start on attach")
 		local function buf_set_keymap(...)
 			vim.api.nvim_buf_set_keymap(bufnr, ...)
 		end
@@ -43,17 +45,28 @@ function M.config()
 		----buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 		----buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
-		require("completion").on_attach()
+		require("completion").on_attach(client, bufnr)
+
+		vim.g.completion_enable_snippet = "vim-vsnip"
+		vim.g.completion_matching_smart_case = true
+		vim.g.completion_trigger_on_delete = true
+
+		print("end on attach")
 	end
 
 	local function setup_servers()
+		print("start setup server")
 		require("lspinstall").setup()
 		local servers = require("lspinstall").installed_servers()
+		print(vim.inspect(servers))
 		for _, server in pairs(servers) do
+			print(server)
 			require("lspconfig")[server].setup({
 				on_attach = on_attach,
 			})
 		end
+
+		print("end setup server ")
 	end
 
 	setup_servers()
@@ -64,7 +77,8 @@ function M.config()
 		vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 	end
 
-	require("lspkind").init()
+	-- require("lspkind").init()
+	print("config finished")
 end
 -- local null_ls = require("null-ls")
 
@@ -80,4 +94,5 @@ end
 -- })
 -- require("lspconfig")["null-ls"].setup({})
 
+print("before returning lsp")
 return M

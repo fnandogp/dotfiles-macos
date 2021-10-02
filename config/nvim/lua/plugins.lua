@@ -26,12 +26,13 @@ return require("packer").startup({
 			"neovim/nvim-lspconfig",
 			requires = {
 				"kabouzeid/nvim-lspinstall",
-				"glepnir/lspsaga.nvim",
+				-- "glepnir/lspsaga.nvim",
 				"onsails/lspkind-nvim",
 				"nvim-lua/completion-nvim",
 			},
 			config = function()
-				require("plugins.lsp")
+				print("config plugins lsp")
+				require("plugins.lsp").config()
 			end,
 		})
 		-- Cmp
@@ -82,8 +83,9 @@ return require("packer").startup({
 		-- Statusline
 		use({
 			"hoob3rt/lualine.nvim",
+			requires = { "kyazdani42/nvim-web-devicons", opt = true },
 			config = function()
-				require("lualine").setup()
+				require("lualine").setup({ options = { theme = "dracula" } })
 			end,
 		})
 		-- git signs
