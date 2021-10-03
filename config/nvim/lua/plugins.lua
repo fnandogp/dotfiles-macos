@@ -16,7 +16,7 @@ return require("packer").startup({
 		use("kyazdani42/nvim-web-devicons")
 		use("nvim-lua/popup.nvim")
 		use("nvim-lua/plenary.nvim")
-		use({ "antoinemadec/FixCursorHold.nvim" }) -- Needed while issue https://github.com/neovim/neovim/issues/12587 is still open
+		use({ "antoinemadec/FixCursorHold.nvim" }) -- Needed while https://github.com/neovim/neovim/issues/12587 is open
 		-- Color scheme
 		use({ "dracula/vim", as = "dracula" })
 		use("morhetz/gruvbox")
@@ -33,7 +33,6 @@ return require("packer").startup({
 			"neovim/nvim-lspconfig",
 			requires = {
 				"kabouzeid/nvim-lspinstall",
-				-- "glepnir/lspsaga.nvim",
 				"onsails/lspkind-nvim",
 			},
 			config = function()
@@ -57,11 +56,6 @@ return require("packer").startup({
 			end,
 			event = "InsertEnter *",
 		})
-		-- formatting
-		-- use({
-		-- 	"jose-elias-alvarez/null-ls.nvim",
-		-- 	requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-		-- })
 		use({
 			"folke/trouble.nvim",
 			requires = "kyazdani42/nvim-web-devicons",
@@ -111,13 +105,13 @@ return require("packer").startup({
 			end,
 		})
 		-- git signs
-		use({
-			"lewis6991/gitsigns.nvim",
-			requires = { "nvim-lua/plenary.nvim" },
-			config = function()
-				require("gitsigns").setup()
-			end,
-		})
+		--use({
+		--"lewis6991/gitsigns.nvim",
+		--requires = { "nvim-lua/plenary.nvim" },
+		--config = function()
+		--require("gitsigns").setup()
+		--end,
+		--})
 		-- File explorer
 		use({
 			"kyazdani42/nvim-tree.lua",
@@ -162,6 +156,13 @@ return require("packer").startup({
 				require("plugins.which-key").config()
 			end,
 			event = "BufWinEnter",
+		})
+		use({
+			"akinsho/toggleterm.nvim",
+			event = "BufWinEnter",
+			config = function()
+				require("plugins.terminal").config()
+			end,
 		})
 		use("sheerun/vimrc")
 	end,

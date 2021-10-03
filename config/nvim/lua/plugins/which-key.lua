@@ -86,7 +86,7 @@ function M.config()
 		},
 		s = {
 			name = "Search",
-			b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+			b = { "<cmd>Telescope buffers<cr>", "Buffers" },
 			c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
 			f = { "<cmd>Telescope find_files<cr>", "Find File" },
 			h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
