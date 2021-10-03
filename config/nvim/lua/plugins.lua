@@ -13,7 +13,6 @@ return require("packer").startup({
 		-- Packer can manage itself
 		use("wbthomason/packer.nvim")
 		-- Deps
-		use("bfredl/nvim-luadev")
 		use("kyazdani42/nvim-web-devicons")
 		use("nvim-lua/popup.nvim")
 		use("nvim-lua/plenary.nvim")
@@ -21,6 +20,14 @@ return require("packer").startup({
 		-- Color scheme
 		use({ "dracula/vim", as = "dracula" })
 		use("morhetz/gruvbox")
+		--
+		use({
+			"jose-elias-alvarez/null-ls.nvim",
+			requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+			config = function()
+				require("plugins.null-ls").config()
+			end,
+		})
 		-- LSP
 		use({
 			"neovim/nvim-lspconfig",
@@ -141,13 +148,13 @@ return require("packer").startup({
 			"itchyny/vim-cursorword",
 			event = { "BufEnter", "BufNewFile" },
 			config = function()
-				require('plugins.vim-cursorword').config()
+				require("plugins.vim-cursorword").config()
 			end,
 		})
 		-- Surround stuff with delimiters
 		use("tpope/vim-surround")
 		-- Make the yanked region apparent!
-		use ( 'machakann/vim-highlightedyank' )
+		use("machakann/vim-highlightedyank")
 		-- Which key
 		use({
 			"folke/which-key.nvim",

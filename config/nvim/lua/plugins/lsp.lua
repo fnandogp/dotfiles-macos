@@ -49,6 +49,9 @@ function M.config()
 
 		vim.g.completion_matching_smart_case = true
 		vim.g.completion_trigger_on_delete = true
+
+		client.resolved_capabilities.document_formatting = false
+		client.resolved_capabilities.document_range_formatting = false
 	end
 
 	local function setup_servers()
@@ -70,8 +73,10 @@ function M.config()
 	end
 
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-		virtual_text = false,
+		--virtual_text = false,
 	})
+
+	vim.cmd("autocmd BufWritePre * :silent lua vim.lsp.buf.formatting_sync()")
 end
 -- local null_ls = require("null-ls")
 
