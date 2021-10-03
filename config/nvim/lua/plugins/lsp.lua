@@ -45,8 +45,8 @@ function M.config()
 		----buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 		----buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 		----buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
 		vim.g.completion_enable_snippet = "vim-vsnip"
+
 		vim.g.completion_matching_smart_case = true
 		vim.g.completion_trigger_on_delete = true
 	end
@@ -68,6 +68,10 @@ function M.config()
 		setup_servers() -- reload installed servers
 		vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 	end
+
+	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+		virtual_text = false,
+	})
 end
 -- local null_ls = require("null-ls")
 

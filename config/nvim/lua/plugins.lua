@@ -55,6 +55,13 @@ return require("packer").startup({
 		-- 	"jose-elias-alvarez/null-ls.nvim",
 		-- 	requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		-- })
+		use({
+			"folke/trouble.nvim",
+			requires = "kyazdani42/nvim-web-devicons",
+			config = function()
+				require("trouble").setup({})
+			end,
+		})
 		-- Treesitter
 		use({
 			"nvim-treesitter/nvim-treesitter",
@@ -88,14 +95,6 @@ return require("packer").startup({
 			end,
 		})
 		use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
-		-- ?
-		use({
-			"folke/trouble.nvim",
-			requires = "kyazdani42/nvim-web-devicons",
-			config = function()
-				require("trouble").setup({})
-			end,
-		})
 		-- Statusline
 		use({
 			"hoob3rt/lualine.nvim",
@@ -136,16 +135,27 @@ return require("packer").startup({
 		})
 		-- Git integration
 		use("tpope/vim-fugitive")
-		-- Universal way to add comments
+		-- Vim plugin for intensely nerdy commenting powers
+		use("preservim/nerdcommenter")
 		use({
-			"b3nj5m1n/kommentary",
+			"itchyny/vim-cursorword",
+			event = { "BufEnter", "BufNewFile" },
 			config = function()
-				require("kommentary.config").use_extended_mappings()
+				require('plugins.vim-cursorword').config()
 			end,
 		})
 		-- Surround stuff with delimiters
 		use("tpope/vim-surround")
-
+		-- Make the yanked region apparent!
+		use ( 'machakann/vim-highlightedyank' )
+		-- Which key
+		use({
+			"folke/which-key.nvim",
+			config = function()
+				require("plugins.which-key").config()
+			end,
+			event = "BufWinEnter",
+		})
 		use("sheerun/vimrc")
 	end,
 	config = {

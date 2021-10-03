@@ -1,22 +1,31 @@
-vim.api.nvim_set_keymap('n', "<Leader>q", "<Cmd>q!<CR>", { silent = true })
-vim.api.nvim_set_keymap('n', "<Leader>w", "<Cmd>w<CR>", { silent = true })
-vim.api.nvim_set_keymap('v', "<Leader>w", "<C-c>:w<CR>", { silent = true })
-vim.api.nvim_set_keymap('i', "<Leader>w", "<C-o>:w<CR>", { silent = true })
+local set_keymap = function (mode, lhs, rhs)
+	local opts = {noremap = true, silent = true}
+	return vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+end
 
+set_keymap('v', '<C-c>', '"+y')
 
--- " Window navigation keyvim.api.nvim_set_keymaps
--- tnorevim.api.nvim_set_keymap <Esc> <C-\><C-n>
--- tnorevim.api.nvim_set_keymap <M-h> <C-\><C-n><C-w>h
--- tnorevim.api.nvim_set_keymap <M-j> <C-\><C-n><C-w>j
--- tnorevim.api.nvim_set_keymap <M-k> <C-\><C-n><C-w>k
--- tnorevim.api.nvim_set_keymap <M-l> <C-\><C-n><C-w>l
+set_keymap('v', 'p', '"0p')
+set_keymap('v', 'P', '"0P')
 
--- nnorevim.api.nvim_set_keymap <M-h> <C-w>h
--- nnorevim.api.nvim_set_keymap <M-j> <C-w>j
--- nnorevim.api.nvim_set_keymap <M-k> <C-w>k
--- nnorevim.api.nvim_set_keymap <M-l> <C-w>l
--- nnorevim.api.nvim_set_keymap <M-S-h> <C-w>H
--- nnorevim.api.nvim_set_keymap <M-S-j> <C-w>J
--- nnorevim.api.nvim_set_keymap <M-S-k> <C-w>K
--- nnorevim.api.nvim_set_keymap <M-S-l> <C-w>L
+set_keymap('v', '<', '<gv')
+set_keymap('v', '>', '>gv')
+
+set_keymap('v', 'J', ":m '>+1<CR>gv=gv")
+set_keymap('v', 'K', ":m '<-2<CR>gv=gv")
+
+set_keymap ("t", "<Esc>", "<C-\\><C-n>")
+set_keymap ("t", "<M-h>", "<C-\\><C-n><C-w>h")
+set_keymap ("t", "<M-j>", "<C-\\><C-n><C-w>j")
+set_keymap ("t", "<M-k>", "<C-\\><C-n><C-w>k")
+set_keymap ("t", "<M-l>", "<C-\\><C-n><C-w>l")
+
+set_keymap ("n", "<M-h>", "<C-w>h")
+set_keymap ("n", "<M-j>", "<C-w>j")
+set_keymap ("n", "<M-k>", "<C-w>k")
+set_keymap ("n", "<M-l>", "<C-w>l")
+set_keymap ("n", "<M-S-h>", "<C-w>H")
+set_keymap ("n", "<M-S-j>", "<C-w>J")
+set_keymap ("n", "<M-S-k>", "<C-w>K")
+set_keymap ("n", "<M-S-l>", "<C-w>L")
 
