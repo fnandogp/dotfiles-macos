@@ -13,11 +13,9 @@ alias vim="vim -u DEFAULTS"
 alias v="nvim"
 alias n="nvim -u ~/.config/nvim/init.vim"
 alias nl="nvim -u ~/.config/nvim/init.lua"
-alias ssh-fitzroyit="ssh-add -K ~/.ssh/id_rsa_fernando_fitzroyit"
 
 alias ws="cd $HOME/workspace"
-alias wsf="cd $HOME/workspace/fitzroy-it"
-alias wsc="cd $HOME/workspace/canopy"
+alias wsa="cd $HOME/workspace/arkade"
 
 alias gcz="git cz"
 alias cz="git cz"

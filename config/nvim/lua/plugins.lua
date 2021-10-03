@@ -28,28 +28,28 @@ return require("packer").startup({
 				"kabouzeid/nvim-lspinstall",
 				-- "glepnir/lspsaga.nvim",
 				"onsails/lspkind-nvim",
-				"nvim-lua/completion-nvim",
 			},
 			config = function()
-				print("config plugins lsp")
 				require("plugins.lsp").config()
 			end,
 		})
 		-- Cmp
-
-		-- use({
-		-- 	"hrsh7th/cmp-nvim-lsp",
-		-- 	requires = {
-		-- 		{ "hrsh7th/cmp-buffer" },
-		-- 		{ "hrsh7th/nvim-cmp" },
-		-- 		{ "onsails/lspkind-nvim" },
-		-- 		{ "hrsh7th/cmp-vsnip" },
-		-- 		{ "hrsh7th/vim-vsnip" },
-		-- 		{ "hrsh7th/cmp-buffer" },
-		-- 		{ "hrsh7th/cmp-path" },
-		-- 		{ "rafamadriz/friendly-snippets" },
-		-- 	},
-		-- })
+		use({
+			"hrsh7th/nvim-cmp",
+			requires = {
+				{ "hrsh7th/cmp-nvim-lsp" },
+				{ "hrsh7th/cmp-buffer", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-path", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-vsnip", after = "nvim-cmp" },
+				{ "hrsh7th/vim-vsnip", after = "nvim-cmp" },
+				{ "rafamadriz/friendly-snippets" },
+			},
+			config = function()
+				require("plugins.cmp").config()
+			end,
+			event = "InsertEnter *",
+		})
 		-- formatting
 		-- use({
 		-- 	"jose-elias-alvarez/null-ls.nvim",
@@ -58,10 +58,26 @@ return require("packer").startup({
 		-- Treesitter
 		use({
 			"nvim-treesitter/nvim-treesitter",
+			requires = {
+				"nvim-treesitter/nvim-treesitter-refactor",
+				"nvim-treesitter/nvim-treesitter-textobjects",
+			},
 			config = function()
 				require("plugins.treesitter").config()
 			end,
 			run = ":TSUpdate",
+		})
+		-- LSP diagnostics highlight
+		use({
+			"folke/lsp-colors.nvim",
+			config = function()
+				require("lsp-colors").setup({
+					Error = "#db4b4b",
+					Warning = "#e0af68",
+					Information = "#0db9d7",
+					Hint = "#10B981",
+				})
+			end,
 		})
 		-- Telescope nonsense
 		use({
