@@ -4,14 +4,6 @@ local lspkind = require("lspkind")
 
 local M = {}
 
-local has_words_before = function()
-	if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
-		return false
-	end
-	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
 local feedkey = function(key, mode)
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
@@ -27,6 +19,11 @@ function M.config()
 				return vim_item
 			end,
 		},
+		snippet = {
+			expand = function(args)
+				vim.fn["vsnip#anonymous"](args.body)
+			end,
+		},
 		mapping = {
 			["<C-d>"] = cmp.mapping.scroll_docs(-4),
 			["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -36,8 +33,6 @@ function M.config()
 			["<Tab>"] = cmp.mapping(function(fallback)
 				if vim.fn.pumvisible() == 1 then
 					feedkey("<C-n>", "n")
-				elseif has_words_before() then
-					cmp.complete()
 				else
 					fallback()
 				end
@@ -45,18 +40,18 @@ function M.config()
 				"i",
 				"s",
 			}),
-			["<S-Tab>"] = cmp.mapping(function()
+			["<S-Tab>"] = cmp.mapping(function(fallback)
 				if vim.fn.pumvisible() == 1 then
 					feedkey("<C-p>", "n")
+				else
+					fallback()
 				end
 			end, {
 				"i",
 				"s",
 			}),
 			-- ["C-j"] = cmp.mapping(function(fallback)
-			-- 	print("C-j")
 			-- 	if vim.fn.pumvisible() == 1 and vim.fn["vsnip#expandable"]() == 1 then
-			-- 		print("pumvisible and expandable")
 			-- 		feedkey("<Plug>(vsnip-expand-or-jump)", "")
 			-- 	else
 			-- 		fallback()
@@ -66,9 +61,7 @@ function M.config()
 			-- 	"s",
 			-- }),
 			["<C-l>"] = cmp.mapping(function(fallback)
-				print("C-l")
 				if vim.fn["vsnip#available"](1) == 1 then
-					print("jumpable")
 					feedkey("<Plug>(vsnip-expand-or-jump)", "")
 				else
 					fallback()
@@ -78,9 +71,7 @@ function M.config()
 				"s",
 			}),
 			["<C-h>"] = cmp.mapping(function(fallback)
-				print("C-h")
 				if vim.fn["vsnip#jumpable"](-1) == 1 then
-					print("jumpable -1")
 					feedkey("<Plug>(vsnip-jump-prev)", "")
 				else
 					fallback()

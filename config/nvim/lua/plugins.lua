@@ -128,7 +128,12 @@ return require("packer").startup({
 			end,
 		})
 		-- Automatically insert pairs (for delimiters)
-		use("windwp/nvim-autopairs")
+		use({
+			"windwp/nvim-autopairs",
+			config = function()
+				require("nvim-autopairs").setup()
+			end,
+		})
 		-- Git integration
 		use("tpope/vim-fugitive")
 		-- Universal way to add comments
