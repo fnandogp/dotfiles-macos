@@ -1,21 +1,21 @@
 local M = {}
+
 function M.config()
-	local lspconfig = require("lspconfig")
 	local null_ls = require("null-ls")
 
 	null_ls.config({
 		diagnostics_format = "[#{c}] #{m} (#{s})",
-		debounce = 250,
-		default_timeout = 5000,
+		debug = true,
 		sources = {
 			-- global
-			null_ls.builtins.formatting.trim_whitespace.with({ filetypes = {} }),
+			null_ls.builtins.formatting.trim_whitespace,
 			-- lua
 			null_ls.builtins.diagnostics.luacheck,
 			null_ls.builtins.formatting.stylua,
 			-- js / ts
-			null_ls.builtins.formatting.prettier,
-			null_ls.builtins.diagnostics.eslint,
+			--null_ls.builtins.formatting.prettier,
+			--null_ls.builtins.diagnostics.eslint,
+			null_ls.builtins.formatting.eslint_d,
 			-- css
 			null_ls.builtins.formatting.stylelint,
 			null_ls.builtins.diagnostics.stylelint,
@@ -23,8 +23,6 @@ function M.config()
 			null_ls.builtins.diagnostics.vint,
 		},
 	})
-
-	lspconfig["null-ls"].setup({})
 end
 
 return M
