@@ -51,6 +51,37 @@ return packer.startup({
       run = function() vim.cmd [[TSUpdate]] end
     }
 
+    -- Autocomplete & Linters
+    use 'neovim/nvim-lspconfig'
+    use 'nvim-lua/lsp-status.nvim'
+    use 'tjdevries/lsp_extensions.nvim'
+    use 'glepnir/lspsaga.nvim'
+    use 'onsails/lspkind-nvim'
+    use 'ray-x/lsp_signature.nvim'
+    use 'jose-elias-alvarez/nvim-lsp-ts-utils'
+    use 'williamboman/nvim-lsp-installer'
+
+    use({
+        "hrsh7th/nvim-cmp",
+        requires = {
+          { "hrsh7th/cmp-nvim-lsp" },
+          { "hrsh7th/cmp-buffer", after = "nvim-cmp" },
+          { "hrsh7th/cmp-path", after = "nvim-cmp" },
+          { "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
+          { "hrsh7th/cmp-vsnip", after = "nvim-cmp" },
+          { "hrsh7th/vim-vsnip", after = "nvim-cmp" },
+          { "rafamadriz/friendly-snippets" },
+        },
+        config = function() require("plugins.nvim_cmp") end,
+        event = "InsertEnter *",
+      })
+
+    use({
+			"hoob3rt/lualine.nvim",
+			requires = { "kyazdani42/nvim-web-devicons", opt = true },
+			config = function() require 'plugins.lualine' end,
+		})
+
     use 'sheerun/vimrc'
   end
 })
