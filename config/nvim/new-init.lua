@@ -1,7 +1,4 @@
-print("init.lua")
-
 require("settings")
-require("utils")
-require("mappings")
-
 require("plugins")
+require("theme")
+require("utils")

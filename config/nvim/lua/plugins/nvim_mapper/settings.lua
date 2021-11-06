@@ -1,0 +1,2 @@
+require("nvim-mapper").setup({})
+
