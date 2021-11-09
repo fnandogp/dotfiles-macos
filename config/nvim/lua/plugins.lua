@@ -81,6 +81,12 @@ packer.startup({
 			end,
 		}) -- Simple statusline component that shows what scope you are working inside
 
+		use({
+			"folke/twilight.nvim",
+			config = function()
+				require("plugins.twilight_nvim")
+			end,
+		})
 		-- Autocomplete & Linters
 		use("neovim/nvim-lspconfig")
 		use("nvim-lua/lsp-status.nvim")
@@ -123,7 +129,7 @@ packer.startup({
 			"hoob3rt/lualine.nvim",
 			requires = { "kyazdani42/nvim-web-devicons", opt = true },
 			config = function()
-				require("plugins.lualine")
+				require("plugins.lualine_nvim")
 			end,
 		})
 
@@ -148,11 +154,16 @@ packer.startup({
 			end,
 		}) -- preview hex colors
 
+		use({
+			"akinsho/toggleterm.nvim",
+			config = function()
+				require("plugins.toggleterm_nvim")
+			end,
+		}) -- A neovim lua plugin to help easily manage multiple terminal windows
+
 		use("rrethy/vim-illuminate") -- highlight matching words when cursor on it
 
 		-- Misc
-		use("tpope/vim-surround")
-		use("tpope/vim-repeat")
 		use("tpope/vim-surround")
 		use("tpope/vim-repeat")
 		use("tpope/vim-dispatch")
@@ -170,9 +181,9 @@ packer.startup({
 		use("preservim/nerdcommenter")
 
 		use({
-			"Pocco81/TrueZen.nvim",
+			"folke/zen-mode.nvim",
 			config = function()
-				require("plugins.truezen")
+				require("plugins.zen_mode_nvim")
 			end,
 		}) -- Clean and elegant distraction-free writing for NeoVim
 

@@ -17,4 +17,8 @@ require("nvim-tree").setup({
 		ignore_list = {},
 	},
 	show_icons = { git = false, folders = true, files = true },
+	view = {
+		width = 20,
+		height = 20,
+	},
 })
