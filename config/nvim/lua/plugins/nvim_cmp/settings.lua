@@ -18,25 +18,20 @@ cmp.setup {
          expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
       },
       mapping = {
-         ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-         ["<C-f>"] = cmp.mapping.scroll_docs(4),
-         ["<C-Space>"] = cmp.mapping.complete(),
-         ["<C-e>"] = cmp.mapping.close(),
-         ["<CR>"] = cmp.mapping.confirm({ select = true }),
-         ["<Tab>"] = cmp.mapping(function(fallback)
-            if vim.fn.pumvisible() == 1 then
-               feedkey("<C-n>", "n")
-            else
-               fallback()
-            end
-         end, { "i", "s" }),
-         ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if vim.fn.pumvisible() == 1 then
-               feedkey("<C-p>", "n")
-            else
-               fallback()
-            end
-         end, { "i", "s" }),
+         ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+         ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+         ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+         ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+         ['<C-f>'] = cmp.mapping.scroll_docs(4),
+         ['<C-Space>'] = cmp.mapping.complete(),
+         ['<C-e>'] = cmp.mapping.close(),
+         ['<CR>'] = cmp.mapping({
+               i = cmp.mapping.confirm({ select = true }),
+               c = cmp.mapping.confirm({ select = false }),
+            }),
+         ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+         ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
          ["<C-l>"] = cmp.mapping(function(fallback)
             if vim.fn["vsnip#available"](1) == 1 then
                feedkey("<Plug>(vsnip-expand-or-jump)", "")
@@ -63,4 +58,5 @@ cmp.setup {
        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
     },
  }
+
 

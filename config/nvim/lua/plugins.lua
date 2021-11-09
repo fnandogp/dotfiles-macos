@@ -76,6 +76,15 @@ return packer.startup({
         event = "InsertEnter *",
       })
 
+    use ({
+        "jose-elias-alvarez/null-ls.nvim",
+        requires = {
+          {'nvim-lua/plenary.nvim'},
+          {'neovim/nvim-lspconfig'}
+        },
+        config = function() require("plugins.null_ls") end,
+      })
+
     use({
 			"hoob3rt/lualine.nvim",
 			requires = { "kyazdani42/nvim-web-devicons", opt = true },

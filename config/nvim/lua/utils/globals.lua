@@ -7,7 +7,6 @@ end
 Mapper = require('nvim-mapper')
 
 local function map(type, input, output, category, unique_identifier, description)
-    -- vim.api.nvim_set_keymap(type, input, output, {}, category, unique_identifier, description)
     Mapper.map(type, input, output, {}, category, unique_identifier, description)
 end
 

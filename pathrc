@@ -9,7 +9,6 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="./node_modules/.bin:$PATH"
 export PATH="./vendor/bin:$PATH"
 export PATH="./bin:$PATH"
-export PATH="$PATH:$(asdf where nodejs)/.npm/bin"
 
 export PATH="/usr/local/sbin:$PATH"
 

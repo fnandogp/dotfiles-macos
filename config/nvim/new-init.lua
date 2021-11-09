@@ -1,5 +1,6 @@
-require("settings")
-require("plugins")
-require("theme")
 require("utils")
+require("plugins")
+require("settings")
+require("mappings")
+require("theme")
 require 'lsp'

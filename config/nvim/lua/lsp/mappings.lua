@@ -1,11 +1,9 @@
 local M = {}
 
 function M.set_default(client, bufnr)
-  print('setting default mappings ...')
-
   local function buf_set_keymap(...) bufnoremap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  local capabilities = client.server_capabilities
+  --local capabilities = client.server_capabilities
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -27,7 +25,7 @@ function M.set_default(client, bufnr)
   buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  --buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
