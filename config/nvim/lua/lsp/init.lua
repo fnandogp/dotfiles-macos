@@ -46,7 +46,6 @@ end
 local default_server_config = { on_attach = on_attach, capabilities = capabilities }
 
 local servers = {
-	--efm = require('lsp.servers.efm')(),
 	bashls = {},
 	yamlls = {},
 	jsonls = {},
@@ -64,13 +63,9 @@ local servers = {
 for server_name, server_config in pairs(servers) do
 	local server_available, server = lsp_installer_servers.get_server(server_name)
 	if server_available then
-		dump(server_name, server_available)
 		server:on_ready(function()
-			dump([[server_name 'ready']])
 			local config = (vim.tbl_deep_extend("force", default_server_config, server_config))
-			--dump(config)
 			server:setup(config)
-			vim.cmd([[ do User LspAttachBuffers ]])
 		end)
 
 		if not server:is_installed() then

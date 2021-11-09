@@ -26,8 +26,6 @@ return function(on_attach)
 			-- tsserver, stop messing with prettier da fuck!
 			client.resolved_capabilities.document_formatting = false
 			client.resolved_capabilities.document_range_formatting = false
-			dump("tsserver loaded")
-			dump(client)
 		end,
 	}
 end
