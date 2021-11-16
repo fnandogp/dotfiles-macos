@@ -104,6 +104,7 @@ packer.startup({
 				{ "hrsh7th/cmp-path", after = "nvim-cmp" },
 				{ "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" },
 				{ "hrsh7th/cmp-vsnip", after = "nvim-cmp" },
+				{ "hrsh7th/cmp-cmdline", after = "nvim-cmp" },
 				{ "hrsh7th/vim-vsnip", after = "nvim-cmp" },
 				{ "rafamadriz/friendly-snippets" },
 			},
