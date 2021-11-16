@@ -10,7 +10,7 @@ null_ls.config({
 		null_ls.builtins.formatting.stylua,
 		-- js / ts
 		null_ls.builtins.diagnostics.eslint,
-		null_ls.builtins.formatting.eslint_d,
+		null_ls.builtins.formatting.prettier,
 		-- css
 		null_ls.builtins.formatting.stylelint,
 		null_ls.builtins.diagnostics.stylelint,
@@ -24,6 +24,6 @@ null_ls.config({
 	},
 })
 
-vim.cmd([[  autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()  ]])
+vim.cmd([[ autocmd BufWritePre * lua vim.lsp.buf.formatting_sync() ]])
 
 require("lspconfig")["null-ls"].setup({})

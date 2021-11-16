@@ -1,1 +1,1 @@
-require 'plugins.null_ls.settins'
+require("plugins.null_ls.settings")
