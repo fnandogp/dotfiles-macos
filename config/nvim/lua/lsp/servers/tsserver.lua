@@ -13,7 +13,14 @@ local function set_typescript(client, bufnr)
 	buf_set_keymap("n", "<leader>loi", ":TSLspOrganize<CR>", "lsp", "lsp_typescript_organize", "Organize imports")
 	buf_set_keymap("n", "<leader>lfc", ":TSLspFixCurrent<CR>", "lsp", "lsp_typescript_fix_current", "Fix current")
 	-- buf_set_keymap("n", "gr", ":TSLspRenameFile<CR>", 'lsp', 'lsp_', '')
-	buf_set_keymap("n", "<leader>lia", ":TSLspImportAll<CR>", "lsp", "lsp_typescript_import_all", "Import all")
+	buf_set_keymap(
+		"n",
+		"<leader>lia",
+		":TSLspImportAll<CR>:TSLspOrganize<CR>",
+		"lsp",
+		"lsp_typescript_import_all",
+		"Import all"
+	)
 end
 
 return function(on_attach)

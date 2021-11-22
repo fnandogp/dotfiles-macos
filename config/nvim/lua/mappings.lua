@@ -1,4 +1,5 @@
 nnoremap("<Leader>w", ":w<CR>")
+nnoremap("<Leader>W", ":wa<CR>")
 vnoremap("<Leader>w", "<C-c>:w<CR>")
 inoremap("<Leader>w", "<C-o>:w<CR>")
 nnoremap("<Leader>q", ":q<CR>")
