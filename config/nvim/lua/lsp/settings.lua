@@ -58,6 +58,7 @@ local servers = {
 	vuels = {},
 	graphql = {},
 	pyright = {},
+	tailwindcss = {},
 }
 
 for server_name, server_config in pairs(servers) do

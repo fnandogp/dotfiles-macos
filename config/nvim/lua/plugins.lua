@@ -172,6 +172,13 @@ packer.startup({
 		use("machakann/vim-highlightedyank")
 
 		use({
+			"windwp/nvim-spectre",
+			config = function()
+				require("plugins.nvim_spectre")
+			end,
+		}) -- Find the enemy and replace them with dark power.
+
+		use({
 			"windwp/nvim-autopairs",
 			after = "nvim-cmp",
 			config = function()
@@ -187,6 +194,13 @@ packer.startup({
 				require("plugins.zen_mode_nvim")
 			end,
 		}) -- Clean and elegant distraction-free writing for NeoVim
+
+		use({
+			"folke/which-key.nvim",
+			config = function()
+				require("plugins.which_key_nvim")
+			end,
+		})
 
 		use("sheerun/vimrc")
 

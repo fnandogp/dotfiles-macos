@@ -1,5 +1,5 @@
 nnoremap("<leader>p", [[<cmd>lua require('telescope.builtin').find_files({hidden=true})<CR>]])
-nnoremap("<leader>P", [[<cmd>lua require('telescope.builtin').buffers()<CR>]])
+nnoremap("<leader>P", [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]])
 
 nnoremap("<leader>fw", [[<cmd>lua require('telescope.builtin').live_grep()<CR>]])
 nnoremap("<leader>fg", [[<cmd>lua require('telescope.builtin').git_files()<CR>]])
