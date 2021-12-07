@@ -38,6 +38,8 @@ packer.startup({
 
 		use({ "dracula/vim", as = "dracula" })
 
+		use({ "shaunsingh/nord.nvim" })
+
 		use({
 			"goolord/alpha-nvim",
 			requires = { "kyazdani42/nvim-web-devicons" },

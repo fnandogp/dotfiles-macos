@@ -6,8 +6,18 @@ vim.g.nvim_tree_window_picker_exclude = {
 	filetype = { "notify", "packer", "qf" },
 	buftype = { "terminal", "fugitive" },
 }
-vim.g.nvim_tree_show_icons = { git = 0, folders = 1, files = 1, folder_arrows = 1 }
+vim.g.nvim_tree_show_icons = {
+	git = 0,
+	folders = 1,
+	files = 1,
+	folder_arrows = 1,
+}
 
 require("nvim-tree").setup({
 	update_focused_file = { enable = true },
+	view = {
+		auto_resize = true,
+		width = 30,
+		side = "left",
+	},
 })

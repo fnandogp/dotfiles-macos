@@ -11,8 +11,8 @@
 alias s="sudo"
 alias vim="vim -u DEFAULTS"
 alias v="nvim"
-alias ni="nvim -u ~/.config/nvim/init.vim"
-alias n="nvim -u ~/.config/nvim/new-init.lua"
+alias ni="nvim -u ~/.config/nvim/init-old.vim"
+alias n="nvim -u ~/.config/nvim/init.lua"
 
 alias ws="cd $HOME/workspace"
 alias wsa="cd $HOME/workspace/arkade"
