@@ -26,6 +26,13 @@ packer.startup {
          end,
       }
 
+      use {
+         "glepnir/dashboard-nvim",
+         config = function()
+            require "plugins.dashboard_nvim"
+         end,
+      }
+
       -- icons
       use "kyazdani42/nvim-web-devicons"
 
