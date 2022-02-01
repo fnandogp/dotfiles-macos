@@ -1,13 +1,13 @@
 local null_ls = require("null-ls")
 
-null_ls.config({
+null_ls.setup({
 	diagnostics_format = "[#{c}] #{m} (#{s})",
 	sources = {
 		-- global
 		null_ls.builtins.formatting.trim_whitespace,
 		-- lua
-		null_ls.builtins.diagnostics.luacheck,
 		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.diagnostics.luacheck.with({ extra_args = { "--global vim" } }),
 		-- js / ts
 		null_ls.builtins.diagnostics.eslint,
 		null_ls.builtins.code_actions.eslint,
@@ -23,8 +23,14 @@ null_ls.config({
 
 		null_ls.builtins.code_actions.gitsigns,
 	},
+	on_attach = function(client)
+		if client.resolved_capabilities.document_formatting then
+			vim.cmd([[
+            augroup LspFormatting
+                autocmd! * <buffer>
+                autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+            augroup END
+            ]])
+		end
+	end,
 })
-
-vim.cmd([[ autocmd BufWritePre * lua vim.lsp.buf.formatting_sync() ]])
-
-require("lspconfig")["null-ls"].setup({})

@@ -3,10 +3,7 @@ local lsp_installer_servers = require("nvim-lsp-installer.servers")
 local mappings = require("lsp.mappings")
 local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 
--- for debugging lsp
--- Levels by name: 'trace', 'debug', 'info', 'warn', 'error'
-
-vim.lsp.set_log_level("error")
+require("lsp.handlers").lsp_handlers()
 
 local function on_attach(client, bufnr)
 	-- print(client.name)
@@ -22,13 +19,6 @@ local function on_attach(client, bufnr)
 		timer_interval = 500,
 	})
 end
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-	virtual_text = { spacing = 0, prefix = "■" },
-	--virtual_text = false,
-	signs = true,
-	update_in_insert = false,
-})
 
 lsp_status.register_progress()
 

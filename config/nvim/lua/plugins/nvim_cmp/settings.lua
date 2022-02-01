@@ -65,9 +65,9 @@ cmp.setup({
 	},
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
---cmp.setup.cmdline("/", {
---sources = {
---{ name = "buffer" },
---},
---})
+vim.cmd([[
+	let g:vsnip_filetypes = {}
+	"let g:vsnip_filetypes.javascriptreact = ['javascript']
+	let g:vsnip_filetypes.typescript = ['javascript']
+	"let g:vsnip_filetypes.typescriptreact = ['typescript']
+]])

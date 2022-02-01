@@ -1,5 +1,7 @@
-nnoremap("<leader>t", [[<cmd>ToggleTerm direction=vertical<CR>]])
-inoremap("<leader>t", [[<Esc><cmd>ToggleTerm<CR>]])
-tnoremap("<leader>t", [[<cmd>ToggleTerm<CR>]])
+local map = require("utils").map
 
-nnoremap("<leader>T", [[<cmd>2ToggleTerm direction=float<CR>]])
+map("n", "<leader>t", [[<cmd>ToggleTerm direction=horizontal<CR>]])
+map("n", "<leader>t", [[<Esc><cmd>ToggleTerm<CR>]])
+map("n", "<leader>t", [[<cmd>ToggleTerm<CR>]])
+
+map("n", "<leader>T", [[<cmd>2ToggleTerm direction=float<CR>]])

@@ -1,12 +1,13 @@
-local gps = require("nvim-gps")
+--local gps = require("nvim-gps")
 
 require("lualine").setup({
 	options = {
-		theme = "nord",
+		icons_enabled = true,
+		theme = "auto",
 	},
-	sections = {
-		lualine_c = {
-			{ gps.get_location, cond = gps.is_available },
-		},
-	},
+	--sections = {
+	--lualine_c = {
+	--{ gps.get_location, cond = gps.is_available },
+	--},
+	--},
 })
