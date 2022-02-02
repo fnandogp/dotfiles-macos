@@ -1,4 +1,4 @@
-vim.cmd [[colorscheme dracula]]
+vim.cmd([[colorscheme dracula]])
 
 local opt = vim.opt
 local g = vim.g
@@ -26,7 +26,7 @@ opt.numberwidth = 2
 opt.relativenumber = false
 opt.ruler = false
 
-opt.shortmess:append "sI"
+opt.shortmess:append("sI")
 
 opt.signcolumn = "yes"
 opt.splitbelow = true
@@ -41,40 +41,40 @@ opt.updatetime = 250
 
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
-opt.whichwrap:append "<>[]hl"
+opt.whichwrap:append("<>[]hl")
 
 g.mapleader = ","
 
 -- disable some builtin vim plugins
 local disabled_built_ins = {
-   "did_load_filetypes",
-   "2html_plugin",
-   "getscript",
-   "getscriptPlugin",
-   "gzip",
-   "logipat",
-   "netrw",
-   "netrwPlugin",
-   "netrwSettings",
-   "netrwFileHandlers",
-   "matchit",
-   "tar",
-   "tarPlugin",
-   "rrhelper",
-   "spellfile_plugin",
-   "vimball",
-   "vimballPlugin",
-   "zip",
-   "zipPlugin",
+	"did_load_filetypes",
+	"2html_plugin",
+	"getscript",
+	"getscriptPlugin",
+	"gzip",
+	"logipat",
+	"netrw",
+	"netrwPlugin",
+	"netrwSettings",
+	"netrwFileHandlers",
+	"matchit",
+	"tar",
+	"tarPlugin",
+	"rrhelper",
+	"spellfile_plugin",
+	"vimball",
+	"vimballPlugin",
+	"zip",
+	"zipPlugin",
 }
 
 for _, plugin in pairs(disabled_built_ins) do
-   g["loaded_" .. plugin] = 1
+	g["loaded_" .. plugin] = 1
 end
 
 --Defer loading shada until after startup_
 vim.opt.shadafile = "NONE"
 vim.schedule(function()
-   vim.opt.shadafile = require("core.utils").load_config().options.shadafile
-   vim.cmd [[ rsh ]]
+	vim.opt.shadafile = require("core.utils").load_config().options.shadafile
+	vim.cmd([[ rsh ]])
 end)

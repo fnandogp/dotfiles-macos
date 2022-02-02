@@ -1,6 +1,6 @@
-require "utils"
-require "plugins"
-require "settings"
-require "mappings"
-require "lsp"
-require "theme"
+require("utils")
+require("plugins")
+require("settings")
+require("mappings")
+require("lsp")
+require("theme")

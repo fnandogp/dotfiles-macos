@@ -1,4 +1,4 @@
-local colors = require "theme.colors"
+local colors = require("theme.colors")
 
 local cmd = vim.cmd
 
@@ -35,7 +35,7 @@ fg("Comment", grey_fg .. " gui=italic")
 --end
 
 -- Disable cursor line
-cmd "hi clear CursorLine"
+cmd("hi clear CursorLine")
 -- Line number
 fg("cursorlinenr", white)
 

@@ -1,1 +1,1 @@
-require "theme.highlights"
+require("theme.highlights")
