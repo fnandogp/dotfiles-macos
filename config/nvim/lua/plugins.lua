@@ -109,7 +109,7 @@ packer.startup({
       event = "InsertEnter",
     })
     -- LSP completion source
-    use({ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" })
+    use({ "hrsh7th/cmp-nvim-lsp" })
     -- Buffer completion source
     use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" })
     -- Path completion source
@@ -123,8 +123,12 @@ packer.startup({
 
     -- Autocomplete & Linters
     use("williamboman/nvim-lsp-installer")
-    use("neovim/nvim-lspconfig")
-    use("nvim-lua/lsp-status.nvim")
+    use({
+      "neovim/nvim-lspconfig",
+      config = function()
+        require("plugins.lsp")
+      end,
+    })
     use("glepnir/lspsaga.nvim")
     use("onsails/lspkind-nvim")
     use("ray-x/lsp_signature.nvim")
