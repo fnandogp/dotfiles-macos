@@ -129,7 +129,6 @@ packer.startup({
         require("plugins.lsp")
       end,
     })
-    use("glepnir/lspsaga.nvim")
     use("onsails/lspkind-nvim")
     use("ray-x/lsp_signature.nvim")
     use("jose-elias-alvarez/nvim-lsp-ts-utils")
