@@ -23,9 +23,9 @@ local orange = colors.orange
 local one_bg3 = colors.one_bg3
 
 -- functions for setting highlights
-local fg = require("core.utils").fg
-local fg_bg = require("core.utils").fg_bg
-local bg = require("core.utils").bg
+local fg = require("utils").fg
+local fg_bg = require("utils").fg_bg
+local bg = require("utils").bg
 
 -- Comments
 --if ui.italic_comments then
