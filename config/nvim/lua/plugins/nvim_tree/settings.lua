@@ -48,7 +48,6 @@ local default = {
   disable_netrw = true,
   hijack_netrw = true,
   ignore_ft_on_setup = { "dashboard" },
-  auto_close = true,
   open_on_tab = false,
   hijack_cursor = true,
   update_cwd = true,
@@ -90,3 +89,7 @@ local default = {
 }
 
 nvimtree.setup(default)
+
+vim.cmd([[
+ autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
+]])
