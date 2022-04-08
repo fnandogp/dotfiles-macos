@@ -205,12 +205,12 @@ packer.startup({
       end,
     })
 
-    use({
-      "folke/which-key.nvim",
-      config = function()
-        require("plugins.which_key_nvim")
-      end,
-    })
+    --use({
+    --"folke/which-key.nvim",
+    --config = function()
+    --require("plugins.which_key_nvim")
+    --end,
+    --})
 
     use({ "andymass/vim-matchup", event = "VimEnter" })
 
