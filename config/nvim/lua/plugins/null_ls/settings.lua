@@ -9,9 +9,11 @@ null_ls.setup({
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.diagnostics.luacheck.with({ extra_args = { "--global vim" } }),
     -- js / ts
-    null_ls.builtins.diagnostics.eslint,
-    null_ls.builtins.code_actions.eslint,
+    null_ls.builtins.diagnostics.eslint.with({ only_local = "node_modules/.bin" }),
+    null_ls.builtins.code_actions.eslint.with({ only_local = "node_modules/.bin" }),
+    --null_ls.builtins.formatting.prettier.with({ only_local = "node_modules/.bin" }),
     null_ls.builtins.formatting.prettier,
+    --null_ls.builtins.formatting.eslint_d.with({ only_local = "node_modules/.bin" }),
     -- css
     null_ls.builtins.formatting.stylelint,
     null_ls.builtins.diagnostics.stylelint,
