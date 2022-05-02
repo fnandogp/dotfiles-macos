@@ -60,9 +60,9 @@ cmp.setup({
     { name = "nvim_lua" },
     { name = "path" },
   },
-  window = {
-    documentation = "native",
-  },
+  --window = {
+  --documentation = "native",
+  --},
 })
 
 vim.cmd([[

@@ -37,10 +37,10 @@ g.nvim_tree_icons = {
 
 local default = {
   filters = {
-    dotfiles = false,
+    dotfiles = true,
     custom = {
       ".git",
-      "node_modules",
+      --"node_modules",
       ".cache",
     },
   },
@@ -50,7 +50,6 @@ local default = {
   open_on_tab = false,
   hijack_cursor = true,
   update_cwd = true,
-  quit_on_open = true,
   update_focused_file = {
     enable = true,
     update_cwd = false,
@@ -59,7 +58,6 @@ local default = {
     width = 30,
     height = 30,
     side = "left",
-    allow_resize = true,
     hide_root_folder = false,
     number = false,
     relativenumber = false,

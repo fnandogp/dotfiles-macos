@@ -29,4 +29,3 @@ export EDITOR=$(which nano)
 
 # Tell Antigen that you're done.
 antigen apply
-
