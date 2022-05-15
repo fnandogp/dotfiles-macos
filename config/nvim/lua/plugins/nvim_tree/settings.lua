@@ -55,7 +55,7 @@ local default = {
     update_cwd = false,
   },
   view = {
-    width = 30,
+    width = 50,
     height = 30,
     side = "left",
     hide_root_folder = false,

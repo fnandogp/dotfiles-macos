@@ -161,6 +161,7 @@ packer.startup({
     -- Terminal
     use({
       "akinsho/toggleterm.nvim",
+      tag = "v1.*",
       config = function()
         require("plugins.toggleterm_nvim")
       end,
