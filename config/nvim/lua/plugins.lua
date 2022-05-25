@@ -206,6 +206,10 @@ packer.startup({
       end,
     })
 
+    use({
+      "mg979/vim-visual-multi",
+    })
+
     --use({
     --"folke/which-key.nvim",
     --config = function()
