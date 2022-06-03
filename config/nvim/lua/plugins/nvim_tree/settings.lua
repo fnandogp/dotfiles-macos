@@ -1,92 +1,76 @@
 local nvimtree = require("nvim-tree")
 
-local g = vim.g
-
-g.nvim_tree_add_trailing = 0 -- append a trailing slash to folder names
-g.nvim_tree_git_hl = 0
-g.nvim_tree_highlight_opened_files = 0
-g.nvim_tree_root_folder_modifier = table.concat({ ":t:gs?$?/..", string.rep(" ", 1000), "?:gs?^??" })
-
-g.nvim_tree_show_icons = {
-  folders = 1,
-  files = 1,
-  git = 1,
-}
-
-g.nvim_tree_icons = {
-  default = "",
-  symlink = "",
-  git = {
-    deleted = "",
-    ignored = "◌",
-    renamed = "➜",
-    staged = "✓",
-    unmerged = "",
-    unstaged = "✗",
-    untracked = "★",
-  },
-  folder = {
-    default = "",
-    empty = "",
-    empty_open = "",
-    open = "",
-    symlink = "",
-    symlink_open = "",
-  },
-}
-
 local default = {
-  filters = {
-    dotfiles = true,
-    custom = {
-      ".git",
-      --"node_modules",
-      ".cache",
-    },
-  },
   disable_netrw = true,
-  hijack_netrw = true,
-  ignore_ft_on_setup = { "dashboard" },
-  open_on_tab = false,
   hijack_cursor = true,
+  hijack_netrw = true,
+  hijack_unnamed_buffer_when_opening = false,
+  ignore_buffer_on_setup = false,
+  open_on_setup = true,
   update_cwd = true,
-  update_focused_file = {
-    enable = true,
-    update_cwd = false,
-  },
+  reload_on_bufenter = true,
   view = {
-    width = 50,
-    height = 30,
-    side = "left",
-    hide_root_folder = false,
-    number = false,
-    relativenumber = false,
-    signcolumn = "yes",
+    width = 40,
+    signcolumn = "no",
   },
   renderer = {
+    highlight_git = true,
+    highlight_opened_files = "none",
+    root_folder_modifier = ":~",
     indent_markers = {
       enable = true,
     },
+    special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md", "package.json" },
+  },
+  hijack_directories = {
+    enable = true,
+    auto_open = true,
+  },
+  update_focused_file = {
+    enable = false,
+    update_cwd = true,
+    ignore_list = {},
+  },
+  ignore_ft_on_setup = { "dashboard" },
+  diagnostics = {
+    enable = false,
+    show_on_dirs = false,
+  },
+  filters = {
+    dotfiles = false,
+    custom = {},
+    exclude = {},
   },
   git = {
     enable = false,
-    ignore = true,
   },
   actions = {
     change_dir = {
       enable = true,
       global = false,
+      restrict_above_cwd = false,
+    },
+    expand_all = {
+      max_folder_discovery = 300,
     },
     open_file = {
       quit_on_open = true,
-      resize_window = false,
+      resize_window = true,
       window_picker = {
+        enable = true,
         exclude = {
           filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
           buftype = { "nofile", "terminal", "help" },
         },
       },
     },
+  },
+  live_filter = {
+    prefix = "[FILTER]: ",
+    always_show_folders = false,
+  },
+  log = {
+    enable = false,
   },
 }
 

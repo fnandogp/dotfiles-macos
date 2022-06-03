@@ -1,7 +1,7 @@
 local map = require("utils").map
 
 map("n", "<leader>p", [[<cmd>lua require('telescope.builtin').find_files({hidden=true})<CR>]])
-map("n", "<leader>P", [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]])
+map("n", "<leader>P", [[<cmd>lua require('telescope.builtin').commands()<CR>]])
 
 map("n", "<leader>fw", [[<cmd>lua require('telescope.builtin').live_grep()<CR>]])
 map("n", "<leader>fg", [[<cmd>lua require('telescope.builtin').git_files()<CR>]])

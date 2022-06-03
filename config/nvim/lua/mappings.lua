@@ -16,7 +16,7 @@ map("v", "<M-/>", '"hy:%s/<C-r>h//gc<left><left><left>')
 
 map("v", "<C-c>", '"+y')
 
-map("v", "p", '"0p')
+--map("v", "p", '"0p')
 map("v", "P", '"0P')
 
 map("v", "<", "<gv")
@@ -26,25 +26,25 @@ map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Navigate windows
-map("n", "<M-h>", "<C-w>h")
-map("n", "<M-j>", "<C-w>j")
-map("n", "<M-k>", "<C-w>k")
-map("n", "<M-l>", "<C-w>l")
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-j>", "<C-w>j")
+map("n", "<C-k>", "<C-w>k")
+map("n", "<C-l>", "<C-w>l")
 -- Move windows
-map("n", "<M-S-h>", "<C-w>H")
-map("n", "<M-S-j>", "<C-w>J")
-map("n", "<M-S-k>", "<C-w>K")
-map("n", "<M-S-l>", "<C-w>L")
+--map("n", "<C-H>", "<C-w>H")
+--map("n", "<C-J>", "<C-w>J")
+--map("n", "<C-K>", "<C-w>K")
+--map("n", "<C-L>", "<C-w>L")
 
 -- Navigate terminals
 map("t", "<Esc>", "<C-\\><C-n>")
-map("t", "<M-h>", "<C-\\><C-n><C-w>h")
-map("t", "<M-j>", "<C-\\><C-n><C-w>j")
-map("t", "<M-k>", "<C-\\><C-n><C-w>k")
-map("t", "<M-l>", "<C-\\><C-n><C-w>l")
+map("t", "<C-h>", "<C-\\><C-n><C-w>h")
+map("t", "<C-j>", "<C-\\><C-n><C-w>j")
+map("t", "<C-k>", "<C-\\><C-n><C-w>k")
+map("t", "<C-l>", "<C-\\><C-n><C-w>l")
 
 -- Resize with arrows
-map("n", "<M-Up>", "<cmd>resize -2<CR>")
-map("n", "<M-Down>", "<cmd>resize +2<CR>")
-map("n", "<M-Left>", "<cmd>vertical resize -2<CR>")
-map("n", "<M-Right>", "<cmd>vertical resize +2<CR>")
+map("n", "<C-Up>", "<cmd>resize -2<CR>")
+map("n", "<C-Down>", "<cmd>resize +2<CR>")
+map("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
+map("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
