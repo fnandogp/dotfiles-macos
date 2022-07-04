@@ -13,6 +13,7 @@ alias vim="vim -u DEFAULTS"
 alias v="nvim"
 alias ni="nvim -u ~/.config/nvim/init-old.vim"
 alias n="nvim -u ~/.config/nvim/init.lua"
+alias nd="cd ~/.dotfiles/ && nvim"
 
 alias ws="cd $HOME/workspace"
 alias wsa="cd $HOME/workspace/arkade"
@@ -26,9 +27,5 @@ alias migrate="php artisan migrate"
 alias pu="phpunit"
 alias puf="phpunit --filter"
 
-# Laradock
-alias dc="docker-compose"
-alias dcup="docker-compose up -d"
-alias dcexec="docker-compose exec --user=laradock workspace bash"
-alias dcstop="docker-compose stop"
 
+alias pnr="pnpm run"
