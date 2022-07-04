@@ -5,11 +5,9 @@ antigen use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle git
-antigen bundle git-flow
 antigen bundle docker
 antigen bundle yarn
 antigen bundle npm
-antigen bundle aws
 antigen bundle brew
 
 # Syntax highlighting bundle.
@@ -17,6 +15,8 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle popstas/zsh-command-time
+#antigen bundle ntnyq/omz-plugin-pnpm
+antigen bundle baliestri/pnpm.plugin.zsh
 
 # Load the theme.
 antigen theme af-magic
@@ -29,3 +29,7 @@ export EDITOR=$(which nano)
 
 # Tell Antigen that you're done.
 antigen apply
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
