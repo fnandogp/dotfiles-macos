@@ -1,12 +1,15 @@
 local lspkind = require("lspkind")
+local cmp = require("cmp")
 
 local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
-local cmp = require("cmp")
-
 cmp.setup({
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
   completion = { completeopt = "menu,menuone,noinsert" },
   formatting = {
     format = lspkind.cmp_format(),
@@ -60,14 +63,10 @@ cmp.setup({
     { name = "nvim_lua" },
     { name = "path" },
   },
-  --window = {
-  --documentation = "native",
-  --},
 })
 
-vim.cmd([[
-	let g:vsnip_filetypes = {}
-	"let g:vsnip_filetypes.javascriptreact = ['javascript']
-	let g:vsnip_filetypes.typescript = ['javascript']
-	"let g:vsnip_filetypes.typescriptreact = ['typescript']
-]])
+vim.g.vsnip_filetypes = {
+  javascriptreact = { "javascript" },
+  typescript = { "javascript" },
+  typescriptreact = { "typescript" },
+}
