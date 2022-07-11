@@ -15,14 +15,14 @@ local function on_attach(client, bufnr)
   require("illuminate").on_attach(client)
 
   -- add signature autocompletion while typing
-  require("lsp_signature").on_attach({
-    bind = true,
-    floating_window = true,
-    timer_interval = 500,
-    handler_opts = {
-      border = "rounded", -- double, rounded, single, shadow, none
-    },
-  })
+  --require("lsp_signature").on_attach({
+  --bind = true,
+  --floating_window = true,
+  --timer_interval = 500,
+  --handler_opts = {
+  --border = "rounded", -- double, rounded, single, shadow, none
+  --},
+  --})
 end
 
 local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
