@@ -68,5 +68,5 @@ cmp.setup({
 vim.g.vsnip_filetypes = {
   javascriptreact = { "javascript" },
   typescript = { "javascript" },
-  typescriptreact = { "typescript" },
+  typescriptreact = { "javascript", "typescript" },
 }
