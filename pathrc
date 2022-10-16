@@ -27,7 +27,7 @@ export PATH="$PATH:$ANDROID_HOME/build-tools/30.0.2"
 export PATH="$HOME/.fastlane/bin:$PATH"
 
 
-. $(brew --prefix asdf)/asdf.sh
+#. $(brew --prefix asdf)/asdf.sh
 #. ~/.asdf/plugins/java/set-java-home.zsh
 
 export NVM_DIR="$HOME/.nvm"

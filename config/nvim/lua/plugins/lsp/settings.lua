@@ -5,7 +5,6 @@ local mappings = require("plugins.lsp.mappings")
 require("plugins.lsp.handlers").lsp_handlers()
 
 local function on_attach(client, bufnr)
-  -- print(client.name)
   mappings.set_default(client, bufnr)
 
   -- adds beatiful icon to completion
@@ -13,25 +12,15 @@ local function on_attach(client, bufnr)
 
   -- adds highlight for word under cursor
   require("illuminate").on_attach(client)
-
-  -- add signature autocompletion while typing
-  --require("lsp_signature").on_attach({
-  --bind = true,
-  --floating_window = true,
-  --timer_interval = 500,
-  --handler_opts = {
-  --border = "rounded", -- double, rounded, single, shadow, none
-  --},
-  --})
 end
 
-local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
+local capabilities = cmp_nvim_lsp.default_capabilities()
 
 local opts = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
-
 local servers = {
   bashls = {},
   yamlls = {},
