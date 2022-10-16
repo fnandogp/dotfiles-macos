@@ -1,7 +1,10 @@
-vim.cmd([[colorscheme dracula]])
+-- g.gruvbox_italic=1
+vim.cmd([[colorscheme tokyonight]])
 
 local opt = vim.opt
 local g = vim.g
+
+-- opt.colorscheme = "tokyonight"
 
 opt.title = true
 opt.clipboard = "unnamedplus"

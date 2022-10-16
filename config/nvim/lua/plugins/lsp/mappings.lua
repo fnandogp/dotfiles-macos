@@ -1,4 +1,8 @@
+local map = require("utils").map
+
 local M = {}
+
+map("n", "<leader>lr", ":LspRestart<CR>")
 
 function M.set_default(client, bufnr)
   local function buf_set_keymap(...)

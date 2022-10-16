@@ -7,7 +7,7 @@ local default = {
   hijack_unnamed_buffer_when_opening = false,
   ignore_buffer_on_setup = false,
   open_on_setup = true,
-  update_cwd = true,
+  update_cwd = false,
   reload_on_bufenter = true,
   view = {
     width = 40,
@@ -27,8 +27,8 @@ local default = {
     auto_open = true,
   },
   update_focused_file = {
-    enable = false,
-    update_cwd = true,
+    enable = true,
+    --update_cwd = true,
     ignore_list = {},
   },
   ignore_ft_on_setup = { "dashboard" },

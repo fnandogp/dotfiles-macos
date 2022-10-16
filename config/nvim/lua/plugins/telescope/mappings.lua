@@ -15,10 +15,10 @@ map("n", "<leader>fb", [[<cmd>lua require('telescope.builtin').git_bcommits()<CR
 --LSP
 
 map("n", "<leader>gr", [[<cmd>lua require('telescope.builtin').lsp_references()<CR>]])
-map("n", "<leader>go", [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]])
-map("n", "<leader>gO", [[<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<CR>]])
-map("n", "<leader>ca", [[<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>]])
-map("n", "<leader>ca", [[<cmd>lua require('telescope.builtin').lsp_range_code_actions()<CR>]])
+map("n", "go", [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]])
+map("n", "gO", [[<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<CR>]])
+map("n", "<leader>gx", [[<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>]])
+map("n", "<leader>gx", [[<cmd>lua require('telescope.builtin').lsp_range_code_actions()<CR>]])
 map("n", "<leader>gd", [[<cmd>lua require('telescope.builtin').lsp_definitions()<CR>]])
 map("n", "<leader>gi", [[<cmd>lua require('telescope.builtin').lsp_implementations()<CR>]])
 map("n", "<leader>gt", [[<cmd>lua require('telescope.builtin').lsp_type_definitions()<CR>]])

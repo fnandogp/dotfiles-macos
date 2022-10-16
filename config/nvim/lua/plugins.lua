@@ -38,17 +38,6 @@ packer.startup({
     use({
       "nvim-treesitter/nvim-treesitter",
       run = ":TSUpdate",
-      event = "BufRead",
-      cmd = {
-        "TSInstall",
-        "TSInstallInfo",
-        "TSInstallSync",
-        "TSUninstall",
-        "TSUpdate",
-        "TSUpdateSync",
-        "TSDisableAll",
-        "TSEnableAll",
-      },
       config = function()
         require("plugins.treesitter")
       end,
@@ -91,6 +80,8 @@ packer.startup({
     -- Color Schema
     use({ "dracula/vim", as = "dracula" })
     use({ "shaunsingh/nord.nvim" })
+    use({ "folke/tokyonight.nvim" })
+    use({ "morhetz/gruvbox" })
 
     -- Snippets Engine
     use({
@@ -141,6 +132,14 @@ packer.startup({
       end,
     })
 
+    use({
+      "folke/trouble.nvim",
+      requires = "kyazdani42/nvim-web-devicons",
+      config = function()
+        require("plugins.trouble_nvim")
+      end,
+    })
+
     -- Git
     use({ "tpope/vim-fugitive", cmd = { "G" } })
 
@@ -161,7 +160,6 @@ packer.startup({
     -- Terminal
     use({
       "akinsho/toggleterm.nvim",
-      tag = "v1.*",
       config = function()
         require("plugins.toggleterm_nvim")
       end,
@@ -210,6 +208,8 @@ packer.startup({
       "mg979/vim-visual-multi",
     })
 
+    --use({ "unblevable/quick-scope" })
+
     --use({
     --"folke/which-key.nvim",
     --config = function()
@@ -225,6 +225,22 @@ packer.startup({
       config = function()
         require("plugins.blankline")
       end,
+    })
+
+    use({
+      "rmagatti/auto-session",
+      config = function()
+        require("auto-session").setup()
+      end,
+    })
+
+    use({
+      "chrisbra/csv.vim",
+      ft = { "csv" },
+    })
+
+    use({
+      "pantharshit00/vim-prisma",
     })
   end,
   config = {

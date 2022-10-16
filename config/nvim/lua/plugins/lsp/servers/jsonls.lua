@@ -169,8 +169,8 @@ return function(opts)
       opts.on_attach(client, bufnr)
 
       -- tsserver, stop messing with prettier da fuck!
-      client.resolved_capabilities.document_formatting = false
-      client.resolved_capabilities.document_range_formatting = false
+      client.server_capabilities.document_formatting = false
+      client.server_capabilities.document_range_formatting = false
     end,
     settings = {
       json = {
