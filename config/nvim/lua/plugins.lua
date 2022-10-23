@@ -69,6 +69,7 @@ packer.startup({
       end,
     })
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
+    use({ "nvim-telescope/telescope-project.nvim" })
 
     use({
       "glepnir/dashboard-nvim",
@@ -170,7 +171,7 @@ packer.startup({
     -- Misc
     use("tpope/vim-surround")
     use("tpope/vim-repeat")
-    use("airblade/vim-rooter")
+    --use("airblade/vim-rooter")
     use("machakann/vim-highlightedyank")
 
     use({

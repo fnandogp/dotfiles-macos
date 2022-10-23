@@ -2,18 +2,12 @@
 ## Aliases
 ##
 
-# Config file
-#alias cfg_zsh="nvim $HOME/dotfiles/.zshrc"
-#alias cfg_i3="nvim $HOME/dotfiles/.i3/config"
-#alias cfg_vim="nvim $HOME/dotfiles/"
-
 # Common
 alias s="sudo"
 alias vim="vim -u DEFAULTS"
 alias v="nvim"
-alias ni="nvim -u ~/.config/nvim/init-old.vim"
 alias n="nvim -u ~/.config/nvim/init.lua"
-alias nd="cd ~/.dotfiles/ && nvim"
+alias cdd="cd ~/.dotfiles"
 
 alias ws="cd $HOME/workspace"
 alias wsa="cd $HOME/workspace/arkade"

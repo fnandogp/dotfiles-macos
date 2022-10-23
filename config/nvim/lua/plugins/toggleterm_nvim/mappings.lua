@@ -1,6 +1,6 @@
 local map = require("utils").map
 
-map("n", "<leader>t", [[<cmd>ToggleTerm direction=vertical<CR>]])
+map("n", "<leader>t", [[<cmd>ToggleTerm size=70 direction=vertical<CR>]])
 map("i", "<leader>t", [[<Esc><cmd>ToggleTerm<CR>]])
 map("t", "<leader>t", [[<cmd>ToggleTerm<CR>]])
 

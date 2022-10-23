@@ -3,6 +3,6 @@ return function(opts)
 
   return {
     capabilities = opts.capabilities,
-    filetypes = { "html", "css", "typescriptreact", "javascriptreact" },
+    --filetypes = { "html", "css", "typescriptreact", "javascriptreact" },
   }
 end
