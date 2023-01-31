@@ -1,84 +1,41 @@
--- g.gruvbox_italic=1
-vim.cmd([[colorscheme tokyonight]])
+vim.opt.title = true
+vim.opt.clipboard = "unnamedplus"
 
-local opt = vim.opt
-local g = vim.g
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
--- opt.colorscheme = "tokyonight"
+vim.opt.guicursor = ""
 
-opt.title = true
-opt.clipboard = "unnamedplus"
-opt.cmdheight = 1
-opt.cul = true -- cursor line
+vim.opt.number = true
+vim.opt.relativenumber = true
 
--- Indentline
-opt.expandtab = true
-opt.shiftwidth = 2
-opt.smartindent = true
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
 
-opt.fillchars = { eob = " " }
+vim.opt.smartindent = true
 
-opt.hidden = true
-opt.ignorecase = true
-opt.smartcase = true
-opt.mouse = "a"
+vim.opt.wrap = false
 
--- Numbers
-opt.number = true
-opt.numberwidth = 2
-opt.relativenumber = false
-opt.ruler = false
-opt.scrolloff = 5
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
 
-opt.shortmess:append("sI")
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
 
-opt.signcolumn = "yes"
-opt.splitbelow = true
-opt.splitright = true
-opt.tabstop = 4
-opt.termguicolors = true
-opt.timeoutlen = 400
-opt.undofile = true
-opt.swapfile = false
+vim.opt.termguicolors = true
 
--- interval for writing swap file to disk, also used by gitsigns
-opt.updatetime = 250
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
 
--- go to previous/next line with h,l,left arrow and right arrow
--- when cursor reaches end/beginning of line
-opt.whichwrap:append("<>[]hl")
+vim.opt.updatetime = 50
 
-g.mapleader = ","
+vim.opt.colorcolumn = "80"
+vim.opt.termguicolors = true
 
--- disable some builtin vim plugins
-local disabled_built_ins = {
-  "did_load_filetypes",
-  "2html_plugin",
-  "getscript",
-  "getscriptPlugin",
-  "gzip",
-  "logipat",
-  "netrw",
-  "netrwPlugin",
-  "netrwSettings",
-  "netrwFileHandlers",
-  "matchit",
-  "tar",
-  "tarPlugin",
-  "rrhelper",
-  "spellfile_plugin",
-  "vimball",
-  "vimballPlugin",
-  "zip",
-  "zipPlugin",
-}
-
-for _, plugin in pairs(disabled_built_ins) do
-  g["loaded_" .. plugin] = 1
-end
-
---Defer loading shada until after startup_
-vim.opt.shadafile = "NONE"
-vim.schedule(function()
-  vim.cmd([[ rsh ]])
-end)
+vim.opt.splitbelow = true
+vim.opt.splitright = true
