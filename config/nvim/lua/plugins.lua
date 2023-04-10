@@ -13,8 +13,8 @@ local packer_bootstrap = ensure_packer()
 
 return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim")
-
-	use({ "lewis6991/impatient.nvim" })
+	use("nvim-lua/plenary.nvim")
+	use("lewis6991/impatient.nvim")
 
 	use({
 		"morhetz/gruvbox",
@@ -31,10 +31,7 @@ return require("packer").startup(function(use)
 	use({
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.0",
-		requires = {
-			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-		},
+		requires = { { "nvim-telescope/telescope-fzf-native.nvim", run = "make" } },
 	})
 
 	use({
@@ -74,6 +71,26 @@ return require("packer").startup(function(use)
 		},
 	})
 
+	use({
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				panel = { auto_refresh = true },
+				suggestion = { auto_trigger = true },
+			})
+		end,
+	})
+
+	--use({
+	--"zbirenbaum/copilot-cmp",
+	--after = { "copilot.lua" },
+	--config = function()
+	--require("copilot_cmp").setup()
+	--end,
+	--})
+
 	use({ "RRethy/vim-illuminate" })
 
 	use({ "folke/trouble.nvim", requires = {
@@ -91,9 +108,9 @@ return require("packer").startup(function(use)
 		requires = { "kyazdani42/nvim-web-devicons" },
 	})
 
-	use({
-		"mg979/vim-visual-multi",
-	})
+	use({ "mg979/vim-visual-multi" })
+
+	use({ "ThePrimeagen/harpoon" })
 
 	if packer_bootstrap then
 		require("packer").sync()

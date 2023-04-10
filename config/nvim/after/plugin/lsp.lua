@@ -39,7 +39,7 @@ end)
 local select_opts = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lsp.defaults.cmp_mappings({
 	-- confirm selection
-	["<CR>"] = cmp.mapping.confirm({ select = false }),
+	["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
 	["<C-y>"] = cmp.mapping.confirm({ select = false }),
 
 	-- navigate items on the list

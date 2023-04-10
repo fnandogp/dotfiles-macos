@@ -36,6 +36,7 @@ vim.keymap.set("n", "<leader>P", builtin.git_files, {})
 vim.keymap.set("n", "<leader>sr", builtin.resume, {})
 vim.keymap.set("n", "<leader>sw", builtin.live_grep, {})
 vim.keymap.set("n", "<leader>sc", builtin.commands, {})
+vim.keymap.set("n", "<leader>sh", "<Cmd>Telescope harpoon marks<CR>", {})
 
 --LSP
 vim.keymap.set("n", "<Leader>gr", builtin.lsp_references)
