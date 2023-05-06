@@ -17,21 +17,6 @@ return require("packer").startup(function(use)
 	use("lewis6991/impatient.nvim")
 
 	use({
-		"dracula/vim",
-		as = "dracula",
-		--config = function()
-		--vim.cmd("colorscheme dracula")
-		--end,
-	})
-
-	use({
-		"morhetz/gruvbox",
-		--config = function()
-		--vim.cmd("colorscheme gruvbox")
-		--end,
-	})
-
-	use({
 		"catppuccin/nvim",
 		as = "catppuccin",
 		config = function()
@@ -66,24 +51,25 @@ return require("packer").startup(function(use)
 
 	use({
 		"VonHeikemen/lsp-zero.nvim",
+		branch = "v2.x",
 		requires = {
 			-- LSP Support
 			{ "neovim/nvim-lspconfig" },
-			{ "williamboman/mason.nvim" },
+			{
+				"williamboman/mason.nvim",
+				run = function()
+					pcall(vim.cmd, "MasonUpdate")
+				end,
+			},
 			{ "williamboman/mason-lspconfig.nvim" },
+
 			-- Autocompletion
 			{ "hrsh7th/nvim-cmp" },
-			{ "hrsh7th/cmp-buffer" },
-			{ "hrsh7th/cmp-path" },
-			{ "saadparwaiz1/cmp_luasnip" },
 			{ "hrsh7th/cmp-nvim-lsp" },
-			{ "hrsh7th/cmp-nvim-lua" },
-			-- Snippets
 			{ "L3MON4D3/LuaSnip" },
 			{ "rafamadriz/friendly-snippets" },
-			-- linter and formatters
 			{ "jose-elias-alvarez/null-ls.nvim" },
-			{ "lukas-reineke/lsp-format.nvim" },
+			{ "onsails/lspkind.nvim" },
 		},
 	})
 
@@ -99,19 +85,14 @@ return require("packer").startup(function(use)
 		end,
 	})
 
-	--use({
-	--"zbirenbaum/copilot-cmp",
-	--after = { "copilot.lua" },
-	--config = function()
-	--require("copilot_cmp").setup()
-	--end,
-	--})
-
 	use({ "RRethy/vim-illuminate" })
 
-	use({ "folke/trouble.nvim", requires = {
-		"kyazdani42/nvim-web-devicons",
-	} })
+	use({
+		"folke/trouble.nvim",
+		requires = {
+			"kyazdani42/nvim-web-devicons",
+		},
+	})
 
 	use({ "akinsho/toggleterm.nvim" })
 

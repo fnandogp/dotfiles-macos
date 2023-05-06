@@ -1,109 +1,81 @@
 local lsp = require("lsp-zero")
-local lspFormat = require("lsp-format")
 local cmp = require("cmp")
 local luasnip = require("luasnip")
+local cmp_action = require("lsp-zero").cmp_action()
 
 luasnip.filetype_extend("javascriptreact", { "javascript" })
 luasnip.filetype_extend("typescript", { "javascript" })
 luasnip.filetype_extend("typescriptreact", { "javascript", "typescript" })
 
-lsp.preset("recommended")
-
-lsp.set_preferences({
-	set_lsp_keymaps = false,
-})
+lsp.preset("recomended")
 
 lsp.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
 	local bind = vim.keymap.set
 
-	bind("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	bind("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-	bind("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	bind("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-	bind("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	bind("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	bind("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-	bind("n", "gn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-	bind("n", "gx", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	bind("v", "gx", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
+	bind("n", "gD", vim.lsp.buf.declaration, opts)
+	bind("n", "gd", vim.lsp.buf.definition, opts)
+	bind("n", "gr", vim.lsp.buf.references, opts)
+	bind("n", "gt", vim.lsp.buf.type_definition, opts)
+	bind("n", "K", vim.lsp.buf.hover, opts)
+	bind("n", "gi", vim.lsp.buf.implementation, opts)
+	bind("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+	bind("n", "gn", vim.lsp.buf.rename, opts)
+	bind("n", "gx", vim.lsp.buf.code_action, opts)
+	bind("v", "gx", vim.lsp.buf.range_code_action, opts)
 
-	bind("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-	bind("n", "gL", "<cmd>lua vim.diagnostic.setqflist()<CR>", opts)
-	bind("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-	bind("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+	bind("n", "gl", vim.diagnostic.open_float, opts)
+	bind("n", "gL", vim.diagnostic.setqflist, opts)
+	bind("n", "gk", vim.diagnostic.goto_prev, opts)
+	bind("n", "gj", vim.diagnostic.goto_next, opts)
 
 	bind("n", "<Leader>lr", "<Cmd>LspRestart<CR>", opts)
 end)
 
-local select_opts = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-	-- confirm selection
-	["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false }),
-	["<C-y>"] = cmp.mapping.confirm({ select = false }),
+require("luasnip.loaders.from_vscode").lazy_load()
 
-	-- navigate items on the list
-	["<Up>"] = cmp.mapping.select_prev_item(select_opts),
-	["<Down>"] = cmp.mapping.select_next_item(select_opts),
-	["<C-k>"] = cmp.mapping.select_prev_item(select_opts),
-	["<C-j>"] = cmp.mapping.select_next_item(select_opts),
+lsp.on_attach(function(client, bufnr)
+	lsp.default_keymaps({ buffer = bufnr })
+	lsp.buffer_autoformat()
+end)
 
-	-- scroll up and down in the completion documentation
-	["<C-d>"] = cmp.mapping.scroll_docs(5),
-	["<C-u>"] = cmp.mapping.scroll_docs(-5),
-
-	-- toggle completion
-	["<C-space>"] = cmp.mapping(function(fallback)
-		if cmp.visible() then
-			cmp.abort()
-		else
-			cmp.complete()
-		end
-	end),
-
-	-- go to next placeholder in the snippet
-	["<C-l>"] = cmp.mapping(function(fallback)
-		if luasnip.jumpable(1) then
-			luasnip.jump(1)
-		else
-			fallback()
-		end
-	end, { "i", "s" }),
-
-	-- go to previous placeholder in the snippet
-	["<C-h>"] = cmp.mapping(function(fallback)
-		if luasnip.jumpable(-1) then
-			luasnip.jump(-1)
-		else
-			fallback()
-		end
-	end, { "i", "s" }),
-})
-
-lsp.setup_nvim_cmp({
-	mapping = cmp_mappings,
-	--sources = {
-	--{ name = "path" },
-	--{ name = "nvim_lsp", keyword_length = 3 },
-	--{ name = "buffer", keyword_length = 3 },
-	--{ name = "luasnip", keyword_length = 2 },
-	--},
-})
+lsp.set_sign_icons({ error = "✘", warn = "▲", hint = "⚑", info = "»" })
 
 lsp.nvim_workspace()
+
 lsp.setup()
 
-lspFormat.setup({})
+cmp.setup({
+	mapping = {
+		["<CR>"] = cmp.mapping.confirm(),
+		["<Up>"] = cmp.mapping.select_prev_item(),
+		["<Down>"] = cmp.mapping.select_next_item(),
+		["<C-k>"] = cmp.mapping.select_prev_item(),
+		["<C-j>"] = cmp.mapping.select_next_item(),
+		["<C-Space>"] = cmp_action.toggle_completion(),
 
-local null_ls = require("null-ls")
-local null_opts = lsp.build_options("null-ls", {
-	on_attach = function(client, bufnr)
-		lspFormat.on_attach(client, bufnr)
-	end,
+		["<C-l>"] = cmp_action.luasnip_jump_forward(),
+		["<C-h>"] = cmp_action.luasnip_jump_backward(),
+		["<Tab>"] = cmp_action.luasnip_supertab(),
+		["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
+	},
+	window = {
+		completion = cmp.config.window.bordered(),
+		documentation = cmp.config.window.bordered(),
+	},
+	formatting = {
+		fields = { "abbr", "kind", "menu" },
+		format = require("lspkind").cmp_format({
+			mode = "symbol", -- show only symbol annotations
+			maxwidth = 50, -- prevent the popup from showing more than provided characters
+			ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
+		}),
+	},
 })
 
+local null_ls = require("null-ls")
+
 null_ls.setup({
-	on_attach = null_opts.on_attach,
 	sources = {
 		-- global
 		null_ls.builtins.formatting.trim_whitespace,
