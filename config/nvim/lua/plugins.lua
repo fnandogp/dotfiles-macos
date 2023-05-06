@@ -17,9 +17,25 @@ return require("packer").startup(function(use)
 	use("lewis6991/impatient.nvim")
 
 	use({
+		"dracula/vim",
+		as = "dracula",
+		--config = function()
+		--vim.cmd("colorscheme dracula")
+		--end,
+	})
+
+	use({
 		"morhetz/gruvbox",
+		--config = function()
+		--vim.cmd("colorscheme gruvbox")
+		--end,
+	})
+
+	use({
+		"catppuccin/nvim",
+		as = "catppuccin",
 		config = function()
-			vim.cmd("colorscheme gruvbox")
+			vim.cmd("colorscheme catppuccin-latte")
 		end,
 	})
 
