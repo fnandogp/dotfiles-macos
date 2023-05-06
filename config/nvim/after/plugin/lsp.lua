@@ -1,25 +1,23 @@
+local lspconfig = require("lspconfig")
 local lsp = require("lsp-zero")
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 local cmp_action = require("lsp-zero").cmp_action()
+local mason = require("mason")
+local null_ls = require("null-ls")
+
+mason.setup({ ui = { border = "rounded" } })
 
 luasnip.filetype_extend("javascriptreact", { "javascript" })
 luasnip.filetype_extend("typescript", { "javascript" })
 luasnip.filetype_extend("typescriptreact", { "javascript", "typescript" })
 
-lsp.preset("recomended")
+lsp.preset({ manage_nvim_cmp = { set_sources = "recommended" } })
 
 lsp.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr, remap = false }
 	local bind = vim.keymap.set
 
-	bind("n", "gD", vim.lsp.buf.declaration, opts)
-	bind("n", "gd", vim.lsp.buf.definition, opts)
-	bind("n", "gr", vim.lsp.buf.references, opts)
-	bind("n", "gt", vim.lsp.buf.type_definition, opts)
-	bind("n", "K", vim.lsp.buf.hover, opts)
-	bind("n", "gi", vim.lsp.buf.implementation, opts)
-	bind("n", "<C-k>", vim.lsp.buf.signature_help, opts)
 	bind("n", "gn", vim.lsp.buf.rename, opts)
 	bind("n", "gx", vim.lsp.buf.code_action, opts)
 	bind("v", "gx", vim.lsp.buf.range_code_action, opts)
@@ -41,7 +39,9 @@ end)
 
 lsp.set_sign_icons({ error = "✘", warn = "▲", hint = "⚑", info = "»" })
 
-lsp.nvim_workspace()
+lsp.nvim_workspace({ library = vim.api.nvim_get_runtime_file("", true) })
+
+lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 
 lsp.setup()
 
@@ -66,14 +66,12 @@ cmp.setup({
 	formatting = {
 		fields = { "abbr", "kind", "menu" },
 		format = require("lspkind").cmp_format({
-			mode = "symbol", -- show only symbol annotations
-			maxwidth = 50, -- prevent the popup from showing more than provided characters
-			ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
+			mode = "symbol_text",
+			maxwidth = 50,
+			ellipsis_char = "...",
 		}),
 	},
 })
-
-local null_ls = require("null-ls")
 
 null_ls.setup({
 	sources = {
