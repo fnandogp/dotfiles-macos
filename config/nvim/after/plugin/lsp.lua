@@ -34,7 +34,9 @@ require("luasnip.loaders.from_vscode").lazy_load()
 
 lsp.on_attach(function(client, bufnr)
 	lsp.default_keymaps({ buffer = bufnr })
-	lsp.buffer_autoformat()
+	if client.supports_method("textDocument/formatting") then
+		require("lsp-format").on_attach(client)
+	end
 end)
 
 lsp.set_sign_icons({ error = "✘", warn = "▲", hint = "⚑", info = "»" })

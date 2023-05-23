@@ -73,6 +73,7 @@ return require("packer").startup(function(use)
 			{ "rafamadriz/friendly-snippets" },
 			{ "jose-elias-alvarez/null-ls.nvim" },
 			{ "onsails/lspkind.nvim" },
+			{ "lukas-reineke/lsp-format.nvim" },
 		},
 	})
 
