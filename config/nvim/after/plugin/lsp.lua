@@ -14,26 +14,23 @@ luasnip.filetype_extend("typescriptreact", { "javascript", "typescript" })
 
 lsp.preset({ manage_nvim_cmp = { set_sources = "recommended" } })
 
-lsp.on_attach(function(client, bufnr)
-	local opts = { buffer = bufnr, remap = false }
-	local bind = vim.keymap.set
-
-	bind("n", "gn", vim.lsp.buf.rename, opts)
-	bind("n", "gx", vim.lsp.buf.code_action, opts)
-	bind("v", "gx", vim.lsp.buf.range_code_action, opts)
-
-	bind("n", "gl", vim.diagnostic.open_float, opts)
-	bind("n", "gL", vim.diagnostic.setqflist, opts)
-	bind("n", "gk", vim.diagnostic.goto_prev, opts)
-	bind("n", "gj", vim.diagnostic.goto_next, opts)
-
-	bind("n", "<Leader>lr", "<Cmd>LspRestart<CR>", opts)
-end)
-
 require("luasnip.loaders.from_vscode").lazy_load()
 
 lsp.on_attach(function(client, bufnr)
-	lsp.default_keymaps({ buffer = bufnr })
+	local opts = { buffer = bufnr }
+	lsp.default_keymaps(opts)
+
+	vim.keymap.set("n", "gn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+	vim.keymap.set("n", "gx", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+	vim.keymap.set("v", "gx", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", opts)
+
+	vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
+	vim.keymap.set("n", "gL", "<cmd>lua vim.diagnostic.setqflist()<cr>", opts)
+	vim.keymap.set("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
+	vim.keymap.set("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
+
+	vim.keymap.set("n", "<Leader>lr", "<Cmd>LspRestart<CR>", opts)
+
 	if client.supports_method("textDocument/formatting") then
 		require("lsp-format").on_attach(client)
 	end
@@ -116,5 +113,8 @@ null_ls.setup({
 			command = "prisma",
 			arg = { "format", "--schema", "$FILENAME" },
 		}),
+
+		-- toml
+		null_ls.builtins.formatting.taplo,
 	},
 })
