@@ -10,4 +10,7 @@ require("nvim-treesitter.configs").setup({
 	autotag = {
 		enable = true,
 	},
+	context = {
+		enable = true,
+	},
 })

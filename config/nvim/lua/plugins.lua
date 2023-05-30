@@ -39,6 +39,7 @@ return require("packer").startup(function(use)
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
 		requires = {
+			"nvim-treesitter/nvim-treesitter-context",
 			"JoosepAlviste/nvim-ts-context-commentstring",
 			"windwp/nvim-ts-autotag",
 		},
@@ -62,6 +63,8 @@ return require("packer").startup(function(use)
 				end,
 			},
 			{ "williamboman/mason-lspconfig.nvim" },
+			{ "SmiteshP/nvim-navic" },
+			{ "jose-elias-alvarez/typescript.nvim" },
 
 			-- Autocompletion
 			{ "hrsh7th/nvim-cmp" },
