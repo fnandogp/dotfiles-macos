@@ -84,11 +84,13 @@ return require("packer").startup(function(use)
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
 		event = "InsertEnter",
+		requires = { "zbirenbaum/copilot-cmp" },
 		config = function()
 			require("copilot").setup({
-				panel = { auto_refresh = true },
-				suggestion = { auto_trigger = true },
+				suggestion = { enabled = false },
+				panel = { enabled = false },
 			})
+			require("copilot_cmp").setup()
 		end,
 	})
 
