@@ -1,6 +1,5 @@
 local telescope = require("telescope")
 local actions = require("telescope.actions")
-local builtin = require("telescope.builtin")
 
 telescope.setup({
 	defaults = {
@@ -31,17 +30,21 @@ telescope.setup({
 	},
 })
 
-vim.keymap.set("n", "<leader>p", builtin.find_files, {})
-vim.keymap.set("n", "<leader>P", builtin.git_files, {})
-vim.keymap.set("n", "<leader>sr", builtin.resume, {})
-vim.keymap.set("n", "<leader>sw", builtin.live_grep, {})
-vim.keymap.set("n", "<leader>sc", builtin.commands, {})
-vim.keymap.set("n", "<leader>sh", "<Cmd>Telescope harpoon marks<CR>", {})
+vim.keymap.set("n", "<leader>p", "<Cmd>Telescope find_files<CR>")
+vim.keymap.set("n", "<leader>P", "<Cmd>Telescope git_files<CR>")
+vim.keymap.set("n", "<leader>sr", "<Cmd>Telescope resume<CR>")
+vim.keymap.set("n", "<leader>sw", "<Cmd>Telescope live_grep<CR>")
+vim.keymap.set("n", "<leader>sc", "<Cmd>Telescope commands<CR>")
+vim.keymap.set("n", "<leader>sh", "<Cmd>Telescope harpoon marks<CR>")
 
 --LSP
-vim.keymap.set("n", "<Leader>gr", builtin.lsp_references)
-vim.keymap.set("n", "<Leader>go", builtin.lsp_document_symbols)
-vim.keymap.set("n", "<Leader>gO", builtin.lsp_dynamic_workspace_symbols)
-vim.keymap.set("n", "<Leader>gd", builtin.lsp_definitions)
-vim.keymap.set("n", "<Leader>gi", builtin.lsp_implementations)
-vim.keymap.set("n", "<Leader>gt", builtin.lsp_type_definitions)
+vim.keymap.set("n", "<Leader>gr", "<Cmd>Telescope lsp_references<CR>")
+vim.keymap.set("n", "<Leader>go", "<Cmd>Telescope lsp_document_symbols<CR>")
+vim.keymap.set("n", "<Leader>gO", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>")
+vim.keymap.set("n", "<Leader>gd", "<Cmd>Telescope lsp_definitions<CR>")
+vim.keymap.set("n", "<Leader>gi", "<Cmd>Telescope lsp_implementations<CR>")
+vim.keymap.set("n", "<Leader>gt", "<Cmd>Telescope lsp_type_definitions<CR>")
+
+vim.keymap.set("n", "<Leader>G", "<Cmd>G<CR>")
+vim.keymap.set("n", "<Leader>ggs", "<Cmd>Telescope git_status<CR>")
+vim.keymap.set("n", "<Leader>ggb", "<Cmd>Telescope git_branches<CR>")
