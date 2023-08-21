@@ -12,23 +12,20 @@ local function map(mode, lhs, rhs, opts)
     if opts.remap and not vim.g.vscode then
       opts.remap = nil
     end
-    map(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
   end
 end
 
-map({ "v", "n", "s" }, "<leader>w", "<cmd>w<cr><esc>", { desc = "Save file" })
-map({ "v", "n", "s" }, "<leader>q", "<cmd>q<cr><esc>", { desc = "Quit file" })
+-- save & quit file
+map({ "i", "v", "n", "s" }, "<leader>w", "<cmd>w<cr><esc>", { remap = true, desc = "Save file" })
+map({ "i", "v", "n", "s" }, "<leader>q", "<cmd>q<cr><esc>", { remap = true, desc = "Quit file" })
 
-map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
-map("v", "K", ":m '<-2<CR>gv=gv", { desc = { "Move line up" } })
-
-map("n", "J", "mzJ`z")
-map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center cursor" })
-map("n", "<C-u>", "<C-u>zz")
-map("n", "n", "nzzzv")
-map("n", "N", "Nzzzv")
-
-map("x", "<leader>p", [["_dP]])
-map({ "n", "v" }, "<leader>y", [["+y]])
-map("n", "C-v", [["+Y]])
-map({ "n", "v" }, "<leader>d", [["_d]])
+-- windows
+vim.keymap.del("n", "<leader>ww")
+vim.keymap.del("n", "<leader>wd")
+vim.keymap.del("n", "<leader>w-")
+vim.keymap.del("n", "<leader>w|")
+map("n", "<leader>Ww", "<C-W>p", { desc = "Other window", remap = true })
+map("n", "<leader>Wd", "<C-W>c", { desc = "Delete window", remap = true })
+map("n", "<leader>W-", "<C-W>s", { desc = "Split window below", remap = true })
+map("n", "<leader>W|", "<C-W>v", { desc = "Split window right", remap = true })
