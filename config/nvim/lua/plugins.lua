@@ -74,9 +74,9 @@ return require("packer").startup(function(use)
 			{ "saadparwaiz1/cmp_luasnip" },
 			{ "L3MON4D3/LuaSnip" },
 			{ "rafamadriz/friendly-snippets" },
-			{ "jose-elias-alvarez/null-ls.nvim" },
 			{ "onsails/lspkind.nvim" },
 			{ "lukas-reineke/lsp-format.nvim" },
+			{ "creativenull/efmls-configs-nvim" },
 		},
 	})
 

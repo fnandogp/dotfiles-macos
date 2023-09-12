@@ -4,7 +4,6 @@ local cmp = require("cmp")
 local luasnip = require("luasnip")
 local cmp_action = require("lsp-zero").cmp_action()
 local mason = require("mason")
-local null_ls = require("null-ls")
 local lspkind = require("lspkind")
 
 mason.setup({ ui = { border = "rounded" } })
@@ -16,6 +15,31 @@ luasnip.filetype_extend("typescriptreact", { "javascript", "typescript" })
 lsp.preset({})
 
 require("luasnip.loaders.from_vscode").lazy_load()
+
+local eslint = require("efmls-configs.linters.eslint")
+local prettier = require("efmls-configs.formatters.prettier")
+local luacheck = require("efmls-configs.linters.luacheck")
+local stylua = require("efmls-configs.formatters.stylua")
+
+local languages = {
+	javascrip = { eslint, prettier },
+	javascripreact = { eslint, prettier },
+	typescript = { eslint, prettier },
+	typescriptreact = { eslint, prettier },
+	lua = { luacheck, stylua },
+}
+
+lspconfig.efm.setup({
+	filetypes = vim.tbl_keys(languages),
+	settings = {
+		rootMarkers = { ".git/" },
+		languages = languages,
+	},
+	init_options = {
+		documentFormatting = true,
+		documentRangeFormatting = true,
+	},
+})
 
 lsp.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr }
@@ -94,55 +118,5 @@ cmp.setup({
 			ellipsis_char = "...",
 			symbol_map = { Copilot = "" },
 		}),
-	},
-})
-
-null_ls.setup({
-	sources = {
-		-- global
-		null_ls.builtins.formatting.trim_whitespace,
-		--null_ls.builtins.code_actions.gitsigns,
-
-		-- lua
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.diagnostics.luacheck.with({ extra_args = { "--global vim" } }),
-
-		-- js / ts
-		--null_ls.builtins.diagnostics.eslint_d,
-		--null_ls.builtins.code_actions.eslint_d,
-		null_ls.builtins.diagnostics.eslint,
-		null_ls.builtins.code_actions.eslint,
-		--null_ls.builtins.formatting.eslint_d,
-		null_ls.builtins.formatting.prettier,
-		require("typescript.extensions.null-ls.code-actions"),
-
-		--json
-		null_ls.builtins.formatting.prettier.with({
-			filetypes = { "html", "json", "yaml", "markdown" },
-		}),
-
-		-- css
-		null_ls.builtins.formatting.stylelint,
-		null_ls.builtins.diagnostics.stylelint,
-
-		-- vim
-		null_ls.builtins.diagnostics.vint,
-
-		-- python
-		null_ls.builtins.diagnostics.flake8,
-		null_ls.builtins.formatting.black,
-
-		-- php
-		null_ls.builtins.diagnostics.php,
-		null_ls.builtins.formatting.phpcsfixer,
-
-		-- prisma
-		null_ls.builtins.formatting.prismaFmt.with({
-			command = "prisma",
-			arg = { "format", "--schema", "$FILENAME" },
-		}),
-
-		-- toml
-		null_ls.builtins.formatting.taplo,
 	},
 })
