@@ -1,6 +1,7 @@
 return {
-  "nvim-lualine/lualine.nvim",
-  config = function()
-    require("lualine").setup()
-  end,
+  { "stevearc/dressing.nvim", opts = {} },
+  { "echasnovski/mini.statusline", opts = {} },
+  { "andymass/vim-matchup", event = "VimEnter" },
+  { "machakann/vim-highlightedyank" },
+  { "echasnovski/mini.cursorword", opts = {} },
 }

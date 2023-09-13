@@ -1,11 +1,11 @@
 return {
   "nvim-telescope/telescope.nvim",
   tag = "0.1.0",
-  dependencies = { 
+  dependencies = {
     { "nvim-lua/plenary.nvim" },
     { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
   },
-  config = function ()
+  config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
     telescope.setup({
@@ -39,11 +39,11 @@ return {
   end,
   keys = {
     { "<leader>p", "<Cmd>Telescope find_files<CR>", desc = "Find Files" },
-    { "<leader>P", "<Cmd>Telescope oldfiles<CR>" , desc = "Recent Files"},
+    { "<leader>P", "<Cmd>Telescope oldfiles<CR>", desc = "Recent Files" },
     { "<leader>sw", "<Cmd>Telescope live_grep<CR>", desc = "Search word" },
-    { "<leader>sr", "<Cmd>Telescope resume<CR>",  desc = "Resume search"},
+    { "<leader>sr", "<Cmd>Telescope resume<CR>", desc = "Resume search" },
     { "<leader>sc", "<Cmd>Telescope commands<CR>", desc = "Commands" },
-    { "<leader>sh", "<Cmd>Telescope harpoon marks<CR>", desc="Harpoon marks" },
+    { "<leader>sh", "<Cmd>Telescope harpoon marks<CR>", desc = "Harpoon marks" },
     --LSP
     { "<Leader>gr", "<Cmd>Telescope lsp_references<CR>" },
     { "<Leader>go", "<Cmd>Telescope lsp_document_symbols<CR>" },
@@ -51,7 +51,5 @@ return {
     { "<Leader>gd", "<Cmd>Telescope lsp_definitions<CR>" },
     { "<Leader>gi", "<Cmd>Telescope lsp_implementations<CR>" },
     { "<Leader>gt", "<Cmd>Telescope lsp_type_definitions<CR>" },
-    { "<Leader>ggs", "<Cmd>Telescope git_status<CR>" },
-    { "<Leader>ggb", "<Cmd>Telescope git_branches<CR>" }
   },
 }

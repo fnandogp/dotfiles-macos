@@ -20,6 +20,10 @@ return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
+      { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-buffer" },
+      { "hrsh7th/cmp-path" },
+      { "onsails/lspkind.nvim" },
       { "L3MON4D3/LuaSnip" },
     },
     config = function()
@@ -27,19 +31,45 @@ return {
       local lsp_zero = require("lsp-zero")
       lsp_zero.extend_cmp()
 
+      -- Defines the sign icons that appear in the gutter.
+      lsp_zero.set_sign_icons({
+        error = "✘",
+        warn = "▲",
+        hint = "⚑",
+        info = "»",
+      })
       -- And you can configure cmp even more, if you want to.
       local cmp = require("cmp")
       local cmp_action = lsp_zero.cmp_action()
 
       cmp.setup({
+        sources = {
+          { name = "path" },
+          { name = "nvim_lsp" },
+          { name = "buffer", keyword_length = 3 },
+          { name = "luasnip", keyword_length = 2 },
+        },
         formatting = lsp_zero.cmp_format(),
         mapping = cmp.mapping.preset.insert({
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-d>"] = cmp.mapping.scroll_docs(4),
-          ["<C-f>"] = cmp_action.luasnip_jump_forward(),
-          ["<C-b>"] = cmp_action.luasnip_jump_backward(),
+          ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = false,
+          }),
+          ["<Up>"] = cmp.mapping.select_prev_item(),
+          ["<Down>"] = cmp.mapping.select_next_item(),
+          ["<C-k>"] = cmp.mapping.select_prev_item(),
+          ["<C-j>"] = cmp.mapping.select_next_item(),
+          ["<C-Space>"] = cmp_action.toggle_completion(),
+
+          ["<C-l>"] = cmp_action.luasnip_jump_forward(),
+          ["<C-h>"] = cmp_action.luasnip_jump_backward(),
+          ["<Tab>"] = cmp_action.luasnip_supertab(),
+          ["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
         }),
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
       })
     end,
   },
@@ -56,11 +86,9 @@ return {
       { "lukas-reineke/lsp-format.nvim" },
     },
     config = function()
-      -- This is where all the LSP shenanigans will live
       local lsp = require("lspconfig")
-
-
       local lsp_zero = require("lsp-zero")
+
       lsp_zero.extend_lspconfig({
         on_init = function(client)
           -- disable formatting capabilities
@@ -87,11 +115,6 @@ return {
         if client.server_capabilities.documentSymbolProvider then
           require("nvim-navic").attach(client, bufnr)
         end
-
-        --autoformat
-        if client.supports_method("textDocument/formatting") then
-          require("lsp-format").on_attach(client)
-        end
       end)
 
       -- Linter and Formatters
@@ -107,7 +130,7 @@ return {
         typescriptreact = { eslint, prettier },
         lua = { luacheck, stylua },
       }
-      lsp_zero.configure('efm', {
+      lsp_zero.configure("efm", {
         filetypes = vim.tbl_keys(languages),
         settings = {
           rootMarkers = { ".git/" },
@@ -117,8 +140,13 @@ return {
           documentFormatting = true,
           documentRangeFormatting = true,
         },
+        on_attach = function(client, bufnr)
+          --autoformat
+          if client.supports_method("textDocument/formatting") then
+            require("lsp-format").on_attach(client)
+          end
+        end,
       })
-
 
       require("mason-lspconfig").setup({
         ensure_installed = {},
