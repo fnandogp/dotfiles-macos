@@ -46,6 +46,7 @@ opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
 opt.splitkeep = "screen"
 opt.shortmess:append({ C = true })
+opt.title = true
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0

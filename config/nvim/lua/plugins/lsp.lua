@@ -98,16 +98,21 @@ return {
       })
       lsp_zero.on_attach(function(client, bufnr)
         local opts = { buffer = bufnr }
-        lsp_zero.default_keymaps(opts)
+        vim.keymap.set("n", "K ", "<cmd>lua vim.lsp.buf.hover()", opts, { desc = "Displays hover information." })
+        vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()", opts, { desc = "Jumps to the definition." })
+        vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()", opts, { desc = "Jumps to the declaration." })
+        vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()", opts, { desc = "Lists implementations." })
+        vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()", opts, { desc = "Jumps to the definition." })
+        vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()", opts, { desc = "Lists references." })
 
-        vim.keymap.set("n", "gn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-        vim.keymap.set("n", "gx", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-        vim.keymap.set("v", "gx", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", opts)
+        vim.keymap.set("n", "gn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts, { desc = "Rename" })
+        vim.keymap.set("n", "gx", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts, { desc = "Code Action" })
+        vim.keymap.set("v", "gx", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", opts, { desc = "Code Action" })
 
-        vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
-        vim.keymap.set("n", "gL", "<cmd>lua vim.diagnostic.setqflist()<cr>", opts)
-        vim.keymap.set("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
-        vim.keymap.set("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
+        vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", opts, { desc = "List diagnostics" })
+        vim.keymap.set("n", "gL", "<cmd>lua vim.diagnostic.setqflist()<cr>", opts, { desc = "List diagnostics" })
+        vim.keymap.set("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts, { desc = "Prev diagnostic" })
+        vim.keymap.set("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts, { desc = "Next diagnostic" })
 
         vim.keymap.set("n", "<Leader>lr", "<Cmd>LspRestart<CR>", opts)
 
@@ -122,12 +127,14 @@ return {
       local prettier = require("efmls-configs.formatters.prettier")
       local luacheck = require("efmls-configs.linters.luacheck")
       local stylua = require("efmls-configs.formatters.stylua")
+      local jq = require("efmls-configs.linters.jq")
 
       local languages = {
         javascrip = { eslint, prettier },
         javascripreact = { eslint, prettier },
         typescript = { eslint, prettier },
         typescriptreact = { eslint, prettier },
+        json = { jq, prettier },
         lua = { luacheck, stylua },
       }
       lsp_zero.configure("efm", {
