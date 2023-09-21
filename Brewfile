@@ -25,7 +25,7 @@ brew "libzip"
 brew "php", restart_service: true
 brew "composer"
 brew "dnsmasq", restart_service: true
-brew "docker"
+brew "docker", link: false
 brew "docker-compose"
 brew "fd"
 brew "fzf"
@@ -116,12 +116,15 @@ cask "google-chrome"
 cask "google-cloud-sdk"
 cask "google-drive"
 cask "grammarly"
+cask "httpie"
 cask "insomnia"
 cask "itau"
 cask "iterm2"
 cask "kitty"
 cask "lastpass"
 cask "logi-options-plus"
+cask "microsoft-auto-update"
+cask "microsoft-office"
 cask "microsoft-teams"
 cask "miro"
 cask "mongodb-compass"
@@ -141,6 +144,7 @@ cask "spotify"
 cask "sublime-text"
 cask "tableplus"
 cask "the-unarchiver"
+cask "topnotch"
 cask "transmission"
 cask "visual-studio-code"
 cask "vlc"
@@ -149,12 +153,15 @@ cask "zoom"
 mas "Amphetamine", id: 937984704
 mas "Dashlane", id: 517914548
 mas "Dato", id: 1470584107
-mas "GoodNotes", id: 1444383602
+mas "Goodnotes", id: 1444383602
+mas "Hush", id: 1544743900
 mas "iMovie", id: 408981434
 mas "Surfshark", id: 1437809329
 mas "Transporter", id: 1450874784
 mas "Vimari", id: 1480933944
+mas "Xcode", id: 497799835
 vscode "GitHub.copilot"
 vscode "googlecloudtools.cloudcode"
 vscode "ms-azuretools.vscode-docker"
 vscode "ms-vscode-remote.remote-containers"
+vscode "ms-vsliveshare.vsliveshare"
