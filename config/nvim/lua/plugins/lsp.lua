@@ -27,6 +27,11 @@ return {
       { "L3MON4D3/LuaSnip" },
     },
     config = function()
+      local luasnip = require("luasnip")
+      luasnip.filetype_extend("javascriptreact", { "javascript" })
+      luasnip.filetype_extend("typescript", { "javascript" })
+      luasnip.filetype_extend("typescriptreact", { "javascript", "typescript" })
+
       -- Here is where you configure the autocompletion settings.
       local lsp_zero = require("lsp-zero")
       lsp_zero.extend_cmp()
@@ -97,24 +102,25 @@ return {
         end,
       })
       lsp_zero.on_attach(function(client, bufnr)
-        local opts = { buffer = bufnr }
-        vim.keymap.set("n", "K ", "<cmd>lua vim.lsp.buf.hover()", opts, { desc = "Displays hover information." })
-        vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()", opts, { desc = "Jumps to the definition." })
-        vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()", opts, { desc = "Jumps to the declaration." })
-        vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()", opts, { desc = "Lists implementations." })
-        vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()", opts, { desc = "Jumps to the definition." })
-        vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()", opts, { desc = "Lists references." })
+        local bind = vim.keymap.set
 
-        vim.keymap.set("n", "gn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts, { desc = "Rename" })
-        vim.keymap.set("n", "gx", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts, { desc = "Code Action" })
-        vim.keymap.set("v", "gx", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", opts, { desc = "Code Action" })
+        bind("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { buffer = bufnr, desc = "Displays hover information." })
+        bind("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { buffer = bufnr, desc = "Jumps to the definition." })
+        bind("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", { buffer = bufnr, desc = "Jumps to the declaration." })
+        bind("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { buffer = bufnr, desc = "Lists implementations." })
+        bind("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { buffer = bufnr, desc = "Jumps to the definition." })
+        bind("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { buffer = bufnr, desc = "Lists references." })
 
-        vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", opts, { desc = "List diagnostics" })
-        vim.keymap.set("n", "gL", "<cmd>lua vim.diagnostic.setqflist()<cr>", opts, { desc = "List diagnostics" })
-        vim.keymap.set("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts, { desc = "Prev diagnostic" })
-        vim.keymap.set("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts, { desc = "Next diagnostic" })
+        bind("n", "gn", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = bufnr, desc = "Rename" })
+        bind("n", "gx", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code Action" })
+        bind("v", "gx", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", { buffer = bufnr, desc = "Code Action" })
 
-        vim.keymap.set("n", "<Leader>lr", "<Cmd>LspRestart<CR>", opts)
+        bind("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", { buffer = bufnr, desc = "List diagnostics" })
+        bind("n", "gL", "<cmd>lua vim.diagnostic.setqflist()<cr>", { buffer = bufnr, desc = "List diagnostics" })
+        bind("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { buffer = bufnr, desc = "Prev diagnostic" })
+        bind("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { buffer = bufnr, desc = "Next diagnostic" })
+
+        bind("n", "<Leader>lr", "<cmd>LspRestart<CR>", { buffer = bufnr, desc = "Restart LSP server" })
 
         --navic
         if client.server_capabilities.documentSymbolProvider then

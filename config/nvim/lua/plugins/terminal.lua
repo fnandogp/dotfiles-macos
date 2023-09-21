@@ -42,6 +42,7 @@ return {
     keys = {
       { "<leader>t", "<cmd>1ToggleTerm size=70 direction=vertical<CR>", desc = "Side Terminal (1)" },
       { "<leader>T", "<cmd>2ToggleTerm direction=float<CR>", desc = "Floating Terminal (2)" },
+      { "<leader>t", "<cmd>ToggleTerm<CR>", desc = "Close terminals", mode = "t" },
       { "<leader>G", "<cmd>lua _lazygit_toggle()<CR>", desc = "Lazygit" },
     },
   },
