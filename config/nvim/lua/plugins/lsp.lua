@@ -25,6 +25,8 @@ return {
       { "hrsh7th/cmp-path" },
       { "onsails/lspkind.nvim" },
       { "L3MON4D3/LuaSnip" },
+      { "saadparwaiz1/cmp_luasnip" },
+      { "rafamadriz/friendly-snippets" },
     },
     config = function()
       local luasnip = require("luasnip")
@@ -47,14 +49,15 @@ return {
       local cmp = require("cmp")
       local cmp_action = lsp_zero.cmp_action()
 
+      require("luasnip.loaders.from_vscode").lazy_load()
       cmp.setup({
         sources = {
           { name = "path" },
           { name = "nvim_lsp" },
+          { name = "nvim_lua" },
           { name = "buffer", keyword_length = 3 },
           { name = "luasnip", keyword_length = 2 },
         },
-        formatting = lsp_zero.cmp_format(),
         mapping = cmp.mapping.preset.insert({
           ["<CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
@@ -71,6 +74,14 @@ return {
           ["<Tab>"] = cmp_action.luasnip_supertab(),
           ["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
         }),
+        formatting = {
+          fields = { "abbr", "kind", "menu" },
+          format = require("lspkind").cmp_format({
+            mode = "symbol_text", -- show only symbol annotations
+            maxwidth = 50, -- prevent the popup from showing more than provided characters
+            ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
+          }),
+        },
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),

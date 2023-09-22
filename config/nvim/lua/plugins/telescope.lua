@@ -1,9 +1,8 @@
 return {
   "nvim-telescope/telescope.nvim",
-  tag = "0.1.0",
+  branch = "0.1.x",
   dependencies = {
     { "nvim-lua/plenary.nvim" },
-    { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
   },
   config = function()
     local telescope = require("telescope")
@@ -28,13 +27,7 @@ return {
         base_dirs = { "~/workspace/" },
         sync_with_nvim_tree = true, -- default false
       },
-      extensions = {
-        fzf = {
-          fuzzy = true, -- false will only do exact matching
-          override_generic_sorter = true, -- override the generic sorter
-          override_file_sorter = true, -- override the file sorter
-        },
-      },
+      extensions = {},
     })
   end,
   keys = {

@@ -11,4 +11,8 @@ return {
   { "folke/neoconf.nvim", cmd = "Neoconf" },
   { "folke/neodev.nvim" },
   --{ "tpope/vim-sensible" },
+  {
+    "echasnovski/mini.starter",
+    opts = {},
+  },
 }
