@@ -9,6 +9,7 @@ antigen bundle docker
 antigen bundle yarn
 antigen bundle npm
 antigen bundle brew
+antigen bundle docker-compose
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -16,7 +17,7 @@ antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle popstas/zsh-command-time
 #antigen bundle ntnyq/omz-plugin-pnpm
-antigen bundle baliestri/pnpm.plugin.zsh@main
+#antigen bundle baliestri/pnpm.plugin.zsh@main
 
 # Load the theme.
 antigen theme candy
@@ -26,6 +27,7 @@ source ~/.pathrc
 source ~/.aliasrc
 
 export EDITOR=$(which nano)
+export PROMPT_COMMAND='echo -ne "\033]0;${PWD}\007"'
 
 # Tell Antigen that you're done.
 antigen apply

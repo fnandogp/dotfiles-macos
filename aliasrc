@@ -11,6 +11,7 @@ alias cdd="cd ~/.dotfiles"
 
 alias ws="cd $HOME/workspace"
 alias wsa="cd $HOME/workspace/arkade"
+alias wso="cd $HOME/workspace/omneo"
 
 alias gcz="git cz"
 alias cz="git cz"
@@ -20,6 +21,7 @@ alias art="php artisan"
 alias migrate="php artisan migrate"
 alias pu="phpunit"
 alias puf="phpunit --filter"
+alias dcep="docker-compose exec app php"
 
 
 alias pnr="pnpm run"
