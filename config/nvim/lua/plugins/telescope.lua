@@ -2,11 +2,13 @@ return {
   "nvim-telescope/telescope.nvim",
   branch = "0.1.x",
   dependencies = {
-    { "nvim-lua/plenary.nvim" },
+    "nvim-lua/plenary.nvim",
+    "nvim-telescope/telescope-ui-select.nvim",
   },
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
+    local themes = require("telescope.themes")
     telescope.setup({
       defaults = {
         mappings = {
@@ -27,12 +29,15 @@ return {
         base_dirs = { "~/workspace/" },
         sync_with_nvim_tree = true, -- default false
       },
-      extensions = {},
+      extensions = {
+        ["ui-select"] = { themes.get_dropdown({}) },
+      },
     })
+
+    telescope.load_extension("ui-select")
   end,
   keys = {
     { "<leader>p", "<Cmd>Telescope find_files<CR>", desc = "Find Files" },
-    { "<leader>P", "<Cmd>Telescope oldfiles<CR>", desc = "Recent Files" },
     { "<leader>sw", "<Cmd>Telescope live_grep<CR>", desc = "Search word" },
     { "<leader>sr", "<Cmd>Telescope resume<CR>", desc = "Resume search" },
     { "<leader>sc", "<Cmd>Telescope commands<CR>", desc = "Commands" },
