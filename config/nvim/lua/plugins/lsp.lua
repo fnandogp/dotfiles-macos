@@ -20,13 +20,13 @@ return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-path" },
-      { "onsails/lspkind.nvim" },
-      { "L3MON4D3/LuaSnip" },
-      { "saadparwaiz1/cmp_luasnip" },
-      { "rafamadriz/friendly-snippets" },
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "onsails/lspkind.nvim",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+      "rafamadriz/friendly-snippets",
     },
     config = function()
       local luasnip = require("luasnip")
@@ -97,9 +97,10 @@ return {
     dependencies = {
       { "hrsh7th/cmp-nvim-lsp" },
       { "williamboman/mason-lspconfig.nvim" },
-      { "creativenull/efmls-configs-nvim" },
       { "SmiteshP/nvim-navic" },
       { "lukas-reineke/lsp-format.nvim" },
+      { "mfussenegger/nvim-lint" },
+      { "stevearc/conform.nvim" },
     },
     config = function()
       local lsp = require("lspconfig")
@@ -131,46 +132,16 @@ return {
         bind("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { buffer = bufnr, desc = "Prev diagnostic" })
         bind("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { buffer = bufnr, desc = "Next diagnostic" })
 
-        bind("n", "<Leader>lr", "<cmd>LspRestart<CR>", { buffer = bufnr, desc = "Restart LSP server" })
-
         --navic
         if client.server_capabilities.documentSymbolProvider then
           require("nvim-navic").attach(client, bufnr)
         end
+
+        -- autoformat
+        if client.supports_method("textDocument/formatting") then
+          require("lsp-format").on_attach(client)
+        end
       end)
-
-      -- Linter and Formatters
-      local eslint = require("efmls-configs.linters.eslint")
-      local prettier = require("efmls-configs.formatters.prettier")
-      local luacheck = require("efmls-configs.linters.luacheck")
-      local stylua = require("efmls-configs.formatters.stylua")
-      local jq = require("efmls-configs.linters.jq")
-
-      local languages = {
-        javascrip = { eslint, prettier },
-        javascripreact = { eslint, prettier },
-        typescript = { eslint, prettier },
-        typescriptreact = { eslint, prettier },
-        json = { jq, prettier },
-        lua = { luacheck, stylua },
-      }
-      lsp_zero.configure("efm", {
-        filetypes = vim.tbl_keys(languages),
-        settings = {
-          rootMarkers = { ".git/" },
-          languages = languages,
-        },
-        init_options = {
-          documentFormatting = true,
-          documentRangeFormatting = true,
-        },
-        on_attach = function(client, bufnr)
-          --autoformat
-          if client.supports_method("textDocument/formatting") then
-            require("lsp-format").on_attach(client)
-          end
-        end,
-      })
 
       require("mason-lspconfig").setup({
         ensure_installed = {},
@@ -182,6 +153,45 @@ return {
           end,
         },
       })
+
+      require("lint").linters_by_ft = {
+        markdown = { "vale" },
+        lua = { "luacheck" },
+        javascript = { "eslint" },
+        typescript = { "eslint" },
+        javascriptreact = { "eslint" },
+        typescriptreact = { "eslint" },
+        php = { "php", "phpstan", "phpmd" },
+      }
+
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          javascript = { "prettier", "trim_whitespace", "trim_newlines" },
+          typescript = { "prettier", "trim_whitespace", "trim_newlines" },
+          javascriptreact = { "prettier", "trim_whitespace", "trim_newlines" },
+          typescriptreact = { "prettier", "trim_whitespace", "trim_newlines" },
+          --php = { "php_cs_fixer" },
+          php = { "trim_whitespace", "trim_newlines" },
+          -- Use the "*" filetype to run formatters on all filetypes.
+          ["*"] = { "codespell" },
+          -- Use the "_" filetype to run formatters on filetypes that don't
+          ["_"] = { "trim_whitespace", "trim_newlines" },
+        },
+        formatters = {
+          --php_cs_fixer = {
+          --prepend_args = { "--rules=@PSR12" },
+          --},
+        },
+        format_on_save = {
+          async = true,
+          quiet = true,
+        },
+      })
     end,
+    keys = {
+      { "<Leader>lr", "<cmd>LspRestart<CR>", desc = "Restart LSP server" },
+      { "<Leader>cf", "<cmd>LspZeroFormat<CR>", desc = "Format" },
+    },
   },
 }

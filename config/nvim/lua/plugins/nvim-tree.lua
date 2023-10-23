@@ -1,10 +1,13 @@
 return {
   "nvim-tree/nvim-tree.lua",
   dependencies = {
-    { "nvim-tree/nvim-web-devicons" }
+    { "nvim-tree/nvim-web-devicons" },
   },
-  config = function ()
+  config = function()
     require("nvim-tree").setup({
+      view = {
+        width = 35,
+      },
       reload_on_bufenter = true,
       update_focused_file = { enable = true },
       git = { enable = false },
@@ -16,6 +19,6 @@ return {
     })
   end,
   keys = {
-    { "<leader>e", "<Cmd>NvimTreeToggle<CR>", desc= "Explorer" }
-  }
+    { "<leader>e", "<Cmd>NvimTreeToggle<CR>", desc = "Explorer" },
+  },
 }
