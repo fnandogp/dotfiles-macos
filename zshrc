@@ -1,3 +1,5 @@
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
 source $(brew --prefix)/share/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library.
