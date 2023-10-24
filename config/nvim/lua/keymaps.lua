@@ -35,31 +35,31 @@ vim.keymap.set("n", "<Leader>Q", "<Cmd>qa<CR>", { desc = "Quit all" })
 
 vim.keymap.set("n", "<leader>r", ":edit!<CR>", { desc = "Reload buffer" })
 
-vim.keymap.set({ "i", "t", "c" }, "<A-h>", "<C-o>h", { desc = "Move cursor to right on i/t/c" })
-vim.keymap.set({ "i", "t", "c" }, "<A-j>", "<C-o>j", { desc = "Move cursor to down on i/t/c" })
-vim.keymap.set({ "i", "t", "c" }, "<A-k>", "<C-o>k", { desc = "Move cursor to up on i/t/c" })
-vim.keymap.set({ "i", "t", "c" }, "<A-l>", "<C-o>l", { desc = "Move cursor to right on i/t/c" })
+--vim.keymap.set({ "i", "t", "c" }, "<A-h>", "<C-o>h", { desc = "Move cursor to right on i/t/c" })
+--vim.keymap.set({ "i", "t", "c" }, "<A-j>", "<C-o>j", { desc = "Move cursor to down on i/t/c" })
+--vim.keymap.set({ "i", "t", "c" }, "<A-k>", "<C-o>k", { desc = "Move cursor to up on i/t/c" })
+--vim.keymap.set({ "i", "t", "c" }, "<A-l>", "<C-o>l", { desc = "Move cursor to right on i/t/c" })
 
--- Navigate windows
-vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<C-w>h", { desc = "Navigate to left window" })
-vim.keymap.set({ "n", "i", "t" }, "<C-j>", "<C-w>j", { desc = "Navigate to down window" })
-vim.keymap.set({ "n", "i", "t" }, "<C-k>", "<C-w>k", { desc = "Navigate to up window" })
-vim.keymap.set({ "n", "i", "t" }, "<C-l>", "<C-w>l", { desc = "Navigate to right window" })
--- Move windows
-vim.keymap.set("n", "<C-M-h>", "<C-w>H")
-vim.keymap.set("n", "<C-M-j>", "<C-w>J")
-vim.keymap.set("n", "<C-M_k>", "<C-w>K")
-vim.keymap.set("n", "<C-M-l>", "<C-w>L")
+---- Navigate windows
+--vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<C-w>h", { desc = "Navigate to left window" })
+--vim.keymap.set({ "n", "i", "t" }, "<C-j>", "<C-w>j", { desc = "Navigate to down window" })
+--vim.keymap.set({ "n", "i", "t" }, "<C-k>", "<C-w>k", { desc = "Navigate to up window" })
+--vim.keymap.set({ "n", "i", "t" }, "<C-l>", "<C-w>l", { desc = "Navigate to right window" })
+---- Move windows
+--vim.keymap.set("n", "<C-M-h>", "<C-w>H")
+--vim.keymap.set("n", "<C-M-j>", "<C-w>J")
+--vim.keymap.set("n", "<C-M_k>", "<C-w>K")
+--vim.keymap.set("n", "<C-M-l>", "<C-w>L")
 
--- Navigate terminals
+---- Navigate terminals
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
-vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h")
-vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j")
-vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k")
-vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l")
+--vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h")
+--vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j")
+--vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k")
+--vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l")
 
 -- Resize with arrows
-vim.keymap.set("n", "<C-Up>", "<cmd>resize -2<CR>")
-vim.keymap.set("n", "<C-Down>", "<cmd>resize +2<CR>")
-vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
-vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
+--vim.keymap.set("n", "<C-Up>", "<cmd>resize -2<CR>")
+--vim.keymap.set("n", "<C-Down>", "<cmd>resize +2<CR>")
+--vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
+--vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
