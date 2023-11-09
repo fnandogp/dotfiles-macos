@@ -171,6 +171,8 @@ return {
           typescript = { "prettier", "trim_whitespace", "trim_newlines" },
           javascriptreact = { "prettier", "trim_whitespace", "trim_newlines" },
           typescriptreact = { "prettier", "trim_whitespace", "trim_newlines" },
+          json = { "prettier", "trim_whitespace", "trim_newlines" },
+          jsonc = { "prettier", "trim_whitespace", "trim_newlines" },
           --php = { "php_cs_fixer" },
           php = { "trim_whitespace", "trim_newlines" },
           -- Use the "*" filetype to run formatters on all filetypes.
