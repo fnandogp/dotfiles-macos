@@ -162,6 +162,7 @@ return {
         javascriptreact = { "eslint" },
         typescriptreact = { "eslint" },
         php = { "php", "phpstan", "phpmd" },
+        css = { "stylelint" },
       }
 
       require("conform").setup({
@@ -173,12 +174,11 @@ return {
           typescriptreact = { "prettier", "trim_whitespace", "trim_newlines" },
           json = { "prettier", "trim_whitespace", "trim_newlines" },
           jsonc = { "prettier", "trim_whitespace", "trim_newlines" },
+          css = { "prettier" },
           --php = { "php_cs_fixer" },
           php = { "trim_whitespace", "trim_newlines" },
-          -- Use the "*" filetype to run formatters on all filetypes.
-          ["*"] = { "codespell" },
-          -- Use the "_" filetype to run formatters on filetypes that don't
-          ["_"] = { "trim_whitespace", "trim_newlines" },
+          ["*"] = { "codespell" }, -- Use the "*" filetype to run formatters on all filetypes.
+          ["_"] = { "trim_whitespace", "trim_newlines" }, -- Use the "_" filetype to run formatters on filetypes that don't
         },
         formatters = {
           --php_cs_fixer = {

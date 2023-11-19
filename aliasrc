@@ -7,11 +7,11 @@ alias s="sudo"
 alias vim="vim -u DEFAULTS"
 alias v="nvim"
 alias n="nvim -u ~/.config/nvim/init.lua"
-alias cdd="cd ~/.dotfiles"
 
 alias ws="cd $HOME/workspace"
 alias wsa="cd $HOME/workspace/arkade"
 alias wso="cd $HOME/workspace/omneo"
+alias wsd="cd $HOME/.dotfiles"
 
 alias gcz="git cz"
 alias cz="git cz"
