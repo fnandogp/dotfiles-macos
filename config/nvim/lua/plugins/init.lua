@@ -10,10 +10,7 @@ return {
   },
   { "folke/neoconf.nvim", cmd = "Neoconf" },
   { "folke/neodev.nvim" },
-  {
-    "echasnovski/mini.starter",
-    opts = {},
-  },
+  { "echasnovski/mini.starter", opts = {} },
   {
     "echasnovski/mini.basics",
     opts = {

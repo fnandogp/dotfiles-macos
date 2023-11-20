@@ -1,5 +1,4 @@
 return {
-  { "preservim/nerdcommenter" },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
@@ -9,9 +8,7 @@ return {
         suggestion = {
           enabled = true,
           auto_trigger = true,
-          keymap = {
-            accept = "<M-y>",
-          },
+          keymap = { accept = "<M-y>" },
         },
       })
     end,
@@ -19,4 +16,15 @@ return {
   { "echasnovski/mini.pairs", opts = {} },
   { "echasnovski/mini.surround", opts = {} },
   { "tpope/vim-fugitive" },
+  {
+    {
+      "echasnovski/mini.comment",
+      version = false,
+      opts = {
+        custom_commentstring = function()
+          return require("ts_context_commentstring").calculate_commentstring() or vim.bo.commentstring
+        end,
+      },
+    },
+  },
 }
