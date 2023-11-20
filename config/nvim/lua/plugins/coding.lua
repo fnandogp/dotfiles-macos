@@ -1,4 +1,5 @@
 return {
+  { "preservim/nerdcommenter" },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
@@ -15,16 +16,7 @@ return {
   },
   { "echasnovski/mini.pairs", opts = {} },
   { "echasnovski/mini.surround", opts = {} },
+  { "echasnovski/mini.bufremove", version = false, opts = {} },
+  { "echasnovski/mini.move", version = false, opts = {} },
   { "tpope/vim-fugitive" },
-  {
-    {
-      "echasnovski/mini.comment",
-      version = false,
-      opts = {
-        custom_commentstring = function()
-          return require("ts_context_commentstring").calculate_commentstring() or vim.bo.commentstring
-        end,
-      },
-    },
-  },
 }

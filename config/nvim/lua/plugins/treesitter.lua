@@ -1,12 +1,11 @@
 return {
+  "nvim-treesitter/nvim-treesitter",
   run = ":TSUpdate",
   dependencies = {
     "nvim-treesitter/nvim-treesitter-context",
-    "JoosepAlviste/nvim-ts-context-commentstring",
     "windwp/nvim-ts-autotag",
   },
   config = function()
-    vim.g.skip_ts_context_commentstring_module = true
     require("nvim-treesitter.configs").setup({
       ensure_installed = "all",
       highlight = {
@@ -15,7 +14,13 @@ return {
       },
       autotag = { enable = true },
       context = { enable = true },
+      indent = { enable = true },
+      highlight = { enable = true },
+      incremental_selection = { enable = true },
+      textobjects = { enable = true },
     })
-    require("ts_context_commentstring").setup({ enable_autocmd = false })
+    vim.w.foldexpr = "expr"
+    vim.w.foldmethod = "nvim_treesitter#foldexpr()"
+    vim.w.nofoldenable = true
   end,
 }
