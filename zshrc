@@ -7,7 +7,7 @@ antigen use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle git
-antigen bundle docker
+#antigen bundle docker
 antigen bundle yarn
 antigen bundle npm
 antigen bundle brew
@@ -22,7 +22,7 @@ antigen bundle popstas/zsh-command-time
 #antigen bundle baliestri/pnpm.plugin.zsh@main
 
 # Load the theme.
-antigen theme af-magic
+antigen theme candy
 
 # source custom files
 source ~/.pathrc
