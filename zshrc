@@ -22,7 +22,7 @@ antigen bundle popstas/zsh-command-time
 #antigen bundle baliestri/pnpm.plugin.zsh@main
 
 # Load the theme.
-antigen theme candy
+antigen theme apple
 
 # source custom files
 source ~/.pathrc

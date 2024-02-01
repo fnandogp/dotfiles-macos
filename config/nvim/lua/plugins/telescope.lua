@@ -3,12 +3,12 @@ return {
   branch = "0.1.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope-ui-select.nvim",
+    "smartpde/telescope-recent-files",
+    "keyvchan/telescope-find-pickers.nvim",
   },
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
-    local themes = require("telescope.themes")
     telescope.setup({
       defaults = {
         mappings = {
@@ -25,23 +25,26 @@ return {
           },
         },
       },
-      project = {
-        base_dirs = { "~/workspace/" },
-        sync_with_nvim_tree = true, -- default false
-      },
       extensions = {
-        ["ui-select"] = { themes.get_dropdown({}) },
+        recent_files = {
+          only_cwd = true,
+          show_current_file = false,
+        },
       },
     })
 
-    telescope.load_extension("ui-select")
+    require("telescope").load_extension("recent_files")
+    require("telescope").load_extension("find_pickers")
   end,
   keys = {
-    { "<leader>p", "<Cmd>Telescope find_files<CR>", desc = "Find Files" },
+    { "<leader>p", "<Cmd>Telescope find_files hidden=true<CR>", desc = "Find file" },
+    { "<leader>P", "<Cmd>lua require('telescope').extensions.recent_files.pick()<CR>", desc = "Recent files" },
     { "<leader>sw", "<Cmd>Telescope live_grep<CR>", desc = "Search word" },
     { "<leader>sr", "<Cmd>Telescope resume<CR>", desc = "Resume search" },
     { "<leader>sc", "<Cmd>Telescope commands<CR>", desc = "Commands" },
     { "<leader>sh", "<Cmd>Telescope harpoon marks<CR>", desc = "Harpoon marks" },
+    { "<leader>sh", "<Cmd>Telescope harpoon marks<CR>", desc = "Harpoon marks" },
+    { "<leader>st", "<Cmd>Telescope find_pickers<CR>", desc = "Find Telescope pickers" },
     --LSP
     { "<Leader>gr", "<Cmd>Telescope lsp_references<CR>" },
     { "<Leader>go", "<Cmd>Telescope lsp_document_symbols<CR>" },
