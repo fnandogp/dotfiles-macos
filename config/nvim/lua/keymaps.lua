@@ -30,11 +30,6 @@ vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv")
 -- Format
 vim.keymap.set("n", "<leader>cf", "<cmd>LspZeroFormat<cr>", { desc = "Format" })
 
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
-
 vim.keymap.set("n", "<Leader>w", "<Cmd>w<CR>", { desc = "Write buffer" })
 vim.keymap.set("n", "<Leader>W", "<Cmd>wa<CR>", { desc = "Write all" })
 vim.keymap.set("n", "<Leader>q", "<Cmd>q<CR>", { desc = "Quit buffer" })
@@ -42,21 +37,22 @@ vim.keymap.set("n", "<Leader>Q", "<Cmd>qa<CR>", { desc = "Quit all" })
 
 vim.keymap.set("n", "<leader>R", ":edit!<CR>", { desc = "Reload buffer" })
 
----- Better window navigation
-vim.keymap.set("n", "<M-h>", "<C-w>h", { desc = "Navigate to left window" })
-vim.keymap.set("n", "<M-j>", "<C-w>j", { desc = "Navigate to down window" })
-vim.keymap.set("n", "<M-k>", "<C-w>k", { desc = "Navigate to up window" })
-vim.keymap.set("n", "<M-l>", "<C-w>l", { desc = "Navigate to right window" })
----- Move windows
-vim.keymap.set("n", "<M-S-h>", "<C-w>H")
-vim.keymap.set("n", "<M-S-j>", "<C-w>J")
-vim.keymap.set("n", "<M-S_k>", "<C-w>K")
-vim.keymap.set("n", "<M-S-l>", "<C-w>L")
 -- Terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 
--- Resize with arrows
-vim.keymap.set("n", "<M-Up>", "<cmd>resize -2<CR>")
-vim.keymap.set("n", "<M-Down>", "<cmd>resize +2<CR>")
-vim.keymap.set("n", "<M-Left>", "<cmd>vertical resize -2<CR>")
-vim.keymap.set("n", "<M-Right>", "<cmd>vertical resize +2<CR>")
+---- Better window navigation
+--vim.keymap.set("n", "<M-h>", "<C-w>h", { desc = "Navigate to left window" })
+--vim.keymap.set("n", "<M-j>", "<C-w>j", { desc = "Navigate to down window" })
+--vim.keymap.set("n", "<M-k>", "<C-w>k", { desc = "Navigate to up window" })
+--vim.keymap.set("n", "<M-l>", "<C-w>l", { desc = "Navigate to right window" })
+------ Move windows
+--vim.keymap.set("n", "<M-S-h>", "<C-w>H")
+--vim.keymap.set("n", "<M-S-j>", "<C-w>J")
+--vim.keymap.set("n", "<M-S_k>", "<C-w>K")
+--vim.keymap.set("n", "<M-S-l>", "<C-w>L")
+
+---- Resize with arrows
+--vim.keymap.set("n", "<M-Up>", "<cmd>resize -2<CR>")
+--vim.keymap.set("n", "<M-Down>", "<cmd>resize +2<CR>")
+--vim.keymap.set("n", "<M-Left>", "<cmd>vertical resize -2<CR>")
+--vim.keymap.set("n", "<M-Right>", "<cmd>vertical resize +2<CR>")

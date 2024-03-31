@@ -1,7 +1,4 @@
 -- This file is automatically loaded by plugins.core
-vim.g.mapleader = " " -- Set leader key to space
-vim.g.maplocalleader = "\\" -- Set local leader key to backslash
-
 local opt = vim.opt
 opt.clipboard = "unnamedplus" -- Copy paste between vim and everything else
 opt.scrolloff = 5 -- Lines of context

@@ -13,14 +13,13 @@ return {
       mappings = {
         basic = true,
         option_toggle_prefix = [[\]],
-        windows = false,
+        windows = true,
         move_with_alt = true,
       },
       autocommands = {
         basic = true,
         relnum_in_visual_mode = true,
       },
-      silent = true,
     },
   },
 }

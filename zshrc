@@ -33,3 +33,11 @@ export PROMPT_COMMAND='echo -ne "\033]0;${PWD}\007"'
 
 # Tell Antigen that you're done.
 antigen apply
+
+# pnpm
+export PNPM_HOME="/Users/fnandogp/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

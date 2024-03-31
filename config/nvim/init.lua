@@ -11,7 +11,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = ","
+vim.g.mapleader = "," -- Set leader key to comma
+vim.g.maplocalleader = "\\" -- Set local leader key to backslash
 
 require("lazy").setup("plugins")
 
