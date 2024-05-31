@@ -5,10 +5,11 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
-    --"onsails/lspkind.nvim",
+    "onsails/lspkind.nvim",
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
+    "hrsh7th/cmp-cmdline",
   },
   config = function()
     local luasnip = require("luasnip")
@@ -16,14 +17,7 @@ return {
     luasnip.filetype_extend("typescript", { "javascript" })
     luasnip.filetype_extend("typescriptreact", { "javascript", "typescript" })
 
-    -- Here is where you configure the autocompletion settings.
-    --local lsp_zero = require("lsp-zero")
-    --lsp_zero.extend_cmp()
-    --local cmp_format = lsp_zero.cmp_format({ details = true })
-
-    local cmp = require('cmp')
-    local cmp_action = require('lsp-zero').cmp_action()
-    local cmp_format = require('lsp-zero').cmp_format({ details = true })
+    local cmp = require("cmp")
 
     require("luasnip.loaders.from_vscode").lazy_load()
     cmp.setup({
@@ -31,36 +25,57 @@ return {
         { name = "path" },
         { name = "nvim_lsp" },
         { name = "nvim_lua" },
-        { name = "buffer",  keyword_length = 3 },
+        { name = "buffer", keyword_length = 3 },
         { name = "luasnip", keyword_length = 2 },
       },
-      mapping = cmp.mapping.preset.insert({
-        ["<CR>"] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = false,
-        }),
-        ["<Up>"] = cmp.mapping.select_prev_item(),
-        ["<Down>"] = cmp.mapping.select_next_item(),
-        ["<C-k>"] = cmp.mapping.select_prev_item(),
-        ["<C-j>"] = cmp.mapping.select_next_item(),
-        ["<C-Space>"] = cmp_action.toggle_completion(),
-
-        ["<C-l>"] = cmp_action.luasnip_jump_forward(),
-        ["<C-h>"] = cmp_action.luasnip_jump_backward(),
-        ["<Tab>"] = cmp_action.luasnip_supertab(),
-        ["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
-      }),
+      mapping = {
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
+        ["<C-e>"] = cmp.mapping.abort(),
+        ["<Up>"] = cmp.mapping.select_prev_item({ behavior = "select" }),
+        ["<Down>"] = cmp.mapping.select_next_item({ behavior = "select" }),
+        ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = "select" }),
+        ["<C-j>"] = cmp.mapping.select_next_item({ behavior = "select" }),
+      },
       snippet = {
         expand = function(args)
-          require('luasnip').lsp_expand(args.body)
+          luasnip.lsp_expand(args.body)
         end,
       },
-      --- (Optional) Show source name in completion menu
-      formatting = cmp_format,
+      formatting = {
+        format = require("lspkind").cmp_format({
+          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+          ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          show_labelDetails = true,
+        }),
+      },
       window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
       },
+    })
+
+    -- `/` cmdline setup.
+    cmp.setup.cmdline("/", {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = "buffer" },
+      },
+    })
+
+    -- `:` cmdline setup.
+    cmp.setup.cmdline(":", {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = "path" },
+      }, {
+        {
+          name = "cmdline",
+          option = {
+            ignore_cmds = { "Man", "!" },
+          },
+        },
+      }),
     })
   end,
 }
