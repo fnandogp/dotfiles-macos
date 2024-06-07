@@ -11,6 +11,10 @@ return {
     local actions = require("telescope.actions")
     telescope.setup({
       defaults = vim.tbl_extend("force", require("telescope.themes").get_dropdown(), {
+        file_ignore_patterns = {
+          "node_modules",
+          ".git",
+        },
         mappings = {
           i = {
             ["<esc>"] = actions.close,
@@ -28,6 +32,7 @@ return {
       pickers = {
         find_files = {
           hidden = true,
+          additional_args = { "--hidden", "--ignore" },
         },
         grep_string = {
           additional_args = { "--hidden" },

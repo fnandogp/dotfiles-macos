@@ -30,7 +30,7 @@ return {
       },
       mapping = {
         ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm({ select = false }),
+        ["<CR>"] = cmp.mapping.confirm({ select = false, behavior = cmp.ConfirmBehavior.Replace }),
         ["<C-e>"] = cmp.mapping.abort(),
         ["<Up>"] = cmp.mapping.select_prev_item({ behavior = "select" }),
         ["<Down>"] = cmp.mapping.select_next_item({ behavior = "select" }),
@@ -66,16 +66,7 @@ return {
     -- `:` cmdline setup.
     cmp.setup.cmdline(":", {
       mapping = cmp.mapping.preset.cmdline(),
-      sources = cmp.config.sources({
-        { name = "path" },
-      }, {
-        {
-          name = "cmdline",
-          option = {
-            ignore_cmds = { "Man", "!" },
-          },
-        },
-      }),
+      sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
     })
   end,
 }
