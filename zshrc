@@ -32,7 +32,7 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
-zinit light lukechilds/zsh-nvm
+#zinit light lukechilds/zsh-nvm
 
 # Add in snippets
 zinit snippet OMZP::git
@@ -97,4 +97,7 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end
+
+# mise
+source ~/.miserc 
+export PATH="$(brew --prefix)/mise/shims:$PATH"

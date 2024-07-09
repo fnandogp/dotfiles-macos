@@ -3,7 +3,7 @@ return {
   run = ":TSUpdate",
   dependencies = {
     "nvim-treesitter/nvim-treesitter-context",
-    "windwp/nvim-ts-autotag",
+    { "windwp/nvim-ts-autotag", opts = {} },
   },
   config = function()
     require("nvim-treesitter.configs").setup({
@@ -12,7 +12,6 @@ return {
         enable = true,
         additional_vim_regex_highlighting = false,
       },
-      autotag = { enable = true },
       context = { enable = true },
       indent = { enable = true },
       --incremental_selection = { enable = true },
