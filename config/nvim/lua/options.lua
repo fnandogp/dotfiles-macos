@@ -49,5 +49,8 @@ opt.list = true -- Show some invisible characters (tabs...
 --opt.splitkeep = "screen"
 --opt.shortmess:append({ C = true })
 
+opt.pumblend = 0 -- disable transparency for completion popup
+opt.winblend = 0 -- disable transparency for documentation popup
+
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
