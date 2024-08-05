@@ -8,8 +8,7 @@ alias vim="vim -u DEFAULTS"
 alias n="nvim"
 
 alias ws="cd $HOME/workspace"
-alias wsa="cd $HOME/workspace/arkade"
-alias wso="cd $HOME/workspace/omneo"
+alias wsc="cd $HOME/workspace/convincely"
 alias wsd="cd $HOME/.dotfiles"
 
 # Shell integrations
