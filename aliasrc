@@ -22,5 +22,9 @@ alias pu="phpunit"
 alias puf="phpunit --filter"
 alias dcep="docker-compose exec app php"
 
-
-alias pnr="pnpm run"
+alias yarn="corepack yarn"
+alias yarnpkg="corepack yarnpkg"
+alias pnpm="corepack pnpm"
+alias pnpx="corepack pnpx"
+alias npm="corepack npm"
+alias npx="corepack npx" 
