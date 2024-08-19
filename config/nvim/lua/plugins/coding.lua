@@ -4,6 +4,7 @@ return {
   { "echasnovski/mini.surround", opts = {} },
   { "echasnovski/mini.bufremove", version = false, opts = {} },
   { "echasnovski/mini.move", version = false, opts = {} },
+  { "echasnovski/mini.ai", version = false, opts = {} },
   { "tpope/vim-fugitive" },
   --{
   --"zbirenbaum/copilot.lua",

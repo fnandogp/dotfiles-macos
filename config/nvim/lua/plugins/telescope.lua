@@ -6,12 +6,15 @@ return {
     "nvim-lua/plenary.nvim",
     "smartpde/telescope-recent-files",
     "keyvchan/telescope-find-pickers.nvim",
+    "nvim-telescope/telescope-ui-select.nvim",
   },
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
     telescope.setup({
-      defaults = vim.tbl_extend("force", require("telescope.themes").get_dropdown(), {
+      defaults = {
+        layout_strategy = "vertical",
+        layout_config = { height = 0.75 },
         file_ignore_patterns = {
           "node_modules",
           ".git",
@@ -29,31 +32,31 @@ return {
             ["<C-k>"] = actions.move_selection_previous,
           },
         },
-      }),
-      pickers = {
-        find_files = {
-          hidden = true,
-          additional_args = { "--hidden", "--ignore" },
+        pickers = {
+          find_files = {
+            hidden = true,
+            additional_args = { "--hidden", "--ignore" },
+          },
+          grep_string = {
+            additional_args = { "--hidden" },
+          },
+          live_grep = {
+            additional_args = { "--hidden" },
+          },
+          current_buffer_fuzzy_find = {
+            previewer = false,
+          },
+          recent_files = {
+            previewer = false,
+          },
         },
-        grep_string = {
-          additional_args = { "--hidden" },
-        },
-        live_grep = {
-          additional_args = { "--hidden" },
-        },
-        current_buffer_fuzzy_find = {
-          previewer = false,
-        },
-        recent_files = {
-          previewer = false,
-        },
-      },
-      extensions = {
-        recent_files = {
-          only_cwd = true,
-          show_current_file = false,
-          theme = "dropdown",
-          previewer = false,
+        extensions = {
+          recent_files = {
+            only_cwd = true,
+            show_current_file = false,
+            theme = "dropdown",
+            previewer = false,
+          },
         },
       },
     })
