@@ -29,13 +29,54 @@ return {
         { name = "luasnip", keyword_length = 2 },
       },
       mapping = {
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm({ select = false, behavior = cmp.ConfirmBehavior.Replace }),
+        ["<C-Space>"] = cmp.mapping.confirm({ select = false }),
         ["<C-e>"] = cmp.mapping.abort(),
         ["<Up>"] = cmp.mapping.select_prev_item({ behavior = "select" }),
         ["<Down>"] = cmp.mapping.select_next_item({ behavior = "select" }),
-        ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = "select" }),
-        ["<C-j>"] = cmp.mapping.select_next_item({ behavior = "select" }),
+        ["<C-k>"] = cmp.mapping(function()
+          if cmp.visible() then
+            cmp.select_prev_item({ behavior = "select" })
+          else
+            cmp.complete()
+          end
+        end, { "i", "c" }),
+        ["<C-j>"] = cmp.mapping(function()
+          if cmp.visible() then
+            cmp.select_next_item({ behavior = "select" })
+          else
+            cmp.complete()
+          end
+        end, { "i", "c" }),
+        ["<CR>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            if luasnip.expandable() then
+              luasnip.expand()
+            else
+              cmp.confirm({ select = true })
+            end
+          else
+            fallback()
+          end
+        end),
+        ["<Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          elseif luasnip.locally_jumpable(1) then
+            luasnip.jump(1)
+          else
+            fallback()
+          end
+        end, { "i", "s", "c" }),
+
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.locally_jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { "i", "s", "c" }),
       },
       snippet = {
         expand = function(args)
@@ -44,8 +85,8 @@ return {
       },
       formatting = {
         format = require("lspkind").cmp_format({
-          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-          ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          maxwidth = 50, -- prevent the popup from showing more than provided characters
+          ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
           show_labelDetails = true,
         }),
       },

@@ -12,7 +12,10 @@ return {
   { "natecraddock/workspaces.nvim", opts = {} },
   {
     "hedyhli/outline.nvim",
-    opts = {},
+    opts = {
+      symbols = { icon_source = "lspkind" },
+      symbol_folding = { auto_unfold = { only = 2 } },
+    },
     keys = {
       { "<leader>o", "<cmd>Outline<CR>", desc = "Toggle Outline", mode = "n" },
     },
