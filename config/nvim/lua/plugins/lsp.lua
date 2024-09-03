@@ -5,7 +5,6 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    { "lukas-reineke/lsp-format.nvim", opts = {} },
     "SmiteshP/nvim-navic",
   },
   config = function()
@@ -31,10 +30,6 @@ return {
         vim.keymap.set("n", "gL", "<cmd>lua vim.diagnostic.setqflist()<cr>", { buffer = bufnr, desc = "List diagnostics" })
         vim.keymap.set("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { buffer = bufnr, desc = "Prev diagnostic" })
         vim.keymap.set("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { buffer = bufnr, desc = "Next diagnostic" })
-
-        if client.supports_method("textDocument/formatting") then
-          require("lsp-format").on_attach(client)
-        end
 
         --navic
         if client.server_capabilities.documentSymbolProvider then

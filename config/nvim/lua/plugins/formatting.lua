@@ -1,3 +1,7 @@
+local function is_formatting_enabled()
+  return not vim.g.disable_autoformat and not vim.b.disable_autoformat
+end
+
 return {
   "stevearc/conform.nvim",
   event = { "BufReadPre", "BufNewFile" },
@@ -26,7 +30,7 @@ return {
       },
       format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable
-        print("Is formatting enabled?", not vim.g.disable_autoformat and not vim.b[bufnr].disable_autoformat)
+        print("Is formatting enabled? " .. tostring(is_formatting_enabled()))
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
           return
         end
@@ -37,20 +41,21 @@ return {
     vim.api.nvim_create_user_command("FormatDisable", function(args)
       if args.bang then
         -- FormatDisable! will disable formatting just for this buffer
-        print("Disabling buffer formatting...", vim.b.disable_autoformat)
+        print("Disabling buffer formatting... (current value:" .. tostring(vim.b.disable_autoformat) .. ")")
         vim.b.disable_autoformat = true
-        print("buffer formatting disabled:", vim.b.disable_autoformat)
+        print("Buffer formatting disabled:", vim.b.disable_autoformat)
       else
-        print("Disabling global formatting...", vim.b.disable_autoformat)
+        print("Disabling global formatting... (current value:" .. tostring(vim.b.disable_autoformat) .. ")")
         vim.g.disable_autoformat = true
-        print("Disabling global formatting:", vim.g.disable_autoformat)
+        print("Global formatting disabled: ", vim.g.disable_autoformat)
       end
     end, { desc = "Disable autoformat-on-save", bang = true })
 
     vim.api.nvim_create_user_command("FormatEnable", function()
+      print("Enabling formatting... (current value: " .. tostring(is_formatting_enabled()) .. ")")
       vim.b.disable_autoformat = false
       vim.g.disable_autoformat = false
-      print("Enabling formatting:", vim.b.disable_autoformat and vim.g.disable_autoformat)
+      print("Formatting enabled: " .. tostring(is_formatting_enabled()))
     end, { desc = "Re-enable autoformat-on-save" })
 
     vim.keymap.set({ "n", "v" }, "<leader>cf", function()
