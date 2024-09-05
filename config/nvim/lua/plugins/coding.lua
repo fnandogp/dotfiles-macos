@@ -1,6 +1,6 @@
 return {
   { "preservim/nerdcommenter" },
-  { "echasnovski/mini.pairs", opts = {} },
+  --{ "echasnovski/mini.pairs", opts = {} },
   { "echasnovski/mini.surround", opts = {} },
   { "echasnovski/mini.bufremove", version = false, opts = {} },
   { "echasnovski/mini.move", version = false, opts = {} },

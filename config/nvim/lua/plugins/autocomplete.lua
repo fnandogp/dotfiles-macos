@@ -29,10 +29,10 @@ return {
         { name = "luasnip", keyword_length = 2 },
       },
       mapping = {
-        ["<C-Space>"] = cmp.mapping.confirm({ select = false }),
+        ["<C-Space>"] = cmp.mapping.confirm(),
         ["<C-e>"] = cmp.mapping.abort(),
-        ["<Up>"] = cmp.mapping.select_prev_item({ behavior = "select" }),
-        ["<Down>"] = cmp.mapping.select_next_item({ behavior = "select" }),
+        ["<Up>"] = cmp.mapping.select_prev_item({ behavior = "select" }, { "i", "c" }),
+        ["<Down>"] = cmp.mapping.select_next_item({ behavior = "select" }, { "i", "c" }),
         ["<C-k>"] = cmp.mapping(function()
           if cmp.visible() then
             cmp.select_prev_item({ behavior = "select" })
@@ -47,17 +47,6 @@ return {
             cmp.complete()
           end
         end, { "i", "c" }),
-        ["<CR>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            if luasnip.expandable() then
-              luasnip.expand()
-            else
-              cmp.confirm({ select = true })
-            end
-          else
-            fallback()
-          end
-        end),
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
@@ -77,6 +66,18 @@ return {
             fallback()
           end
         end, { "i", "s", "c" }),
+
+        ["<CR>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            if luasnip.expandable() then
+              luasnip.expand()
+            else
+              cmp.confirm({ select = true })
+            end
+          else
+            fallback()
+          end
+        end),
       },
       snippet = {
         expand = function(args)
