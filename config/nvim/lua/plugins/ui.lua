@@ -1,8 +1,8 @@
 return {
+  { "echasnovski/mini.icons", version = false, opts = {} },
   { "stevearc/dressing.nvim", opts = {} },
   { "echasnovski/mini.statusline", opts = {} },
   { "andymass/vim-matchup", event = "VimEnter" },
-  { "norcalli/nvim-colorizer.lua", opts = {} },
   { "echasnovski/mini.cursorword", opts = {} },
   {
     "echasnovski/mini.clue",

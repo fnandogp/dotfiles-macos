@@ -39,20 +39,8 @@ vim.keymap.set("n", "<leader>R", ":edit!<CR>", { desc = "Reload buffer" })
 
 -- Terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
-
----- Better window navigation
---vim.keymap.set("n", "<M-h>", "<C-w>h", { desc = "Navigate to left window" })
---vim.keymap.set("n", "<M-j>", "<C-w>j", { desc = "Navigate to down window" })
---vim.keymap.set("n", "<M-k>", "<C-w>k", { desc = "Navigate to up window" })
---vim.keymap.set("n", "<M-l>", "<C-w>l", { desc = "Navigate to right window" })
 ------ Move windows
---vim.keymap.set("n", "<M-S-h>", "<C-w>H")
---vim.keymap.set("n", "<M-S-j>", "<C-w>J")
---vim.keymap.set("n", "<M-S_k>", "<C-w>K")
---vim.keymap.set("n", "<M-S-l>", "<C-w>L")
-
----- Resize with arrows
---vim.keymap.set("n", "<M-Up>", "<cmd>resize -2<CR>")
---vim.keymap.set("n", "<M-Down>", "<cmd>resize +2<CR>")
---vim.keymap.set("n", "<M-Left>", "<cmd>vertical resize -2<CR>")
---vim.keymap.set("n", "<M-Right>", "<cmd>vertical resize +2<CR>")
+vim.keymap.set("n", "<C-M-h>", "<C-w>H", { desc = "Move window to left" })
+vim.keymap.set("n", "<C-M-j>", "<C-w>J", { desc = "Move window to bottom" })
+vim.keymap.set("n", "<C-M-k>", "<C-w>K", { desc = "Move window to top" })
+vim.keymap.set("n", "<C-M-l>", "<C-w>L", { desc = "Move window to right" })

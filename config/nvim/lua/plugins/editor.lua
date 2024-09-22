@@ -9,7 +9,6 @@ return {
       { "<leader>ss", "<cmd>GrugFar<CR>", desc = "Open GrugFar", mode = "n" },
     },
   },
-  { "natecraddock/workspaces.nvim", opts = {} },
   {
     "hedyhli/outline.nvim",
     opts = {

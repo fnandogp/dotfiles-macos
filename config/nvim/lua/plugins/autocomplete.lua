@@ -1,11 +1,9 @@
 return {
   "hrsh7th/nvim-cmp",
-  event = "InsertEnter",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
-    "onsails/lspkind.nvim",
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
@@ -29,20 +27,20 @@ return {
         { name = "luasnip", keyword_length = 2 },
       },
       mapping = {
-        ["<C-Space>"] = cmp.mapping.confirm(),
+        ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
         ["<Up>"] = cmp.mapping.select_prev_item({ behavior = "select" }, { "i", "c" }),
         ["<Down>"] = cmp.mapping.select_next_item({ behavior = "select" }, { "i", "c" }),
         ["<C-k>"] = cmp.mapping(function()
           if cmp.visible() then
-            cmp.select_prev_item({ behavior = "select" })
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior })
           else
             cmp.complete()
           end
         end, { "i", "c" }),
         ["<C-j>"] = cmp.mapping(function()
           if cmp.visible() then
-            cmp.select_next_item({ behavior = "select" })
+            cmp.select_next_item({ behavior = cmp.SelectBehavior })
           else
             cmp.complete()
           end
@@ -69,11 +67,7 @@ return {
 
         ["<CR>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            if luasnip.expandable() then
-              luasnip.expand()
-            else
-              cmp.confirm({ select = true })
-            end
+            cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
           else
             fallback()
           end
@@ -85,11 +79,12 @@ return {
         end,
       },
       formatting = {
-        format = require("lspkind").cmp_format({
-          maxwidth = 50, -- prevent the popup from showing more than provided characters
-          ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
-          show_labelDetails = true,
-        }),
+        format = function(_, vim_item)
+          local icon, hl = require("mini.icons").get("lsp", vim_item.kind)
+          vim_item.kind = icon .. " " .. vim_item.kind
+          vim_item.kind_hl_group = hl
+          return vim_item
+        end,
       },
       window = {
         completion = cmp.config.window.bordered(),
