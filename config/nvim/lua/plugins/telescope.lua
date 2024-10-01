@@ -62,7 +62,6 @@ return {
     })
     telescope.load_extension("recent_files")
     telescope.load_extension("find_pickers")
-    telescope.load_extension("workspaces")
   end,
   keys = {
     { "<leader>p", "<Cmd>Telescope find_files hidden=true<CR>", desc = "Find file" },
@@ -73,13 +72,5 @@ return {
     { "<leader>sc", "<Cmd>Telescope commands<CR>", desc = "Commands" },
     { "<leader>sh", "<Cmd>Telescope harpoon marks<CR>", desc = "Harpoon marks" },
     { "<leader>st", "<Cmd>Telescope find_pickers<CR>", desc = "Find Telescope pickers" },
-    { "<leader>sW", "<Cmd>Telescope workspaces<CR>", desc = "Find workspaces" },
-    --LSP
-    { "<Leader>gr", "<Cmd>Telescope lsp_references<CR>" },
-    { "<Leader>go", "<Cmd>Telescope lsp_document_symbols<CR>" },
-    { "<Leader>gO", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>" },
-    { "<Leader>gd", "<Cmd>Telescope lsp_definitions<CR>" },
-    { "<Leader>gi", "<Cmd>Telescope lsp_implementations<CR>" },
-    { "<Leader>gt", "<Cmd>Telescope lsp_type_definitions<CR>" },
   },
 }
