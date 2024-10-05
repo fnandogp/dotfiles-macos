@@ -12,8 +12,3 @@ export PATH="./vendor/bin:$PATH"
 export PATH="./bin:$PATH"
 
 export PATH="/usr/local/sbin:$PATH"
-
-
-# mise
-source ~/.miserc 
-export PATH="$(brew --prefix)/mise/shims:$PATH"
