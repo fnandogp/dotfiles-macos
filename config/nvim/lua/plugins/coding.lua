@@ -6,19 +6,17 @@ return {
   { "echasnovski/mini.move", version = false, opts = {} },
   { "echasnovski/mini.ai", version = false, opts = {} },
   { "tpope/vim-fugitive" },
+  { "sindrets/diffview.nvim", opts = {} },
   {
     "NeogitOrg/neogit",
     dependencies = {
       "nvim-lua/plenary.nvim", -- required
-      { "sindrets/diffview.nvim", opts = {} }, -- optional - Diff integration
+      { "sindrets/diffview.nvim" }, -- optional - Diff integration
       -- Only one of these is needed.
       "nvim-telescope/telescope.nvim", -- optional
     },
     opts = {
       kind = "auto",
-      telescope_sorter = function()
-        return require("telescope").extensions.fzf.native_fzf_sorter()
-      end,
       signs = {
         --{ CLOSED, OPENED }
         hunk = { "", "" },
