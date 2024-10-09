@@ -33,6 +33,7 @@ return {
       { "<leader>G", ":Neogit<CR>", desc = "Open Neogit", mode = "n" },
     },
   },
+  { "lewis6991/gitsigns.nvim", opts = {} },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",

@@ -11,6 +11,7 @@ return {
   },
   {
     "hedyhli/outline.nvim",
+    cmd = { "Outline", "OutlineOpen" },
     opts = {
       symbols = { icon_source = "lspkind" },
       symbol_folding = { auto_unfold = { only = 2 } },
