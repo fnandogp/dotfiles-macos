@@ -10,10 +10,9 @@ return {
   {
     "NeogitOrg/neogit",
     dependencies = {
-      "nvim-lua/plenary.nvim", -- required
-      { "sindrets/diffview.nvim" }, -- optional - Diff integration
-      -- Only one of these is needed.
-      "nvim-telescope/telescope.nvim", -- optional
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "echasnovski/mini.pick",
     },
     opts = {
       kind = "auto",
@@ -24,13 +23,13 @@ return {
         section = { "▸", "▾" },
       },
       integrations = {
-        -- If enabled, use telescope for menu selection rather than vim.ui.select.
-        -- Allows multi-select and some things that vim.ui.select doesn't.
-        telescope = true,
+        telescope = false,
+        diffview = true,
+        mini_pick = true,
       },
     },
     keys = {
-      { "<leader>G", ":Neogit<CR>", desc = "Open Neogit", mode = "n" },
+      { "<leader>G", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
     },
   },
   { "lewis6991/gitsigns.nvim", opts = {} },
