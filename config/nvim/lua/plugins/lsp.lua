@@ -28,11 +28,6 @@ return {
         local bufnr = args.buf
         local client = vim.lsp.get_client_by_id(args.data.client_id)
         vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { buffer = bufnr, desc = "Displays hover information." })
-        vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", { buffer = bufnr, desc = "Jumps to the definition." })
-        vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<cr>", { buffer = bufnr, desc = "Lists implementations." })
-        vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = bufnr, desc = "Lists references." })
-        vim.keymap.set("n", "go", "<cmd>Telescope lsp_document_symbols<cr>", { buffer = bufnr, desc = "Jumps to the definition." })
-        vim.keymap.set("n", "gO", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", { buffer = bufnr, desc = "Lists references." })
 
         vim.keymap.set("n", "gn", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = bufnr, desc = "Rename" })
         vim.keymap.set("n", "gx", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code Action" })
