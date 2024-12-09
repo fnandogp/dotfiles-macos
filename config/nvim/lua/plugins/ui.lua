@@ -1,13 +1,6 @@
 return {
-  {
-    "echasnovski/mini.icons",
-    version = "*",
-    lazy = true,
-    opts = function()
-      require("mini.icons").mock_nvim_web_devicons()
-      return {}
-    end,
-  },
+  { "nvim-tree/nvim-web-devicons", opts = {} },
+  { "echasnovski/mini.icons", version = false, opts = {} },
   { "stevearc/dressing.nvim", opts = {} },
   { "echasnovski/mini.statusline", opts = {} },
   { "andymass/vim-matchup", event = "VimEnter" },

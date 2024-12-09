@@ -1,4 +1,10 @@
 return {
+  { "echasnovski/mini.hipatterns", version = false, opts = {} },
+  {
+    "echasnovski/mini.animate",
+    version = false,
+    opts = { scroll = { enable = false } },
+  },
   {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",

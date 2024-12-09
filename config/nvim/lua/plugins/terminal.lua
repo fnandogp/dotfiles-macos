@@ -20,6 +20,7 @@ return {
       { "<leader>t", "<cmd>1ToggleTerm size=70 direction=vertical<CR>", desc = "Side Terminal (1)" },
       { "<leader>T", "<cmd>2ToggleTerm direction=float<CR>", desc = "Floating Terminal (2)" },
       { "<leader>t", "<cmd>ToggleTerm<CR>", desc = "Close terminals", mode = { "t" } },
+      { "q", "<cmd>ToggleTerm close<CR>", desc = "Close Terminal", mode = { "n" }, ft = "toggleterm" },
     },
   },
 }

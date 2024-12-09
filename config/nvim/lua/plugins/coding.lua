@@ -5,6 +5,8 @@ return {
   { "echasnovski/mini.bufremove", version = false, opts = {} },
   { "echasnovski/mini.move", version = false, opts = {} },
   { "echasnovski/mini.ai", version = false, opts = {} },
+  { "echasnovski/mini.jump", version = "*", opts = {} },
+  { "echasnovski/mini.jump2d", version = "*", opts = {} },
   { "tpope/vim-fugitive" },
   { "sindrets/diffview.nvim", opts = {} },
   {
@@ -34,4 +36,5 @@ return {
     },
   },
   { "lewis6991/gitsigns.nvim", opts = {} },
+  { "echasnovski/mini.diff", version = false, opts = {} },
 }

@@ -8,10 +8,7 @@ return {
   config = function()
     require("nvim-treesitter.configs").setup({
       ensure_installed = "all",
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
+      highlight = { enable = true, additional_vim_regex_highlighting = false },
       context = { enable = true },
       indent = { enable = true },
       textobjects = { enable = true },
