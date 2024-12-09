@@ -1,4 +1,10 @@
 return {
+  { "echasnovski/mini.hipatterns", version = false, opts = {} },
+  {
+    "echasnovski/mini.animate",
+    version = false,
+    opts = { scroll = { enable = false } },
+  },
   {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",
@@ -6,7 +12,7 @@ return {
       require("grug-far").setup({})
     end,
     keys = {
-      { "<leader>ss", "<cmd>GrugFar<CR>", desc = "Open GrugFar", mode = "n" },
+      { "<leader>s", "<cmd>GrugFar<CR>", desc = "Open GrugFar", mode = "n" },
     },
   },
   {

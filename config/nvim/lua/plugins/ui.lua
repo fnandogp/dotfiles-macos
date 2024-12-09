@@ -1,4 +1,5 @@
 return {
+  { "nvim-tree/nvim-web-devicons", opts = {} },
   { "echasnovski/mini.icons", version = false, opts = {} },
   { "stevearc/dressing.nvim", opts = {} },
   { "echasnovski/mini.statusline", opts = {} },

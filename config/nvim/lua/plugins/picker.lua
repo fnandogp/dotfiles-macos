@@ -17,6 +17,7 @@ return {
   end,
   keys = {
     { "<leader>p", "<cmd>Pick files<CR>", desc = "Files picker" },
+    { "<leader>P", "<cmd>Pick visit_paths<CR>", desc = "Visited paths" },
     -- LSP
     { "gd", "<cmd>Pick lsp scope='definition'<CR>", desc = "Go to definition" },
     { "gD", "<cmd>Pick lsp scope='declaration'<CR>", desc = "Go to declaration" },
