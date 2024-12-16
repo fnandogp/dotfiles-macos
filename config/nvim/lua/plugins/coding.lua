@@ -37,4 +37,23 @@ return {
   },
   { "lewis6991/gitsigns.nvim", opts = {} },
   { "echasnovski/mini.diff", version = false, opts = {} },
+  {
+    "Exafunction/codeium.nvim",
+    cmd = "Codeium",
+    event = "InsertEnter",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("codeium").setup({
+        enable_cmp_source = false,
+        virtual_text = {
+          enabled = true,
+          manual = true,
+          key_bindings = {
+            -- Accept the current completion.
+            accept = "<A-y>",
+          },
+        },
+      })
+    end,
+  },
 }
