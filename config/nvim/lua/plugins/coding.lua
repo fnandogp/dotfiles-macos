@@ -44,15 +44,20 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("codeium").setup({
-        enable_cmp_source = false,
+        enable_cmp_source = true,
         virtual_text = {
           enabled = true,
-          manual = true,
+          manual = false,
           key_bindings = {
             -- Accept the current completion.
             accept = "<A-y>",
+            -- Dismiss the current completion.
+            dismiss = "<A-n>",
+            -- Trigger completion manually.
+            trigger = "<A-space>",
           },
         },
+        -- Additional configuration options can be added here
       })
     end,
   },
