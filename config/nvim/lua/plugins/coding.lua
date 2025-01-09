@@ -29,22 +29,9 @@ return {
       },
     },
     keys = {
+      { "<leader>g", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
       { "<leader>G", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
     },
   },
   { "lewis6991/gitsigns.nvim", opts = {} },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          keymap = { accept = "<M-y>" },
-        },
-      })
-    end,
-  },
 }

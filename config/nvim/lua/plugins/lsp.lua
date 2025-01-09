@@ -54,28 +54,16 @@ return {
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
 
-    --local default_setup = function(server_name)
-    --lsp_capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-    --lspconfig[server_name].setup({
-    --capabilities = lsp_capabilities,
-    --on_init = function(client)
-    ---- disable formatting capabilities
-    --client.server_capabilities.documentFormattingProvider = false
-    --client.server_capabilities.documentFormattingRangeProvider = false
-    --end,
-    --})
-    --end
-
     require("mason").setup()
     require("mason-lspconfig").setup()
 
-    require("mason-lspconfig").setup_handlers({
-      function(server_name)
-        local config = opts[server_name] or {}
-        config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-        lspconfig[server_name].setup(config)
-      end,
-    })
+    --require("mason-lspconfig").setup_handlers({
+    --function(server_name)
+    --local config = opts[server_name] or {}
+    --config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+    --lspconfig[server_name].setup(config)
+    --end,
+    --})
   end,
   keys = {
     { "<Leader>ls", "<cmd>LspStart<CR>", desc = "Start LSP server" },
