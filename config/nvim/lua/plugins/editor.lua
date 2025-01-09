@@ -13,6 +13,7 @@ return {
     end,
     keys = {
       { "<leader>s", "<cmd>GrugFar<CR>", desc = "Open GrugFar", mode = "n" },
+      { "q", "<cmd>q<CR>", desc = "Close GrugFar", mode = "n", ft = "grug-far" },
     },
   },
   {
