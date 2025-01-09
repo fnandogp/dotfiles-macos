@@ -30,7 +30,7 @@ return {
       },
       format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable
-        print("Is formatting enabled? " .. tostring(is_formatting_enabled()))
+        print("Formatting enabled: " .. tostring(is_formatting_enabled()))
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
           return
         end

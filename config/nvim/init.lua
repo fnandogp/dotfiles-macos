@@ -18,3 +18,4 @@ require("lazy").setup("plugins")
 
 require("options")
 require("keymaps")
+require("ft")

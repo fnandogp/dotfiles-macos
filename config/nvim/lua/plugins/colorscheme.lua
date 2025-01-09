@@ -19,11 +19,21 @@ return {
           }
         end,
         integrations = {
-          telescope = true,
+          blink_cmp = true,
+          neogit = true,
+          grug_far = true,
+          mason = true,
           notify = true,
-          mini = true,
           noice = true,
           lsp_trouble = true,
+          mini = {
+            enabled = true,
+            indentscope_color = "",
+          },
+          navic = {
+            enabled = true,
+            custom_bg = "NONE", -- "lualine" will set background to mantle
+          },
         },
       })
       vim.cmd([[colorscheme catppuccin-latte]])

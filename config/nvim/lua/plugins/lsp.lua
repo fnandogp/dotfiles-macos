@@ -6,8 +6,20 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "SmiteshP/nvim-navic",
+    "saghen/blink.cmp",
   },
-  config = function()
+  opts = {
+    lua_ls = {
+      settings = {
+        Lua = {
+          runtime = { version = "LuaJIT" },
+          diagnostics = { globals = { "vim" } },
+          workspace = { library = { vim.env.VIMRUNTIME } },
+        },
+      },
+    },
+  },
+  config = function(_, opts)
     local lspconfig = require("lspconfig")
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -42,37 +54,27 @@ return {
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
 
-    local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+    --local default_setup = function(server_name)
+    --lsp_capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+    --lspconfig[server_name].setup({
+    --capabilities = lsp_capabilities,
+    --on_init = function(client)
+    ---- disable formatting capabilities
+    --client.server_capabilities.documentFormattingProvider = false
+    --client.server_capabilities.documentFormattingRangeProvider = false
+    --end,
+    --})
+    --end
 
-    local default_setup = function(server_name)
-      lspconfig[server_name].setup({
-        capabilities = lsp_capabilities,
-        on_init = function(client)
-          -- disable formatting capabilities
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentFormattingRangeProvider = false
-        end,
-      })
-    end
+    require("mason").setup()
+    require("mason-lspconfig").setup()
 
-    require("mason").setup({})
-    require("mason-lspconfig").setup({
-      ensure_installed = {},
-      handlers = {
-        default_setup,
-        lua_ls = function()
-          lspconfig.lua_ls.setup({
-            capabilities = lsp_capabilities,
-            settings = {
-              Lua = {
-                runtime = { version = "LuaJIT" },
-                diagnostics = { globals = { "vim" } },
-                workspace = { library = { vim.env.VIMRUNTIME } },
-              },
-            },
-          })
-        end,
-      },
+    require("mason-lspconfig").setup_handlers({
+      function(server_name)
+        local config = opts[server_name] or {}
+        config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+        lspconfig[server_name].setup(config)
+      end,
     })
   end,
   keys = {

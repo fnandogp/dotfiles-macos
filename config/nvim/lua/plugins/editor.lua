@@ -6,7 +6,7 @@ return {
       require("grug-far").setup({})
     end,
     keys = {
-      { "<leader>ss", "<cmd>GrugFar<CR>", desc = "Open GrugFar", mode = "n" },
+      { "<leader>s", "<cmd>GrugFar<CR>", desc = "Open GrugFar", mode = "n" },
     },
   },
   {

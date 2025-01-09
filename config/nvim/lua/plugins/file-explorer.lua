@@ -81,16 +81,3 @@ return {
     vim.keymap.set("n", "<leader>e", minifiles_toggle, { silent = true, desc = "File Explorer" })
   end,
 }
---return {
-
---"stevearc/oil.nvim",
---dependencies = { "nvim-tree/nvim-web-devicons" },
---opts = {
---view_options = {
---show_hidden = true,
---},
---},
---keys = {
---{ "<leader>e", "<Cmd>Oil<CR>", desc = "Explorer" },
---},
---}
