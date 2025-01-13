@@ -52,13 +52,13 @@ return {
     require("mason").setup()
     require("mason-lspconfig").setup()
 
-    --require("mason-lspconfig").setup_handlers({
-    --function(server_name)
-    --local config = opts[server_name] or {}
-    --config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-    --lspconfig[server_name].setup(config)
-    --end,
-    --})
+    require("mason-lspconfig").setup_handlers({
+      function(server_name)
+        local config = opts[server_name] or {}
+        config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+        lspconfig[server_name].setup(config)
+      end,
+    })
   end,
   keys = {
     { "<Leader>ls", "<cmd>LspStart<CR>", desc = "Start LSP server" },

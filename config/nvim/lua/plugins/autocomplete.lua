@@ -2,7 +2,6 @@ return {
   "saghen/blink.cmp",
   dependencies = { "rafamadriz/friendly-snippets" },
   version = "*",
-  build = "cargo build --release",
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
@@ -56,6 +55,9 @@ return {
 
     completion = {
       menu = {
+        auto_show = function(ctx)
+          return ctx.mode ~= "cmdline"
+        end,
         draw = {
           components = {
             kind_icon = {
@@ -80,6 +82,8 @@ return {
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
     },
+
+    fuzzy = { prebuilt_binaries = { download = true } },
   },
   opts_extend = { "sources.default" },
 }

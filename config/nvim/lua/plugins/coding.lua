@@ -32,33 +32,28 @@ return {
     },
     keys = {
       { "<leader>g", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
-      { "<leader>G", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
     },
   },
-  { "lewis6991/gitsigns.nvim", opts = {} },
   { "echasnovski/mini.diff", version = false, opts = {} },
   {
     "Exafunction/codeium.nvim",
     cmd = "Codeium",
     event = "InsertEnter",
     dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("codeium").setup({
-        enable_cmp_source = true,
-        virtual_text = {
-          enabled = true,
-          manual = false,
-          key_bindings = {
-            -- Accept the current completion.
-            accept = "<A-y>",
-            -- Dismiss the current completion.
-            dismiss = "<A-n>",
-            -- Trigger completion manually.
-            trigger = "<A-space>",
-          },
+    opts = {
+      enable_cmp_source = false,
+      virtual_text = {
+        enabled = true,
+        manual = false,
+        key_bindings = {
+          -- Accept the current completion.
+          accept = "<A-y>",
+          -- Dismiss the current completion.
+          dismiss = "<A-n>",
+          -- Trigger completion manually.
+          trigger = "<A-space>",
         },
-        -- Additional configuration options can be added here
-      })
-    end,
+      },
+    },
   },
 }
