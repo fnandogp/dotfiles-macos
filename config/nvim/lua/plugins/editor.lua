@@ -1,19 +1,14 @@
 return {
   { "echasnovski/mini.hipatterns", version = false, opts = {} },
-  {
-    "echasnovski/mini.animate",
-    version = false,
-    opts = { scroll = { enable = false } },
-  },
+  { "echasnovski/mini.animate", version = false, opts = { scroll = { enable = false } } },
+  { "chrisgrieser/nvim-origami", event = "VeryLazy", opts = {} },
   {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",
-    config = function()
-      require("grug-far").setup({})
-    end,
+    opts = {},
     keys = {
-      { "<leader>ss", "<cmd>GrugFar<CR>", desc = "Open GrugFar", mode = "n" },
       { "q", "<cmd>q<CR>", desc = "Close GrugFar", mode = "n", ft = "grug-far" },
+      { "<leader>ss", "<cmd>GrugFar<CR>", desc = "Open GrugFar", mode = "n" },
       {
         "<leader>sf",
         "<cmd>lua require('grug-far').open({ prefills = { paths = vim.fn.expand('%')}})<CR>",
