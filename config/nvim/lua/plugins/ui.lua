@@ -1,10 +1,10 @@
 return {
-  { "nvim-tree/nvim-web-devicons", opts = {} },
+  { "nvim-tree/nvim-web-devicons", version = false, opts = {} },
   { "echasnovski/mini.icons", version = false, opts = {} },
+  { "echasnovski/mini.statusline", version = false, opts = {} },
+  { "echasnovski/mini.cursorword", version = false, opts = {} },
+  { "echasnovski/mini.notify", version = false, opts = {} },
   { "stevearc/dressing.nvim", opts = {} },
-  { "echasnovski/mini.statusline", opts = {} },
-  { "andymass/vim-matchup", event = "VimEnter" },
-  { "echasnovski/mini.cursorword", opts = {} },
   {
     "echasnovski/mini.clue",
     version = false,
@@ -26,14 +26,18 @@ return {
   },
   {
     "folke/noice.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
     event = "VeryLazy",
     opts = {
-      lsp = { signature = { enabled = false }, hover = { enabled = false }, message = { enabled = false } },
+      lsp = {
+        signature = { enabled = false },
+        hover = { enabled = false },
+        message = { enabled = false },
+      },
       presets = {
         command_palette = true, -- position the cmdline and popupmenu together
         lsp_doc_border = true, -- add a border to hover docs and signature help
       },
     },
-    dependencies = { "MunifTanjim/nui.nvim" },
   },
 }

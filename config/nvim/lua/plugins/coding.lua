@@ -1,13 +1,12 @@
 return {
   { "preservim/nerdcommenter" },
-  { "echasnovski/mini.pairs", opts = {} },
-  { "echasnovski/mini.surround", opts = {} },
+  { "echasnovski/mini.pairs", version = false, opts = {} },
+  { "echasnovski/mini.surround", version = false, opts = {} },
   { "echasnovski/mini.bufremove", version = false, opts = {} },
   { "echasnovski/mini.move", version = false, opts = {} },
   { "echasnovski/mini.ai", version = false, opts = {} },
-  { "echasnovski/mini.jump", version = "*", opts = {} },
-  { "echasnovski/mini.jump2d", version = "*", opts = {} },
-  { "tpope/vim-fugitive" },
+  { "echasnovski/mini-git", version = false, main = "mini.git", opts = {} },
+  { "echasnovski/mini.diff", version = false, opts = {} },
   { "sindrets/diffview.nvim", opts = {} },
   {
     "NeogitOrg/neogit",
@@ -34,7 +33,6 @@ return {
       { "<leader>g", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
     },
   },
-  { "echasnovski/mini.diff", version = false, opts = {} },
   {
     "Exafunction/codeium.nvim",
     cmd = "Codeium",
