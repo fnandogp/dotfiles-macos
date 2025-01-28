@@ -7,7 +7,9 @@ return {
   { "echasnovski/mini.ai", version = false, opts = {} },
   { "echasnovski/mini-git", version = false, main = "mini.git", opts = {} },
   { "echasnovski/mini.diff", version = false, opts = {} },
-  { "sindrets/diffview.nvim", opts = {} },
+  { "sindrets/diffview.nvim", opts = {}, keys = {
+    { "q", "<cmd>DiffviewClose<CR>", desc = "Close Diffview", mode = "n", ft = "DiffviewFiles" },
+  } },
   {
     "NeogitOrg/neogit",
     dependencies = {
@@ -48,8 +50,6 @@ return {
           accept = "<A-y>",
           -- Dismiss the current completion.
           dismiss = "<A-n>",
-          -- Trigger completion manually.
-          trigger = "<A-space>",
         },
       },
     },

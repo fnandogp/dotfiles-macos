@@ -12,6 +12,7 @@ return {
         caret_right = "<M-l>",
         move_down = "<C-j>",
         move_up = "<C-k>",
+        paste = "<C-v>",
       },
     })
   end,

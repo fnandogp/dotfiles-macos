@@ -56,7 +56,8 @@ return {
     completion = {
       menu = {
         auto_show = function(ctx)
-          return ctx.mode ~= "cmdline"
+          -- Don't show completion in cmdline or dressing.nvim
+          return ctx.mode ~= "cmdline" and vim.bo.filetype ~= "DressingInput"
         end,
         draw = {
           components = {
