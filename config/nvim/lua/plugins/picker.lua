@@ -6,15 +6,16 @@ return {
     { "echasnovski/mini.visits", version = false, opts = {} },
   },
   config = function()
-    require("mini.pick").setup({
+    local MiniPick = require("mini.pick")
+    MiniPick.setup({
       mappings = {
         caret_left = "<M-h>",
         caret_right = "<M-l>",
         move_down = "<C-j>",
         move_up = "<C-k>",
-        paste = "<C-v>",
       },
     })
+    vim.ui.select = MiniPick.ui_select
   end,
   keys = {
     { "<leader>p", "<cmd>Pick files<CR>", desc = "Files picker" },

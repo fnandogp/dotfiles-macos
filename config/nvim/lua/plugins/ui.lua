@@ -4,7 +4,9 @@ return {
   { "echasnovski/mini.statusline", version = false, opts = {} },
   { "echasnovski/mini.cursorword", version = false, opts = {} },
   { "echasnovski/mini.notify", version = false, opts = {} },
-  { "stevearc/dressing.nvim", opts = {} },
+  { "stevearc/dressing.nvim", opts = {
+    select = { enabled = false },
+  } },
   {
     "echasnovski/mini.clue",
     version = false,
