@@ -59,8 +59,14 @@ return {
     dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
     opts = {
       display = { action_palette = { provider = "mini_pick" } },
-      strategies = { chat = { adapter = "r1_8b" }, inline = { adapter = "r1_8b" } },
+      strategies = { chat = { adapter = "gemini" }, inline = { adapter = "gemini" } },
       adapters = {
+        coder = function()
+          return require("codecompanion.adapters").extend("ollama", {
+            name = "coder",
+            schema = { model = { default = "deepseek-coder:6.7b" }, num_ctx = { default = 16384 }, num_predict = { default = -1 } },
+          })
+        end,
         r1_8b = function()
           return require("codecompanion.adapters").extend("ollama", {
             name = "r1_8b",
