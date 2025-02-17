@@ -6,7 +6,9 @@
 alias s="sudo"
 alias vim="vim -u DEFAULTS"
 alias v="nvim"
-alias n="nvim -u ~/.config/nvim/init.lua"
+alias n="nvim"
+
+alias nn="cd ~/notebook && nvim"
 
 alias ws="cd $HOME/workspace"
 alias wsc="cd $HOME/workspace/convincely"
@@ -18,3 +20,6 @@ alias wsd="cd $HOME/.dotfiles"
 #alias pnpx="corepack pnpx"
 #alias npm="corepack npm"
 #alias npx="corepack npx" 
+
+
+alias h2='shopify hydrogen'
