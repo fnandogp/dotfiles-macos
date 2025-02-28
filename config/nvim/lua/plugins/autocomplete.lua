@@ -2,7 +2,6 @@ return {
   "saghen/blink.cmp",
   dependencies = { "rafamadriz/friendly-snippets" },
   version = "*",
-
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
@@ -10,37 +9,39 @@ return {
       preset = "none",
       ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
       ["<C-e>"] = { "hide", "fallback" },
-      ["<CR>"] = {
-        function(cmp)
-          return cmp.is_visible() and cmp.select_and_accept()
-        end,
-        "fallback",
-      },
-      ["<Tab>"] = {
-        function(cmp)
-          if cmp.snippet_active() then
-            return cmp.accept()
-          else
-            return cmp.select_and_accept()
-          end
-        end,
-        "snippet_forward",
-        "fallback",
-      },
+      ["<C-y>"] = { "select_and_accept", "fallback" },
+      ["<CR>"] = { "select_and_accept", "fallback" },
+
+      ["<Tab>"] = { "snippet_forward", "fallback" },
       ["<S-Tab>"] = { "snippet_backward", "fallback" },
+
       ["<Up>"] = { "select_prev", "fallback" },
       ["<Down>"] = { "select_next", "fallback" },
       ["<C-k>"] = { "select_prev", "fallback" },
-      ["<C-j>"] = {
-        function(cmp)
-          return not cmp.is_visible() and cmp.show()
-        end,
-        "select_next",
-        "fallback",
-      },
+      ["<C-j>"] = { "show", "select_next", "fallback" },
 
       ["<C-b>"] = { "scroll_documentation_up", "fallback" },
       ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+    },
+
+    cmdline = {
+      completion = { ghost_text = { enabled = false } },
+
+      keymap = {
+        preset = "none",
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<C-e>"] = { "hide", "fallback" },
+        ["<C-y>"] = { "select_and_accept" },
+        ["<CR>"] = { "accept", "fallback" },
+
+        ["<Up>"] = { "select_prev", "fallback" },
+        ["<Down>"] = { "select_next", "fallback" },
+        ["<C-k>"] = { "select_prev", "fallback" },
+        ["<C-j>"] = { "show", "select_next", "fallback" },
+
+        ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+      },
     },
 
     appearance = {
@@ -54,6 +55,7 @@ return {
     },
 
     completion = {
+      accept = { dot_repeat = false },
       menu = {
         auto_show = function(ctx)
           -- Don't show completion in cmdline or dressing.nvim
