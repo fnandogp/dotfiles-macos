@@ -20,3 +20,4 @@ vim.opt.foldlevelstart = 99 -- start with all folds open
 
 -- views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
+vim.opt.conceallevel = 1
