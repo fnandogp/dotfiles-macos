@@ -1,6 +1,5 @@
 tap "auth0/auth0-cli"
 tap "dashlane/tap"
-tap "felixkratz/formulae"
 tap "hashicorp/tap"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
@@ -77,6 +76,7 @@ brew "nginx"
 brew "ollama", restart_service: :changed
 brew "openjdk"
 brew "peco"
+brew "pngpaste"
 brew "postgresql@14"
 brew "pure"
 brew "pv"
@@ -87,10 +87,8 @@ brew "rust"
 brew "shellcheck"
 brew "shfmt"
 brew "starship"
-brew "stow"
 brew "stylua"
 brew "taplo"
-brew "terraform"
 brew "the_silver_searcher"
 brew "tree"
 brew "udunits"
@@ -99,6 +97,7 @@ brew "vint"
 brew "volta"
 brew "watchman"
 brew "wget"
+brew "yazi"
 brew "yt-dlp"
 brew "zk"
 brew "zlib"
@@ -159,6 +158,7 @@ cask "ngrok"
 cask "notion"
 cask "notion-calendar"
 cask "obsidian"
+cask "productive"
 cask "provisionql"
 cask "quicklook-csv"
 cask "quicklook-json"
@@ -171,7 +171,6 @@ cask "tableplus"
 cask "telegram-desktop"
 cask "the-unarchiver"
 cask "ticktick"
-cask "topnotch"
 cask "transmission"
 cask "visual-studio-code"
 cask "vlc"
@@ -181,11 +180,12 @@ mas "Amphetamine", id: 937984704
 mas "Dashlane", id: 517914548
 mas "Dato", id: 1470584107
 mas "Hush", id: 1544743900
-mas "Hyperduck", id: 6444667067
 mas "iMovie", id: 408981434
+mas "Perplexity", id: 6714467650
 mas "Speediness", id: 1596706466
 mas "Surfshark", id: 1437809329
 mas "Transporter", id: 1450874784
+mas "Velja", id: 1607635845
 mas "Vimari", id: 1480933944
 mas "Xcode", id: 497799835
 vscode "bradlc.vscode-tailwindcss"
