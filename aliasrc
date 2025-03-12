@@ -11,7 +11,6 @@ alias n="nvim"
 alias nn="cd ~/notebook && nvim"
 
 alias ws="cd $HOME/workspace"
-alias wsc="cd $HOME/workspace/convincely"
 alias wsd="cd $HOME/.dotfiles"
 
 #alias yarn="corepack yarn"
@@ -22,4 +21,13 @@ alias wsd="cd $HOME/.dotfiles"
 #alias npx="corepack npx" 
 
 
-alias h2='shopify hydrogen'
+# Shopify Hydrogen alias to local projects
+alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
+
+# pnpm
+export PNPM_HOME="/Users/fernando-dotcollective/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
