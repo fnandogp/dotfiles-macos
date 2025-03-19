@@ -5,11 +5,10 @@ return {
   { "echasnovski/mini.bufremove", version = false, opts = {} },
   { "echasnovski/mini.move", version = false, opts = {} },
   { "echasnovski/mini.ai", version = false, opts = {} },
-  { "echasnovski/mini-git", version = false, main = "mini.git", opts = {} },
-  { "echasnovski/mini.diff", version = false, opts = {} },
   { "sindrets/diffview.nvim", opts = {}, keys = {
     { "q", "<cmd>DiffviewClose<CR>", desc = "Close Diffview", mode = "n", ft = "DiffviewFiles" },
   } },
+  { "lewis6991/gitsigns.nvim", opts = {} },
   {
     "NeogitOrg/neogit",
     dependencies = {

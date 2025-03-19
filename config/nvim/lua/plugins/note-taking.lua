@@ -9,6 +9,7 @@ return {
   opts = {
     workspaces = {
       { name = "work", path = "~/Documents/Vaults/Work/" },
+      { name = "personal", path = "~/Documents/Vaults/Personal/" },
     },
     daily_notes = {
       -- Optional, if you keep daily notes in a separate directory.

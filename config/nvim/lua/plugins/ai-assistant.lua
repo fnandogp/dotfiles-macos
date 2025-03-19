@@ -3,7 +3,7 @@ return {
     "Exafunction/codeium.nvim",
     cmd = "Codeium",
     event = "InsertEnter",
-    dependencies = { "nvim-lua/plenary.nvim", "echasnovski/mini.diff" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       enable_cmp_source = false,
       virtual_text = {

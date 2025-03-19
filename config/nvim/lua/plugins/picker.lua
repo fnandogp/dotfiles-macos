@@ -1,5 +1,6 @@
 return {
   "echasnovski/mini.pick",
+  lazy = false,
   version = "*",
   dependencies = {
     { "echasnovski/mini.extra", version = false, opts = {} },
