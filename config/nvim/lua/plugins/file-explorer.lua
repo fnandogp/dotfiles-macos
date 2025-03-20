@@ -8,12 +8,8 @@ return {
 
     --Create mapping to show/hide dot-files ~
     local show_dotfiles = true
-    local filter_show = function(fs_entry)
-      return true
-    end
-    local filter_hide = function(fs_entry)
-      return not vim.startswith(fs_entry.name, ".")
-    end
+    local filter_show = function(fs_entry) return true end
+    local filter_hide = function(fs_entry) return not vim.startswith(fs_entry.name, ".") end
     local toggle_dotfiles = function()
       show_dotfiles = not show_dotfiles
       local new_filter = show_dotfiles and filter_show or filter_hide
@@ -65,18 +61,14 @@ return {
     -- Set focused directory as current working directory
     local set_cwd = function()
       local path = (MiniFiles.get_fs_entry() or {}).path
-      if path == nil then
-        return vim.notify("Cursor is not on valid entry")
-      end
+      if path == nil then return vim.notify("Cursor is not on valid entry") end
       vim.fn.chdir(vim.fs.dirname(path))
     end
 
     -- Yank in register full path of entry under cursor
     local yank_path = function()
       local path = (MiniFiles.get_fs_entry() or {}).path
-      if path == nil then
-        return vim.notify("Cursor is not on valid entry")
-      end
+      if path == nil then return vim.notify("Cursor is not on valid entry") end
       vim.fn.setreg(vim.v.register, path)
     end
 
@@ -92,12 +84,8 @@ return {
     -- Create mapping to toggle file explorer
     local minifiles_toggle = function()
       if not MiniFiles.close() then
-        local ok, res = pcall(function()
-          MiniFiles.open(vim.api.nvim_buf_get_name(0))
-        end)
-        if not ok then
-          MiniFiles.open()
-        end
+        local ok, res = pcall(function() MiniFiles.open(vim.api.nvim_buf_get_name(0)) end)
+        if not ok then MiniFiles.open() end
       end
     end
     vim.keymap.set("n", "<leader>e", minifiles_toggle, { silent = true, desc = "File Explorer" })

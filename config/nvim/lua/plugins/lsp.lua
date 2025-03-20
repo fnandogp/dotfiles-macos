@@ -39,9 +39,7 @@ return {
         vim.keymap.set("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { buffer = bufnr, desc = "Next diagnostic" })
 
         --navic
-        if client.server_capabilities.documentSymbolProvider then
-          require("nvim-navic").attach(client, bufnr)
-        end
+        if client.server_capabilities.documentSymbolProvider then require("nvim-navic").attach(client, bufnr) end
       end,
     })
 

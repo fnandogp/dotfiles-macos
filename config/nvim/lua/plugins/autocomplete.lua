@@ -8,12 +8,8 @@ return {
       version = "v2.*",
       config = function(_, opts)
         local luasnip = require("luasnip")
-        if opts then
-          luasnip.config.setup(opts)
-        end
-        vim.tbl_map(function(type)
-          require("luasnip.loaders.from_" .. type).lazy_load()
-        end, { "vscode", "snipmate", "lua" })
+        if opts then luasnip.config.setup(opts) end
+        vim.tbl_map(function(type) require("luasnip.loaders.from_" .. type).lazy_load() end, { "vscode", "snipmate", "lua" })
         luasnip.filetype_extend("typescript", { "javascript", "tsdoc" })
         luasnip.filetype_extend("typescriptreact", { "javascript", "tsdoc" })
         luasnip.filetype_extend("javascript", { "jsdoc" })
@@ -110,9 +106,7 @@ return {
             },
             kind = {
               ellipsis = false,
-              text = function(ctx)
-                return "(" .. ctx.kind .. ")"
-              end,
+              text = function(ctx) return "(" .. ctx.kind .. ")" end,
             },
           },
         },

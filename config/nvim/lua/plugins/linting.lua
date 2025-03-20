@@ -8,7 +8,7 @@ return {
     local lint = require("lint")
 
     lint.linters_by_ft = {
-      markdown = { "vale" },
+      markdown = { "markdownlint", "vale" },
       lua = { "luacheck" },
       javascript = { "eslint_d" },
       typescript = { "eslint_d" },
@@ -24,9 +24,7 @@ return {
 
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
       group = lint_augroup,
-      callback = function()
-        lint.try_lint()
-      end,
+      callback = function() lint.try_lint() end,
     })
   end,
 }
