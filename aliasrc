@@ -8,9 +8,9 @@ alias vim="vim -u DEFAULTS"
 alias v="nvim"
 alias n="nvim"
 
-alias nn="nvim ~/Documents/Vaults/"
-alias nnp="nvim ~/Documents/Vaults/Personal/"
-alias nnw="nvim ~/Documents/Vaults/Work/"
+alias nn="cd ~/Documents/Vaults/ && nvim ~/Documents/Vaults/"
+alias nnp="cd ~/Documents/Vaults/Personal/ && nvim ~/Documents/Vaults/Personal/"
+alias nnw="cd ~/Documents/Vaults/Work/ && nvim ~/Documents/Vaults/Work/"
 
 alias ws="cd $HOME/workspace"
 alias wsd="cd $HOME/.dotfiles"
