@@ -24,9 +24,6 @@ vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv")
 vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv-gv")
 vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv")
 
--- Format
-vim.keymap.set("n", "<leader>cf", "<cmd>LspZeroFormat<cr>", { desc = "Format" })
-
 vim.keymap.set("n", "<Leader>w", "<Cmd>w<CR>", { desc = "Write buffer" })
 vim.keymap.set("n", "<Leader>W", "<Cmd>wa<CR>", { desc = "Write all" })
 vim.keymap.set("n", "<Leader>q", "<Cmd>q<CR>", { desc = "Quit buffer" })

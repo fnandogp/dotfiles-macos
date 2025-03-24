@@ -34,6 +34,18 @@ return {
       end,
     })
 
+    vim.api.nvim_create_user_command("Format", function(args)
+      local range = nil
+      if args.count ~= -1 then
+        local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+        range = {
+          start = { args.line1, 0 },
+          ["end"] = { args.line2, end_line:len() },
+        }
+      end
+      require("conform").format({ async = true, lsp_format = "fallback", range = range })
+    end, { range = true })
+
     vim.api.nvim_create_user_command("FormatDisable", function(args)
       if args.bang then
         -- FormatDisable! will disable formatting just for this buffer
@@ -53,12 +65,8 @@ return {
       vim.g.disable_autoformat = false
       print("Formatting enabled: " .. tostring(check_formatting_enabled()))
     end, { desc = "Re-enable autoformat-on-save" })
-
-    vim.keymap.set(
-      { "n", "v" },
-      "<leader>f",
-      function() conform.format({ lsp_fallback = true, async = false, timeout_ms = 2500 }) end,
-      { desc = "Format file or range (in visual mode)" }
-    )
   end,
+  keys = {
+    { "<leader>f", desc = "Format file or range (in visual mode)" },
+  },
 }
