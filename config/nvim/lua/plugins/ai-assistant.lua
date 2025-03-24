@@ -20,9 +20,24 @@ return {
   },
   {
     "olimorris/codecompanion.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "echasnovski/mini.pick" },
+    cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "echasnovski/mini.pick",
+      "echasnovski/mini.diff",
+    },
     opts = {
-      display = { action_palette = { provider = "mini_pick" } },
+      display = {
+        action_palette = { provider = "mini_pick" },
+        diff = {
+          enabled = true,
+          close_chat_at = 240, -- Close an open chat buffer if the total columns of your display are less than...
+          layout = "vertical", -- vertical|horizontal split for default provider
+          opts = { "internal", "filler", "closeoff", "algorithm:patience", "followwrap", "linematch:120" },
+          provider = "mini_diff",
+        },
+      },
       strategies = {
         chat = {
           adapter = "gemini",
@@ -53,10 +68,31 @@ return {
           })
         end,
       },
+      prompt_library = {
+        ["Improve writing"] = {
+          strategy = "inline",
+          description = "Improve writing",
+          prompts = {
+            {
+              role = "system",
+              content = "You are a writer and uses Oblision as you writing editor, therefore use only markdown files.",
+            },
+            {
+              role = "user",
+              content = [[
+                Fix grammar and improve writing.
+                Do not change the content of codeblocks and quotes.
+                Return the text only and no markdown codeblocks.
+                Lines must not be longer than 80 characters.
+              ]],
+            },
+          },
+        },
+      },
     },
     keys = {
-      { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Code Companion Chat", mode = { "n", "v" } },
-      { "<leader>aA", "<cmd>CodeCompanionChat Add<cr>", desc = "Code Companion Chat Add", mode = { "v" } },
+      { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle Code Companion Chat", mode = { "n" } },
+      { "<leader>aa", "<cmd>CodeCompanionChat<cr>", desc = "Start new Code Companion Chat", mode = { "n", "v" } },
       { "<leader>ae", "<cmd>'<,'>CodeCompanion<cr>", desc = "Code Companion Inline", mode = { "v" } },
       { "<leader>ax", "<cmd>CodeCompanionActions<cr>", desc = "Code Companion Actions", mode = { "n", "v" } },
     },
