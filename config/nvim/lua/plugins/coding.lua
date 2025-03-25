@@ -1,5 +1,14 @@
 return {
-  { "echasnovski/mini.comment", version = false, opts = {} },
+  {
+    "echasnovski/mini.comment",
+    version = false,
+    opts = {
+      mappings = {
+        comment_line = "<leader>ci", -- Toggle comment on current line
+        comment_visual = "<leader>c", -- Toggle comment on visual selection
+      },
+    },
+  },
   { "echasnovski/mini.pairs", version = false, opts = {} },
   { "echasnovski/mini.surround", version = false, opts = {} },
   { "echasnovski/mini.bufremove", version = false, opts = {} },

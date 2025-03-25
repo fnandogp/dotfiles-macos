@@ -1,6 +1,10 @@
 return {
   "epwalsh/obsidian.nvim",
   version = "*",
+  ft = "markdown",
+  event = {
+    "BufReadPre " .. vim.fn.expand("~") .. "/Documents/Vaults/*.md",
+  },
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -42,6 +46,12 @@ return {
       end
       return tostring(os.time()) .. "-" .. suffix
     end,
+    ui = {
+      checkboxes = {
+        [" "] = { char = "☐", hl_group = "ObsidianTodo" },
+        ["x"] = { char = "✔", hl_group = "ObsidianDone" },
+      },
+    },
     mappings = {
       -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
       ["gf"] = {
