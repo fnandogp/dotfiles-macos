@@ -38,35 +38,36 @@ return {
       local range = nil
       if args.count ~= -1 then
         local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
-        range = {
-          start = { args.line1, 0 },
-          ["end"] = { args.line2, end_line:len() },
-        }
+        range = { start = { args.line1, 0 }, ["end"] = { args.line2, end_line:len() } }
       end
-      require("conform").format({ async = true, lsp_format = "fallback", range = range })
+      conform.format({ async = true, lsp_format = "fallback", range = range })
     end, { range = true })
 
     vim.api.nvim_create_user_command("FormatDisable", function(args)
+      -- FormatDisable! will disable formatting just for this buffer
       if args.bang then
-        -- FormatDisable! will disable formatting just for this buffer
-        print("Disabling buffer formatting... (current value:" .. tostring(vim.b.disable_autoformat) .. ")")
         vim.b.disable_autoformat = true
-        print("Buffer formatting disabled:", vim.b.disable_autoformat)
       else
-        print("Disabling global formatting... (current value:" .. tostring(vim.b.disable_autoformat) .. ")")
         vim.g.disable_autoformat = true
-        print("Global formatting disabled: ", vim.g.disable_autoformat)
       end
     end, { desc = "Disable autoformat-on-save", bang = true })
 
     vim.api.nvim_create_user_command("FormatEnable", function()
-      print("Enabling formatting... (current value: " .. tostring(check_formatting_enabled()) .. ")")
       vim.b.disable_autoformat = false
       vim.g.disable_autoformat = false
-      print("Formatting enabled: " .. tostring(check_formatting_enabled()))
     end, { desc = "Re-enable autoformat-on-save" })
+
+    vim.keymap.set("", "<leader>ff", function()
+      conform.format({ async = true }, function(err)
+        if not err then
+          local mode = vim.api.nvim_get_mode().mode
+          if vim.startswith(string.lower(mode), "v") then vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true) end
+        end
+      end)
+    end, { desc = "Format code" })
   end,
   keys = {
-    { "<leader>f", desc = "Format file or range (in visual mode)" },
+    { "<Leader>fd", "<cmd>FormatDisable<CR>", desc = "Disable formatting" },
+    { "<Leader>fe", "<cmd>FormatEnable<CR>", desc = "Enable formatting" },
   },
 }
