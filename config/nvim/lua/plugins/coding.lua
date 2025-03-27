@@ -1,11 +1,11 @@
 return {
   {
     "echasnovski/mini.comment",
+    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring", opts = { enable_autocmd = false } },
     version = false,
     opts = {
-      mappings = {
-        comment_line = "<leader>ci", -- Toggle comment on current line
-        comment_visual = "<leader>c", -- Toggle comment on visual selection
+      options = {
+        custom_commentstring = function() return require("ts_context_commentstring").calculate_commentstring() or vim.bo.commentstring end,
       },
     },
   },
