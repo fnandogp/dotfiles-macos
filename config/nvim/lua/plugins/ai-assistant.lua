@@ -40,15 +40,20 @@ return {
       },
       strategies = {
         chat = {
-          adapter = "gemini",
+          adapter = "gemini2_5",
           keymaps = {
             send = { modes = { n = "<C-s>", i = "<C-s>" } },
             close = { modes = { n = "q" } },
           },
         },
-        inline = { adapter = "gemini" },
+        inline = { adapter = "gemini2_5" },
       },
       adapters = {
+        gemini2_5 = function()
+          return require("codecompanion.adapters").extend("gemini", {
+            env = { model = "gemini-2.5-pro-exp-03-25" },
+          })
+        end,
         coder = function()
           return require("codecompanion.adapters").extend("ollama", {
             name = "coder",
