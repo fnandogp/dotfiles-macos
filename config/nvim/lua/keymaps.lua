@@ -14,8 +14,8 @@ vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "C-v", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
-vim.keymap.set("v", "<leader>//", "y/\\V<C-r>=escape(@\",'/\\')<CR><CR>")
-vim.keymap.set("n", "<leader>//", "yiw/\\V<C-r>=escape(@\",'/\\')<CR><CR>")
+vim.keymap.set("v", "//", "y/\\V<C-r>=escape(@\",'/\\')<CR><CR>")
+vim.keymap.set("n", "//", "yiw/\\V<C-r>=escape(@\",'/\\')<CR><CR>")
 vim.keymap.set("v", "<M-/>", '"hy:%s/<C-r>h//gc<left><left><left>')
 
 -- Move text up and down

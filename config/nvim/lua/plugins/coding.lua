@@ -14,7 +14,6 @@ return {
   { "echasnovski/mini.bufremove", version = false, opts = {} },
   { "echasnovski/mini.move", version = false, opts = {} },
   { "echasnovski/mini.ai", version = false, opts = {} },
-  { "echasnovski/mini.diff", version = false, opts = {} },
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -28,6 +27,7 @@ return {
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
   },
+  { "lewis6991/gitsigns.nvim", opts = {} },
   { "sindrets/diffview.nvim", opts = {}, keys = {
     { "q", "<cmd>DiffviewClose<CR>", desc = "Close Diffview", mode = "n", ft = "DiffviewFiles" },
   } },
@@ -55,6 +55,31 @@ return {
     },
     keys = {
       { "<leader>g", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
+    },
+  },
+  {
+    "lewis6991/hover.nvim",
+    opts = {
+      init = function()
+        -- Require providers
+        require("hover.providers.lsp")
+        -- require('hover.providers.gh')
+        -- require('hover.providers.gh_user')
+        require("hover.providers.jira")
+        -- require('hover.providers.dap')
+        require("hover.providers.fold_preview")
+        require("hover.providers.diagnostic")
+        require("hover.providers.man")
+        -- require("hover.providers.dictionary")
+      end,
+      preview_opts = { border = "single" },
+      preview_window = false,
+      title = true,
+      mouse_providers = { "LSP" },
+      mouse_delay = 1000,
+    },
+    keys = {
+      { "K", function() require("hover").hover({ desc = "hover.nvim" }) end, mode = "n" },
     },
   },
 }

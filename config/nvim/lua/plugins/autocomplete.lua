@@ -3,6 +3,7 @@ return {
   lazy = false,
   dependencies = {
     { "rafamadriz/friendly-snippets" },
+    { "xzbdmw/colorful-menu.nvim", opts = {} },
     {
       "L3MON4D3/LuaSnip",
       version = "v2.*",
@@ -77,36 +78,24 @@ return {
     },
 
     completion = {
-      accept = { dot_repeat = false },
+      accept = {
+        auto_brackets = {
+          semantic_token_resolution = { enabled = false },
+        },
+      },
       menu = {
         auto_show = function(ctx)
           -- Don't show completion in cmdline or dressing.nvim
           return ctx.mode ~= "cmdline" and vim.bo.filetype ~= "DressingInput"
         end,
         draw = {
-          padding = 1,
-          columns = {
-            { "label", "label_description", gap = 1 },
-            { "kind_icon", "kind", gap = 1 },
-          },
-          -- columns = { { "kind_icon", "label", "label_description", gap = 1 }, { "source_name", "kind", gap = 1 } },
+          -- We don't need label_description now because label and label_description are already
+          -- combined together in label by colorful-menu.nvim.
+          columns = { { "kind_icon" }, { "label", gap = 1 } },
           components = {
-            kind_icon = {
-              ellipsis = false,
-              width = { fill = true },
-              text = function(ctx)
-                local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
-                return kind_icon
-              end,
-              -- Optionally, you may also use the highlights from mini.icons
-              highlight = function(ctx)
-                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-                return hl
-              end,
-            },
-            kind = {
-              ellipsis = false,
-              text = function(ctx) return "(" .. ctx.kind .. ")" end,
+            label = {
+              text = function(ctx) return require("colorful-menu").blink_components_text(ctx) end,
+              highlight = function(ctx) return require("colorful-menu").blink_components_highlight(ctx) end,
             },
           },
         },
@@ -133,3 +122,32 @@ return {
   },
   opts_extend = { "sources.default" },
 }
+
+-- ORIGINAL MENU DRAW
+-- draw = {
+--   padding = 1,
+--   columns = {
+--     { "label", "label_description", gap = 1 },
+--     { "kind_icon", "kind", gap = 1 },
+--   },
+--   -- columns = { { "kind_icon", "label", "label_description", gap = 1 }, { "source_name", "kind", gap = 1 } },
+--   components = {
+--     kind_icon = {
+--       ellipsis = false,
+--       width = { fill = true },
+--       text = function(ctx)
+--         local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+--         return kind_icon
+--       end,
+--       -- Optionally, you may also use the highlights from mini.icons
+--       highlight = function(ctx)
+--         local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+--         return hl
+--       end,
+--     },
+--     kind = {
+--       ellipsis = false,
+--       text = function(ctx) return "(" .. ctx.kind .. ")" end,
+--     },
+--   },
+-- },

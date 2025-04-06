@@ -28,7 +28,6 @@ return {
       },
       format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable
-        print("Formatting enabled: " .. tostring(check_formatting_enabled()))
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then return end
         return { timeout_ms = 2500, lsp_fallback = true }
       end,

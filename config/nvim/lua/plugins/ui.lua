@@ -40,14 +40,38 @@ return {
         command_palette = true, -- position the cmdline and popupmenu together
         lsp_doc_border = true, -- add a border to hover docs and signature help
       },
+      messages = {
+        enabled = false,
+      },
     },
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" }, -- if you use standalone mini plugins
+    dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
-    ft = { "markdown", "codecompanion" },
-    opts = {},
+    opts = {
+      completions = {
+        lsp = { enabled = true },
+        blink = { enabled = true },
+      },
+      heading = {
+        width = "block",
+        right_pad = 1,
+        border = true,
+        -- border_virtual = true,
+      },
+      code = {
+        width = "block",
+        min_width = 20,
+        disable_background = {},
+        left_pad = 2,
+        -- left_margin = 4,
+        right_pad = 2,
+        -- right_margin = 4,
+        border = "thin",
+      },
+      file_types = { "markdown", "vimwiki", "codecompanion" },
+    },
   },
 }
