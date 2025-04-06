@@ -7,18 +7,22 @@ return {
     "williamboman/mason-lspconfig.nvim",
     "SmiteshP/nvim-navic",
     "saghen/blink.cmp",
+    "yioneko/nvim-vtsls",
   },
-  opts = {
-    lua_ls = {
-      settings = {
-        Lua = {
-          runtime = { version = "LuaJIT" },
-          diagnostics = { globals = { "vim" } },
-          workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+  opts = function()
+    return {
+      lua_ls = {
+        settings = {
+          Lua = {
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
+            workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+          },
         },
       },
-    },
-  },
+      vtsls = require("vtsls").lspconfig,
+    }
+  end,
   config = function(_, opts)
     local lspconfig = require("lspconfig")
 
@@ -27,16 +31,14 @@ return {
       callback = function(args)
         local bufnr = args.buf
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-        vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { buffer = bufnr, desc = "Displays hover information." })
 
-        vim.keymap.set("n", "gn", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = bufnr, desc = "Rename" })
-        vim.keymap.set("n", "gx", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code Action" })
-        vim.keymap.set("v", "gx", "<cmd>lua vim.lsp.buf.range_code_action()<cr>", { buffer = bufnr, desc = "Code Action" })
+        vim.keymap.set("n", "gn", function() vim.lsp.buf.rename() end, { buffer = bufnr, desc = "Rename" })
+        vim.keymap.set("n", "gx", function() vim.lsp.buf.code_action() end, { buffer = bufnr, desc = "Code Action" })
+        vim.keymap.set("v", "gx", function() vim.lsp.buf.range_code_action() end, { buffer = bufnr, desc = "Code Action" })
 
-        vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", { buffer = bufnr, desc = "List diagnostics" })
-        vim.keymap.set("n", "gL", "<cmd>lua vim.diagnostic.setqflist()<cr>", { buffer = bufnr, desc = "List diagnostics" })
-        vim.keymap.set("n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { buffer = bufnr, desc = "Prev diagnostic" })
-        vim.keymap.set("n", "gj", "<cmd>lua vim.diagnostic.goto_next()<cr>", { buffer = bufnr, desc = "Next diagnostic" })
+        vim.keymap.set("n", "gl", function() vim.diagnostic.open_float() end, { buffer = bufnr, desc = "List diagnostics" })
+        vim.keymap.set("n", "gk", function() vim.diagnostic.jump({ count = -1 }) end, { buffer = bufnr, desc = "Prev diagnostic" })
+        vim.keymap.set("n", "gj", function() vim.diagnostic.jump({ count = 1 }) end, { buffer = bufnr, desc = "Next diagnostic" })
 
         --navic
         if client.server_capabilities.documentSymbolProvider then require("nvim-navic").attach(client, bufnr) end
@@ -44,8 +46,6 @@ return {
     })
 
     vim.diagnostic.config({ float = { border = "rounded" } })
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single" })
 
     require("mason").setup()
     require("mason-lspconfig").setup()

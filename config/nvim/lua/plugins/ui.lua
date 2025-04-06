@@ -3,10 +3,8 @@ return {
   { "echasnovski/mini.icons", version = false, opts = {} },
   { "echasnovski/mini.statusline", version = false, opts = {} },
   { "echasnovski/mini.cursorword", version = false, opts = {} },
-  { "echasnovski/mini.notify", version = false, opts = {} },
-  { "stevearc/dressing.nvim", opts = {
-    select = { enabled = false },
-  } },
+  { "j-hui/fidget.nvim", opts = {} },
+  { "stevearc/dressing.nvim", opts = { select = { enabled = false } } },
   {
     "echasnovski/mini.clue",
     version = false,
@@ -20,9 +18,6 @@ return {
         { mode = "x", keys = "g" },
         -- Window commands
         { mode = "n", keys = "<C-w>" },
-        -- `z` key
-        { mode = "n", keys = "z" },
-        { mode = "x", keys = "z" },
       },
     },
   },
@@ -32,16 +27,14 @@ return {
     event = "VeryLazy",
     opts = {
       lsp = {
+        progress = { enabled = false },
         signature = { enabled = false },
         hover = { enabled = false },
         message = { enabled = false },
       },
       presets = {
-        command_palette = true, -- position the cmdline and popupmenu together
-        lsp_doc_border = true, -- add a border to hover docs and signature help
-      },
-      messages = {
-        enabled = false,
+        command_palette = true, -- Position the cmdline and popupmenu together
+        lsp_doc_border = true, -- Add a border to hover docs and signature help
       },
     },
   },

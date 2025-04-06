@@ -11,6 +11,7 @@ return {
     "echasnovski/mini.pick",
   },
   opts = {
+    ui = { enable = false },
     workspaces = {
       { name = "work", path = "~/Documents/Vaults/Work/" },
       { name = "personal", path = "~/Documents/Vaults/Personal/" },
@@ -46,12 +47,6 @@ return {
       end
       return tostring(os.time()) .. "-" .. suffix
     end,
-    ui = {
-      checkboxes = {
-        [" "] = { char = "☐", hl_group = "ObsidianTodo" },
-        ["x"] = { char = "✔", hl_group = "ObsidianDone" },
-      },
-    },
     mappings = {
       -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
       ["gf"] = {
