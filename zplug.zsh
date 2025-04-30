@@ -18,7 +18,7 @@ zplug "plugins/httpie", from:oh-my-zsh
 zplug "plugins/mise", from:oh-my-zsh
 zplug "plugins/starship", from:oh-my-zsh
 
-zplug "b4b4r07/enhancd"
+zplug "mrjohannchang/zsh-interactive-cd"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -27,6 +27,8 @@ if ! zplug check --verbose; then
         echo; zplug install
     fi
 fi
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # Then, source plugins and add commands to $PATH
 zplug load 

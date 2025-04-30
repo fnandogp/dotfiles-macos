@@ -6,7 +6,9 @@ return {
     },
     config = function()
       local toggleterm = require("toggleterm")
+      local highlights = require("rose-pine.plugins.toggleterm")
       toggleterm.setup({
+        highlights = highlights,
         size = function(term)
           if term.direction == "horizontal" then
             return 10

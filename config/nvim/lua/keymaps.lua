@@ -19,8 +19,6 @@ vim.keymap.set("n", "//", "yiw/\\V<C-r>=escape(@\",'/\\')<CR><CR>")
 vim.keymap.set("v", "<M-/>", '"hy:%s/<C-r>h//gc<left><left><left>')
 
 -- Move text up and down
-vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv")
-vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv")
 vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv-gv")
 vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv")
 
@@ -33,7 +31,7 @@ vim.keymap.set("n", "<leader>R", ":edit!<CR>", { desc = "Reload buffer" })
 
 -- Terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
------- Move windows
+-- Move windows
 vim.keymap.set("n", "<C-M-h>", "<C-w>H", { desc = "Move window to left" })
 vim.keymap.set("n", "<C-M-j>", "<C-w>J", { desc = "Move window to bottom" })
 vim.keymap.set("n", "<C-M-k>", "<C-w>K", { desc = "Move window to top" })

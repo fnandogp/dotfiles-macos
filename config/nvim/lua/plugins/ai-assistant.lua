@@ -29,7 +29,6 @@ return {
     init = function() require("plugins.utils.fidget-spinner"):init() end,
     opts = {
       display = {
-        chat = { show_settings = true },
         action_palette = { provider = "mini_pick" },
       },
       strategies = {
@@ -44,11 +43,6 @@ return {
         },
       },
       adapters = {
-        gemini2_5 = function()
-          return require("codecompanion.adapters").extend("gemini", {
-            schema = { model = { default = "gemini-2.5-pro-exp-03-25" } },
-          })
-        end,
         coder = function()
           return require("codecompanion.adapters").extend("ollama", {
             name = "coder",
@@ -98,12 +92,27 @@ Review and improve the following text for grammar, style, and clarity.
         },
       },
     },
+    config = function(_, opts)
+      require("codecompanion").setup(opts)
+
+      vim.api.nvim_create_user_command("CodeCompanionChatAddFile", function()
+        local current_file_path = vim.api.nvim_buf_get_name(0)
+        print(vim.inspect(current_file_path))
+        require("codecompanion").last_chat().references:add({
+          id = current_file_path,
+          path = current_file_path,
+          source = "codecompanion.strategies.chat.slash_commands.file",
+          opts = { pinned = true },
+        })
+      end, { nargs = 0 })
+    end,
     keys = {
       { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle Code Companion Chat", mode = { "n" } },
       { "<leader>aa", "<cmd>CodeCompanionChat Add<cr>", desc = "Toggle Code Companion Chat", mode = { "v" } },
       { "<leader>an", "<cmd>CodeCompanionChat<cr>", desc = "Start new Code Companion Chat", mode = { "n" } },
       { "<leader>ae", "<cmd>'<,'>CodeCompanion<cr>", desc = "Code Companion Inline", mode = { "v" } },
       { "<leader>ax", "<cmd>CodeCompanionActions<cr>", desc = "Code Companion Actions", mode = { "n", "v" } },
+      { "ga", "<cmd>CodeCompanionChatAddFile<cr>", desc = "Add current file to Code Companion Chat", mode = { "n" } },
     },
   },
 }

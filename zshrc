@@ -19,3 +19,10 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+eval "$(zoxide init zsh)"
+
+export GPG_TTY=$(tty)
+
+source <(fzf --zsh)
+

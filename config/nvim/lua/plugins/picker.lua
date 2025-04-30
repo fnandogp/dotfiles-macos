@@ -12,7 +12,10 @@ return {
       caret_right = "<M-l>",
       move_down = "<C-j>",
       move_up = "<C-k>",
+      scroll_down = "<C-d>",
+      scroll_up = "<C-u>",
     },
+    window = { config = { width = vim.o.columns } },
   },
   config = function(_, opts)
     local MiniPick = require("mini.pick")

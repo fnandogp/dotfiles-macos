@@ -36,10 +36,7 @@ return {
         end)
 
         MiniFiles.set_target_window(new_target)
-
-        -- This intentionally doesn't act on file under cursor in favor of
-        -- explicit "go in" action (`l` / `L`). To immediately open file,
-        -- add appropriate `MiniFiles.go_in()` call instead of this comment.
+        MiniFiles.go_in({ close_on_file = true })
       end
 
       -- Adding `desc` will result into `show_help` entries
@@ -72,12 +69,33 @@ return {
       vim.fn.setreg(vim.v.register, path)
     end
 
+    local add_path_to_codecompanion_chat = function()
+      local path = MiniFiles.get_fs_entry().path
+      if path == nil then return vim.notify("Cursor is not on valid entry", vim.log.levels.WARN) end
+
+      local utils = require("plugins.utils.ai-assistant")
+      local file_paths = utils.list_file_paths(path)
+
+      if #file_paths == 0 then return print("No files found") end
+
+      local codecompanion = require("codecompanion")
+      local chat = codecompanion.last_chat()
+      if chat == nil then --if no chat, create one
+        chat = codecompanion.chat()
+      end
+
+      for _, file_path in ipairs(file_paths) do
+        utils.add_file_path_to_chat(file_path, chat)
+      end
+    end
+
     vim.api.nvim_create_autocmd("User", {
       pattern = "MiniFilesBufferCreate",
       callback = function(args)
         local b = args.data.buf_id
         vim.keymap.set("n", "g~", set_cwd, { buffer = b, desc = "Set cwd" })
         vim.keymap.set("n", "gy", yank_path, { buffer = b, desc = "Yank path" })
+        vim.keymap.set("n", "ga", add_path_to_codecompanion_chat, { buffer = b, desc = "Add to CodeCompanion" })
       end,
     })
 
