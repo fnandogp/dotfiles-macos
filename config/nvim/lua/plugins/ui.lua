@@ -51,7 +51,7 @@ return {
       heading = {
         width = "block",
         right_pad = 1,
-        border = true,
+        border = false,
         -- border_virtual = true,
       },
       code = {
@@ -64,6 +64,19 @@ return {
         -- right_margin = 4,
         border = "thin",
       },
+      checkbox = {
+        unchecked = {
+          icon = "",
+          highlight = "RenderMarkdownUnchecked",
+        },
+        checked = { icon = "", highlight = "RenderMarkdownChecked" },
+        custom = {
+          cancelled = { raw = "[~]", rendered = " ", highlight = "RenderMarkdownTodo", scope_highlight = nil },
+          undefined = { raw = "[?]", rendered = " ", highlight = "RenderMarkdownTodo", scope_highlight = nil },
+          partial = { raw = "[-]", rendered = " ", highlight = "RenderMarkdownTodo", scope_highlight = nil },
+        },
+      },
+
       file_types = { "markdown", "vimwiki", "codecompanion" },
     },
   },

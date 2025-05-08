@@ -1,5 +1,5 @@
 return {
-  "epwalsh/obsidian.nvim",
+  "obsidian-nvim/obsidian.nvim",
   version = "*",
   ft = "markdown",
   event = {
@@ -11,7 +11,16 @@ return {
     "echasnovski/mini.pick",
   },
   opts = {
-    ui = { enable = false },
+    ui = {
+      enable = false,
+      checkboxes = {
+        [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
+        ["x"] = { char = "", hl_group = "ObsidianDone" },
+        ["-"] = { char = "", hl_group = "ObsidianRightArrow" },
+        ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+        ["?"] = { char = "", hl_group = "ObsidianImportant" },
+      },
+    },
     workspaces = {
       { name = "work", path = "~/Documents/Vaults/Work/" },
       { name = "personal", path = "~/Documents/Vaults/Personal/" },
@@ -47,23 +56,6 @@ return {
       end
       return tostring(os.time()) .. "-" .. suffix
     end,
-    mappings = {
-      -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-      ["gf"] = {
-        action = function() return require("obsidian").util.gf_passthrough() end,
-        opts = { noremap = false, expr = true, buffer = true },
-      },
-      -- Toggle check-boxes.
-      ["<leader>ch"] = {
-        action = function() return require("obsidian").util.toggle_checkbox() end,
-        opts = { buffer = true },
-      },
-      -- Smart action depending on context, either follow link or toggle checkbox.
-      ["<cr>"] = {
-        action = function() return require("obsidian").util.smart_action() end,
-        opts = { buffer = true, expr = true },
-      },
-    },
   },
   keys = {
     { "<Leader>nn", "<cmd>ObsidianNew<CR>", desc = "Create an Obsidian note" },
