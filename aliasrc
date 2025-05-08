@@ -8,6 +8,11 @@ alias vim="vim -u DEFAULTS"
 alias v="nvim"
 alias n="nvim"
 
+alias '..'='cd ..'
+alias '...'='cd ../..'
+alias '....'='cd ../../..'
+alias '.....'='cd ../../../..'
+
 alias nn="cd ~/Documents/Vaults/ && nvim ~/Documents/Vaults/"
 alias nnp="cd ~/Documents/Vaults/Personal/ && nvim ~/Documents/Vaults/Personal/"
 alias nnw="cd ~/Documents/Vaults/Work/ && nvim ~/Documents/Vaults/Work/"
