@@ -40,7 +40,9 @@ return {
       { "<leader>o", "<cmd>Outline<CR>", desc = "Toggle Outline", mode = "n" },
     },
   },
-  -- { "arnamak/stay-centered.nvim", opts = {} },
+  { "arnamak/stay-centered.nvim", opts = {
+    skip_filetypes = { "toggleterm", "minifiles" },
+  } },
   {
     "smoka7/multicursors.nvim",
     event = "VeryLazy",

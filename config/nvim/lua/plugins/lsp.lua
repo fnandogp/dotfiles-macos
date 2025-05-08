@@ -3,8 +3,8 @@ return {
   cmd = { "LspInfo", "LspInstall", "LspStart" },
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason.nvim",
+    "mason-org/mason-lspconfig.nvim",
     "SmiteshP/nvim-navic",
     "saghen/blink.cmp",
     "yioneko/nvim-vtsls",
@@ -50,13 +50,13 @@ return {
     require("mason").setup()
     require("mason-lspconfig").setup()
 
-    require("mason-lspconfig").setup_handlers({
-      function(server_name)
-        local config = opts[server_name] or {}
-        config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-        lspconfig[server_name].setup(config)
-      end,
-    })
+    for server_name, _ in pairs(opts) do
+      -- passing config.capabilities to blink.cmp merges with the capabilities in your
+      -- `opts[server].capabilities, if you've defined it
+      local config = opts[server_name] or {}
+      config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+      lspconfig[server_name].setup(config)
+    end
   end,
   keys = {
     { "<Leader>ls", "<cmd>LspStart<CR>", desc = "Start LSP server" },
