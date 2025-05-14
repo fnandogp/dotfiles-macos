@@ -27,6 +27,25 @@ return {
     vim.keymap.del("n", "grr")
     vim.keymap.del("n", "gra")
     vim.keymap.del("n", "gri")
+
+    local original_paste = vim.paste
+    vim.paste = function(...)
+      if not MiniPick.is_picker_active() then return original_paste(...) end
+
+      -- Encountered inconsistent register values after copying from host machine
+      -- Could add more, please check `Pick registers` on strategic times to inspect state
+      for _, reg in ipairs({ "+", ".", "*" }) do
+        local content = vim.fn.getreg(reg) or ""
+
+        if content ~= "" then
+          MiniPick.set_picker_query({ content })
+          return
+        end
+      end
+
+      -- Yes, I know about <C-r>, will suppress that message, but show \something\ for feedback reasons
+      vim.notify("No content to paste", vim.log.levels.WARN)
+    end
   end,
   keys = {
     { "<leader>p", "<cmd>Pick files<CR>", desc = "Files picker" },
@@ -43,5 +62,6 @@ return {
     { "gi", "<cmd>Pick lsp scope='implementation'<CR>", desc = "Go to implementation" },
     { "gt", "<cmd>Pick lsp scope='type_definition'<CR>", desc = "Go to type definition" },
     { "gL", "<cmd>Pick diagnostic<cr>", desc = "List diagnostics" },
+    { "<command-v>", "<C-r>*<C-r>+", desc = "Paste from clipboard", ft = "minipick" },
   },
 }
