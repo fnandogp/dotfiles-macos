@@ -56,7 +56,7 @@ return {
       vim.g.disable_autoformat = false
     end, { desc = "Re-enable autoformat-on-save" })
 
-    vim.keymap.set("", "<leader>ff", function()
+    vim.keymap.set("", "<leader>Ff", function()
       conform.format({ async = true }, function(err)
         if not err then
           local mode = vim.api.nvim_get_mode().mode
@@ -66,7 +66,7 @@ return {
     end, { desc = "Format code" })
   end,
   keys = {
-    { "<Leader>fd", "<cmd>FormatDisable<CR>", desc = "Disable formatting" },
-    { "<Leader>fe", "<cmd>FormatEnable<CR>", desc = "Enable formatting" },
+    { "<Leader>Fd", "<cmd>FormatDisable<CR>", desc = "Disable formatting" },
+    { "<Leader>Fe", "<cmd>FormatEnable<CR>", desc = "Enable formatting" },
   },
 }

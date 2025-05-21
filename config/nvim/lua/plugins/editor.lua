@@ -1,7 +1,15 @@
 return {
   { "echasnovski/mini.hipatterns", version = false, opts = {} },
   { "echasnovski/mini.animate", version = false, opts = { scroll = { enable = false } } },
-  { "chrisgrieser/nvim-origami", event = "VeryLazy", opts = {} },
+  {
+    "chrisgrieser/nvim-origami",
+    event = "VeryLazy",
+    init = function()
+      vim.opt.foldlevel = 99
+      vim.opt.foldlevelstart = 99
+    end,
+    opts = {},
+  },
   {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",
