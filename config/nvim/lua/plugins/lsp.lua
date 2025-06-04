@@ -11,16 +11,18 @@ return {
   },
   opts = function()
     return {
-      lua_ls = {
-        settings = {
-          Lua = {
-            runtime = { version = "LuaJIT" },
-            diagnostics = { globals = { "vim" } },
-            workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+      servers = {
+        lua_ls = {
+          settings = {
+            Lua = {
+              runtime = { version = "LuaJIT" },
+              diagnostics = { globals = { "vim" } },
+              workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+            },
           },
         },
+        vtsls = require("vtsls").lspconfig,
       },
-      vtsls = require("vtsls").lspconfig,
     }
   end,
   config = function(_, opts)
@@ -50,10 +52,9 @@ return {
     require("mason").setup()
     require("mason-lspconfig").setup()
 
-    for server_name, _ in pairs(opts) do
+    for server_name, config in pairs(opts.servers) do
       -- passing config.capabilities to blink.cmp merges with the capabilities in your
       -- `opts[server].capabilities, if you've defined it
-      local config = opts[server_name] or {}
       config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
       lspconfig[server_name].setup(config)
     end

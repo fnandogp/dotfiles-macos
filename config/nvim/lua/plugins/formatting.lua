@@ -25,6 +25,7 @@ return {
         lua = { "stylua" },
         python = { "isort", "black" },
         go = { "gofmt" },
+        http = { "kulala-fmt" },
       },
       format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable

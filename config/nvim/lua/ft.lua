@@ -8,3 +8,9 @@ vim.filetype.add({
     ["*.envrc"] = "sh",
   },
 })
+
+vim.filetype.add({
+  extension = {
+    ["http"] = "http",
+  },
+})

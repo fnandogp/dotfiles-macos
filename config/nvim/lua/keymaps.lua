@@ -27,7 +27,7 @@ vim.keymap.set("n", "<Leader>W", "<Cmd>wa<CR>", { desc = "Write all" })
 vim.keymap.set("n", "<Leader>q", "<Cmd>q<CR>", { desc = "Quit buffer" })
 vim.keymap.set("n", "<Leader>Q", "<Cmd>qa<CR>", { desc = "Quit all" })
 
-vim.keymap.set("n", "<leader>R", ":edit!<CR>", { desc = "Reload buffer" })
+vim.keymap.set("n", "<leader>E", ":edit!<CR>", { desc = "Reload buffer" })
 
 -- Terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")

@@ -63,22 +63,36 @@ return {
       {
         mode = { "v", "n" },
         "<Leader>m",
-        "<cmd>MCstart<cr>",
+        "<cmd>MCstart<CR>",
         desc = "Create a selection for selected text or word under the cursor",
       },
     },
   },
   {
-    "ThePrimeagen/harpoon",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
+    "aaronik/treewalker.nvim",
     opts = {},
     keys = {
-      { "<leader>ha", '<cmd>lua require("harpoon.mark").add_file()<cr>', { desc = "Add harpoon mark" } },
-      { "<leader>hj", '<cmd>lua require("harpoon.ui").nav_next()<cr>', { desc = "Nav to next harpoon mark" } },
-      { "<leader>hk", '<cmd>lua require("harpoon.ui").nav_prev()<cr>', { desc = "Nav to prev harpoon mark" } },
-      { "<leader>hh", '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', { desc = "Open harpoon quick menu" } },
+      { "<tab>h", "<cmd>Treewalker Left<CR>" },
+      { "<tab>j", "<cmd>Treewalker Down<CR>" },
+      { "<tab>k", "<cmd>Treewalker Up<CR>" },
+      { "<tab>l", "<cmd>Treewalker Right<CR>" },
+    },
+  },
+  {
+    "OXY2DEV/helpview.nvim",
+    lazy = false,
+    opts = {},
+  },
+  {
+    "mistweaverco/kulala.nvim",
+    ft = { "http", "rest" },
+    opts = {
+      global_keymaps = true,
+      global_keymaps_prefix = "<leader>R",
+      kulala_keymaps_prefix = "",
+      ui = {
+        formatter = true,
+      },
     },
   },
 }
