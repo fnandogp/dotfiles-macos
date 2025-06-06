@@ -67,9 +67,6 @@ return {
         map("n", "<leader>hD", function() gitsigns.diffthis("~") end, { desc = "Diff This ~" })
         map("n", "<leader>hQ", function() gitsigns.setqflist("all") end, { desc = "Set Quickfix List" })
         map("n", "<leader>hq", gitsigns.setqflist, { desc = "Set Quickfix List" })
-        -- Toggles
-        map("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "Toggle Current Line Blame" })
-        map("n", "<leader>tw", gitsigns.toggle_word_diff, { desc = "Toggle Word Diff" })
         -- Text object
         map({ "o", "x" }, "ih", gitsigns.select_hunk, { desc = "Select Hunk" })
       end,

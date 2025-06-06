@@ -25,8 +25,10 @@ alias wsd="cd $HOME/.dotfiles"
 #alias pnpm="corepack pnpm"
 #alias pnpx="corepack pnpx"
 #alias npm="corepack npm"
-#alias npx="corepack npx" 
+#alias npx="corepack npx"
 
+alias rg="rg --hidden"
+alias fd="fd --hidden"
 
 # Shopify Hydrogen alias to local projects
 alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
@@ -34,7 +36,7 @@ alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 # pnpm
 export PNPM_HOME="/Users/fernando-dotcollective/Library/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+*":$PNPM_HOME:"*) ;;
+*) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end

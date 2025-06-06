@@ -26,8 +26,6 @@ return {
     }
   end,
   config = function(_, opts)
-    local lspconfig = require("lspconfig")
-
     vim.api.nvim_create_autocmd("LspAttach", {
       desc = "LSP actions",
       callback = function(args)
@@ -49,15 +47,13 @@ return {
 
     vim.diagnostic.config({ float = { border = "rounded" } })
 
+    -- Set custom configs for defined servers
+    for server_name, config in pairs(opts.servers) do
+      vim.lsp.config(server_name, config)
+    end
+
     require("mason").setup()
     require("mason-lspconfig").setup()
-
-    for server_name, config in pairs(opts.servers) do
-      -- passing config.capabilities to blink.cmp merges with the capabilities in your
-      -- `opts[server].capabilities, if you've defined it
-      config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-      lspconfig[server_name].setup(config)
-    end
   end,
   keys = {
     { "<Leader>ls", "<cmd>LspStart<CR>", desc = "Start LSP server" },

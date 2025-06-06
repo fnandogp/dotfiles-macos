@@ -14,5 +14,3 @@ export PATH="./bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
-
-export ZK_NOTEBOOK_DIR="$HOME/notebook"
