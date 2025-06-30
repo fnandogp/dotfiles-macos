@@ -1,10 +1,16 @@
 return {
   "echasnovski/mini.files",
   version = false,
-  config = function()
+  opts = {
+    mappings = {
+      synchronize = "<leader>w",
+    },
+  },
+
+  config = function(_, opts)
     local MiniFiles = require("mini.files")
 
-    MiniFiles.setup()
+    MiniFiles.setup(opts)
 
     --Create mapping to show/hide dot-files ~
     local show_dotfiles = true

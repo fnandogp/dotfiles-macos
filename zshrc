@@ -1,11 +1,11 @@
 # source zplug
 source ~/.zplug.zsh
 
-source ~/.aliasrc.zzsh
+source ~/.aliasrc.zsh
 source ~/.pathrc.zsh
 
 if [ -f ~/.env ]; then
-  export $(cat ~/.env | xargs)
+  export $(cat ~/.env | grep -v '^#' | xargs)
 fi
 
 

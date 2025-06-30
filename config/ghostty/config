@@ -2,5 +2,5 @@ macos-option-as-alt = true
 # theme = dark:catppuccin-frappe,light:catppuccin-latte
 theme = rose-pine-dawn
 font-family = ""
-font-family = "Cascadia Mono"
+font-family = "mononoki Regular"
 font-size = 15
