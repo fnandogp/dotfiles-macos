@@ -4,6 +4,7 @@ return {
   dependencies = {
     { "rafamadriz/friendly-snippets" },
     { "xzbdmw/colorful-menu.nvim", opts = {} },
+    { "Kaiser-Yang/blink-cmp-avante" },
     {
       "L3MON4D3/LuaSnip",
       version = "v2.*",
@@ -109,12 +110,13 @@ return {
     snippets = { preset = "luasnip" },
 
     sources = {
-      default = { "snippets", "lsp", "path", "buffer" },
+      default = { "avante", "snippets", "lsp", "path", "buffer" },
       providers = {
         buffer = { score_offset = 3 },
         lsp = { score_offset = 2 },
         path = { score_offset = 1 },
         snippets = { score_offset = 0 },
+        avante = { module = "blink-cmp-avante", name = "Avante", opts = {} },
       },
     },
 
@@ -122,32 +124,3 @@ return {
   },
   opts_extend = { "sources.default" },
 }
-
--- ORIGINAL MENU DRAW
--- draw = {
---   padding = 1,
---   columns = {
---     { "label", "label_description", gap = 1 },
---     { "kind_icon", "kind", gap = 1 },
---   },
---   -- columns = { { "kind_icon", "label", "label_description", gap = 1 }, { "source_name", "kind", gap = 1 } },
---   components = {
---     kind_icon = {
---       ellipsis = false,
---       width = { fill = true },
---       text = function(ctx)
---         local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
---         return kind_icon
---       end,
---       -- Optionally, you may also use the highlights from mini.icons
---       highlight = function(ctx)
---         local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
---         return hl
---       end,
---     },
---     kind = {
---       ellipsis = false,
---       text = function(ctx) return "(" .. ctx.kind .. ")" end,
---     },
---   },
--- },

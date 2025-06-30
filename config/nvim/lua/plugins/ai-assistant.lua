@@ -3,12 +3,15 @@ return {
     "Exafunction/codeium.nvim",
     cmd = "Codeium",
     event = "InsertEnter",
-    dependencies = { "nvim-lua/plenary.nvim", "j-hui/fidget.nvim", "ravitemer/codecompanion-history.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       enable_cmp_source = false,
       virtual_text = {
         enabled = true,
         manual = false,
+        filetypes = {
+          Avante = false,
+        },
         key_bindings = {
           -- Accept the current completion.
           accept = "<A-y>",
@@ -19,12 +22,44 @@ return {
     },
   },
   {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    version = false, -- Never set this value to "*"! Never!
+    opts = {
+      provider = "gemini_flash",
+      providers = {
+        gemini_flash = { __inherited_from = "gemini", model = "gemini-2.5-flash" },
+        gemini_pro = { __inherited_from = "gemini", model = "gemini-2.5-pro" },
+      },
+    },
+    build = "make",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "echasnovski/mini.pick", -- for file_selector provider mini.pick
+      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        "MeanderingProgrammer/render-markdown.nvim",
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  },
+
+  {
     "olimorris/codecompanion.nvim",
     cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "echasnovski/mini.pick",
+      "ravitemer/codecompanion-history.nvim",
+      "j-hui/fidget.nvim",
     },
     init = function() require("plugins.utils.fidget-spinner"):init() end,
     opts = {
@@ -128,11 +163,11 @@ Review and improve the following text for grammar, style, and clarity.
       end, { nargs = 0 })
     end,
     keys = {
-      { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle Code Companion Chat", mode = { "n" } },
-      { "<leader>aa", "<cmd>CodeCompanionChat Add<cr>", desc = "Toggle Code Companion Chat", mode = { "v" } },
-      { "<leader>an", "<cmd>CodeCompanionChat<cr>", desc = "Start new Code Companion Chat", mode = { "n" } },
-      { "<leader>ae", "<cmd>'<,'>CodeCompanion<cr>", desc = "Code Companion Inline", mode = { "v" } },
-      { "<leader>ax", "<cmd>CodeCompanionActions<cr>", desc = "Code Companion Actions", mode = { "n", "v" } },
+      { "<leader>ct", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle Code Companion Chat", mode = { "n" } },
+      { "<leader>cc", "<cmd>CodeCompanionChat Add<cr>", desc = "Toggle Code Companion Chat", mode = { "v" } },
+      { "<leader>cc", "<cmd>CodeCompanionChat<cr>", desc = "Start new Code Companion Chat", mode = { "n" } },
+      { "<leader>ce", "<cmd>'<,'>CodeCompanion<cr>", desc = "Code Companion Inline", mode = { "v" } },
+      { "<leader>cx", "<cmd>CodeCompanionActions<cr>", desc = "Code Companion Actions", mode = { "n", "v" } },
       { "ga", "<cmd>CodeCompanionChatAddFile<cr>", desc = "Add current file to Code Companion Chat", mode = { "n" } },
     },
   },
