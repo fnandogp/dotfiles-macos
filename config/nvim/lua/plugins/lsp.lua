@@ -5,7 +5,28 @@ return {
   dependencies = {
     "mason-org/mason.nvim",
     "mason-org/mason-lspconfig.nvim",
-    "SmiteshP/nvim-navic",
+    {
+      "SmiteshP/nvim-navic",
+      opts = { lsp = { highlight = true } },
+      config = function(_, opts)
+        local navic = require("nvim-navic")
+        navic.setup(opts)
+        local function set_winbar()
+          local filename = vim.fn.expand("%t")
+          local navic_location = navic.is_available() and navic.get_location() or ""
+
+          local winbar_content = filename
+          if navic_location ~= "" then winbar_content = winbar_content .. " > " .. navic_location end
+
+          vim.wo.winbar = winbar_content
+        end
+
+        -- Update winbar when cursor moves or file changes
+        vim.api.nvim_create_autocmd({ "CursorMoved", "BufEnter" }, {
+          callback = set_winbar,
+        })
+      end,
+    },
     "saghen/blink.cmp",
     "yioneko/nvim-vtsls",
   },
@@ -41,11 +62,11 @@ return {
         vim.keymap.set("n", "gj", function() vim.diagnostic.jump({ count = 1 }) end, { buffer = bufnr, desc = "Next diagnostic" })
 
         --navic
-        if client.server_capabilities.documentSymbolProvider then require("nvim-navic").attach(client, bufnr) end
+        if client and client.name ~= "harper_ls" and client.server_capabilities and client.server_capabilities.documentSymbolProvider then
+          require("nvim-navic").attach(client, bufnr)
+        end
       end,
     })
-
-    vim.diagnostic.config({ float = { border = "rounded" } })
 
     -- Set custom configs for defined servers
     for server_name, config in pairs(opts.servers) do

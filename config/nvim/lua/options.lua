@@ -21,3 +21,44 @@ vim.opt.foldlevelstart = 99 -- start with all folds open
 -- Views can only be fully collapsed with the global statusline
 vim.opt.laststatus = 3
 vim.opt.conceallevel = 1
+
+-- Diagnostics
+vim.diagnostic.config({
+  jump = {
+    float = true,
+  },
+  signs = {
+    text = { "", "▲", "●", "" }, -- Error, Warn, Info, Hint
+  },
+  virtual_text = {
+    spacing = 4,
+    severity = {
+      min = vim.diagnostic.severity.WARN, -- leave out Info & Hint
+    },
+    format = function(diag)
+      local msg = diag.message:gsub("%.$", "")
+      return msg
+    end,
+    suffix = function(diag)
+      if not diag then return "" end
+      local codeOrSource = (tostring(diag.code or diag.source or ""))
+      if codeOrSource == "" then return "" end
+      return (" [%s]"):format(codeOrSource:gsub("%.$", ""))
+    end,
+  },
+  float = {
+    max_width = 70,
+    border = "rounded",
+    header = "",
+    prefix = function(_, _, total) return (total > 1 and "• " or ""), "Comment" end,
+    suffix = function(diag)
+      local source = (diag.source or ""):gsub(" ?%.$", "")
+      local code = diag.code and ": " .. diag.code or ""
+      return " " .. source .. code, "Comment"
+    end,
+    format = function(diag)
+      local msg = diag.message:gsub("%.$", "")
+      return msg
+    end,
+  },
+})
