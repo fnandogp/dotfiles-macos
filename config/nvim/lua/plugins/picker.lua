@@ -31,18 +31,12 @@ return {
     local original_paste = vim.paste
     vim.paste = function(...)
       if not MiniPick.is_picker_active() then return original_paste(...) end
-
       -- Encountered inconsistent register values after copying from host machine
       -- Could add more, please check `Pick registers` on strategic times to inspect state
       for _, reg in ipairs({ "+", ".", "*" }) do
         local content = vim.fn.getreg(reg) or ""
-
-        if content ~= "" then
-          MiniPick.set_picker_query({ content })
-          return
-        end
+        if content ~= "" then return MiniPick.set_picker_query({ content }) end
       end
-
       -- Yes, I know about <C-r>, will suppress that message, but show \something\ for feedback reasons
       vim.notify("No content to paste", vim.log.levels.WARN)
     end

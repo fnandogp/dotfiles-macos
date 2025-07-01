@@ -18,13 +18,12 @@ return {
           local winbar_content = filename
           if navic_location ~= "" then winbar_content = winbar_content .. " > " .. navic_location end
 
-          vim.wo.winbar = winbar_content
+          -- Hide winbar if filetype is 'minifiles'
+          vim.wo.winbar = (vim.bo.filetype == "minifiles") and "" or winbar_content
         end
 
         -- Update winbar when cursor moves or file changes
-        vim.api.nvim_create_autocmd({ "CursorMoved", "BufEnter" }, {
-          callback = set_winbar,
-        })
+        vim.api.nvim_create_autocmd({ "CursorMoved", "BufEnter" }, { callback = set_winbar })
       end,
     },
     "saghen/blink.cmp",
