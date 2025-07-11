@@ -2,6 +2,21 @@ return {
   { "echasnovski/mini.hipatterns", version = false, opts = {} },
   { "echasnovski/mini.animate", version = false, opts = { scroll = { enable = false } } },
   {
+    "olimorris/persisted.nvim",
+    cmd = "SessionSelect",
+    event = "VeryLazy",
+    opts = {
+      use_git_branch = true,
+      autoload = true,
+      autosave = true,
+      allowed_dirs = {
+        "~/.dotfiles",
+        "~/workspace/",
+      },
+    },
+    keys = { "<leader>S", "<cmd>SessionSelect<CR>", desc = "Select session" },
+  },
+  {
     "chrisgrieser/nvim-origami",
     event = "VeryLazy",
     init = function()
@@ -19,19 +34,20 @@ return {
       { "<leader>ss", "<cmd>GrugFar<CR>", desc = "Open GrugFar", mode = "n" },
       {
         "<leader>sf",
-        "<cmd>lua require('grug-far').open({ prefills = { paths = vim.fn.expand('%')}})<CR>",
+        function() require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } }) end,
         desc = "Open GrugFar limiting search/replace to current file",
         mode = "n",
       },
       {
-        "<leader>sw",
-        "<cmd>lua require('grug-far').open({ prefills = { search = vim.fn.expand('<cword>')}})<CR>",
-        desc = "Open GrugFar with the current visual selection, searching only current file ",
-        mode = "x",
-      },
-      {
-        "<leader>sW",
-        "<cmd>lua require('grug-far').with_visual_selection({ prefills = { paths = vim.fn.expand('%')}})<CR>",
+        "<leader>sf",
+        function()
+          require("grug-far").open({
+            prefills = {
+              search = vim.fn.expand("<cword>"),
+              paths = vim.fn.expand("%"),
+            },
+          })
+        end,
         desc = "Open GrugFar with the current visual selection, searching only current file ",
         mode = "x",
       },

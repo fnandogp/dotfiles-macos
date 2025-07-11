@@ -13,7 +13,24 @@ return {
   { "echasnovski/mini.surround", version = false, opts = {} },
   { "echasnovski/mini.bufremove", version = false, opts = {} },
   { "echasnovski/mini.move", version = false, opts = {} },
-  { "echasnovski/mini.ai", version = false, opts = {} },
+  {
+    "echasnovski/mini.ai",
+    version = false,
+    opts = function()
+      local miniai = require("mini.ai")
+      return {
+        custom_textobjects = {
+          f = miniai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
+          -- Whole buffer.
+          g = function()
+            local from = { line = 1, col = 1 }
+            local to = { line = vim.fn.line("$"), col = math.max(vim.fn.getline("$"):len(), 1) }
+            return { from = from, to = to }
+          end,
+        },
+      }
+    end,
+  },
   {
     "folke/flash.nvim",
     event = "VeryLazy",

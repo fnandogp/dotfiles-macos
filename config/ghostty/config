@@ -4,3 +4,4 @@ theme = rose-pine-dawn
 font-family = ""
 font-family = "mononoki Regular"
 font-size = 15
+keybind = shift+enter=text:\n
