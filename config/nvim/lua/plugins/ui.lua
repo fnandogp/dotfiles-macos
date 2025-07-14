@@ -76,8 +76,8 @@ return {
           partial = { raw = "[-]", rendered = " ", highlight = "RenderMarkdownTodo", scope_highlight = nil },
         },
       },
-      file_types = { "markdown", "vimwiki", "codecompanion", "Avante" },
+      file_types = { "markdown", "vimwiki", "codecompanion" },
     },
-    ft = { "markdown", "Avante" },
+    ft = { "markdown" },
   },
 }

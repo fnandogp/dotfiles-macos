@@ -4,7 +4,6 @@ return {
   dependencies = {
     { "rafamadriz/friendly-snippets" },
     { "xzbdmw/colorful-menu.nvim", opts = {} },
-    { "Kaiser-Yang/blink-cmp-avante" },
     {
       "L3MON4D3/LuaSnip",
       version = "v2.*",
@@ -110,13 +109,12 @@ return {
     snippets = { preset = "luasnip" },
 
     sources = {
-      default = { "avante", "snippets", "lsp", "path", "buffer" },
+      default = { "snippets", "lsp", "path", "buffer" },
       providers = {
         buffer = { score_offset = 3 },
         lsp = { score_offset = 2 },
         path = { score_offset = 1 },
         snippets = { score_offset = 0 },
-        avante = { module = "blink-cmp-avante", name = "Avante", opts = {} },
       },
     },
 

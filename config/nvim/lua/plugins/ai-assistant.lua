@@ -1,55 +1,24 @@
 return {
   {
-    "Exafunction/codeium.nvim",
-    cmd = "Codeium",
-    event = "InsertEnter",
+    "monkoose/neocodeium",
+    event = "VeryLazy",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
-      enable_cmp_source = false,
-      virtual_text = {
-        enabled = true,
-        manual = false,
-        filetypes = {
-          Avante = false,
-        },
-        key_bindings = {
-          -- Accept the current completion.
-          accept = "<A-y>",
-          -- Dismiss the current completion.
-          dismiss = "<A-n>",
-        },
-      },
+      filetypes = {},
     },
-  },
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    version = false, -- Never set this value to "*"! Never!
-    opts = {
-      provider = "gemini_flash",
-      providers = {
-        gemini_flash = { __inherited_from = "gemini", model = "gemini-2.5-flash" },
-        gemini_pro = { __inherited_from = "gemini", model = "gemini-2.5-pro" },
-      },
-    },
-    build = "make",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "echasnovski/mini.pick", -- for file_selector provider mini.pick
+    keys = {
       {
-        -- Make sure to set this up properly if you have lazy=true
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
+        "<A-y>",
+        function()
+          local neocodeium = require("neocodeium")
+          if neocodeium.visible() then return neocodeium.accept() end
+          return neocodeium.cycle_or_complete()
+        end,
+        desc = "Smart Accept or Trigger",
+        mode = "i",
       },
     },
   },
-
   {
     "olimorris/codecompanion.nvim",
     cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
@@ -66,15 +35,8 @@ return {
         action_palette = { provider = "mini_pick" },
       },
       strategies = {
-        chat = {
-          adapter = "gemini",
-          keymaps = {
-            send = { modes = { n = "<C-s>", i = "<C-s>" } },
-          },
-        },
-        inline = {
-          adapter = "gemini",
-        },
+        chat = { adapter = "anthropic" },
+        inline = { adapter = "anthropic" },
       },
       adapters = {
         coder = function()
@@ -145,6 +107,14 @@ Review and improve the following text for grammar, style, and clarity.
             dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history",
           },
         },
+        mcphub = {
+          callback = "mcphub.extensions.codecompanion",
+          opts = {
+            show_result_in_chat = true, -- Show mcp tool results in chat
+            make_vars = true, -- Convert resources to #variables
+            make_slash_commands = true, -- Add prompts as /slash commands
+          },
+        },
       },
     },
     config = function(_, opts)
@@ -168,6 +138,21 @@ Review and improve the following text for grammar, style, and clarity.
       { "<leader>ce", "<cmd>'<,'>CodeCompanion<cr>", desc = "Code Companion Inline", mode = { "v" } },
       { "<leader>cx", "<cmd>CodeCompanionActions<cr>", desc = "Code Companion Actions", mode = { "n", "v" } },
       { "ga", "<cmd>CodeCompanionChatAddFile<cr>", desc = "Add current file to Code Companion Chat", mode = { "n" } },
+    },
+  },
+  {
+    "ravitemer/mcphub.nvim",
+    build = "npm install -g mcp-hub@latest",
+    dependencies = { "cline/mcp-marketplace" },
+    opts = {
+      -- Optional: specify custom mcphub config file path
+      -- config_file = "path/to/mcphub.json",
+
+      -- Optional: specify which servers to enable
+      -- enabled_servers = { "filesystem", "git", "github" },
+
+      -- Optional: custom server configurations
+      -- server_configs = {},
     },
   },
 }

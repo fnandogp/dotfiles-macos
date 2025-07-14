@@ -18,8 +18,10 @@ return {
           local winbar_content = filename
           if navic_location ~= "" then winbar_content = winbar_content .. " > " .. navic_location end
 
-          -- Hide winbar if filetype is 'minifiles'
-          vim.wo.winbar = (vim.bo.filetype == "minifiles") and "" or winbar_content
+          -- Hide winbar for specific filetypes
+          local ignored_filetypes = { "minifiles", "text.kulala_ui" }
+          local should_hide = vim.tbl_contains(ignored_filetypes, vim.bo.filetype)
+          if not should_hide then vim.wo.winbar = winbar_content end
         end
 
         -- Update winbar when cursor moves or file changes
