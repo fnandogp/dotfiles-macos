@@ -30,10 +30,12 @@ vim.diagnostic.config({
   signs = {
     text = { "", "▲", "●", "" }, -- Error, Warn, Info, Hint
   },
+  virtual_text = false,
   float = {
     max_width = 70,
     border = "rounded",
     header = "",
+    source = true,
     prefix = function(_, _, total) return (total > 1 and "• " or ""), "Comment" end,
     suffix = function(diag)
       local source = (diag.source or ""):gsub(" ?%.$", "")

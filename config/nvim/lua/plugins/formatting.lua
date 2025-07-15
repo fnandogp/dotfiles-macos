@@ -1,5 +1,3 @@
-local function check_formatting_enabled() return not vim.g.disable_autoformat and not vim.b.disable_autoformat end
-
 return {
   "stevearc/conform.nvim",
   event = { "BufReadPre", "BufNewFile" },
@@ -9,12 +7,31 @@ return {
     vim.b.disable_autoformat = false
     vim.g.disable_autoformat = false
 
+    -- Helper function to conditionally select a formatter
+    local function get_js_ts_formatters(bufnr)
+      local file_path = vim.api.nvim_buf_get_name(bufnr)
+      -- Search for a biome config file upward from the current buffer's path
+      local biome_config = vim.fs.find({ "biome.json", "biome.jsonc" }, {
+        upward = true,
+        path = file_path,
+        stop = vim.loop.os_homedir(),
+      })
+
+      if #biome_config > 0 then
+        vim.notify("Using formatter: biome")
+        return { "biome" }
+      else
+        vim.notify("Using formatter: prettier")
+        return { "prettier" }
+      end
+    end
+
     conform.setup({
       formatters_by_ft = {
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescriptreact = { "prettier" },
+        javascript = get_js_ts_formatters,
+        typescript = get_js_ts_formatters,
+        javascriptreact = get_js_ts_formatters,
+        typescriptreact = get_js_ts_formatters,
         svelte = { "prettier" },
         css = { "prettier" },
         html = { "prettier" },
