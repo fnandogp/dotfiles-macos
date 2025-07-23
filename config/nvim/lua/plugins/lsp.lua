@@ -19,7 +19,7 @@ return {
           if navic_location ~= "" then winbar_content = winbar_content .. " > " .. navic_location end
 
           -- Hide winbar for specific filetypes
-          local ignored_filetypes = { "minifiles", "text.kulala_ui" }
+          local ignored_filetypes = { "minifiles", "text.kulala_ui", "json.kulala_ui" }
           local should_hide = vim.tbl_contains(ignored_filetypes, vim.bo.filetype)
           if not should_hide then vim.wo.winbar = winbar_content end
         end
@@ -32,6 +32,9 @@ return {
     "yioneko/nvim-vtsls",
   },
   opts = function()
+    local config_detection = require("plugins.utils.config_detection")
+    local project_roots = require("plugins.utils.project_roots")
+
     return {
       servers = {
         lua_ls = {
@@ -43,7 +46,20 @@ return {
             },
           },
         },
-        vtsls = require("vtsls").lspconfig,
+        vtsls = vim.tbl_deep_extend("force", require("vtsls").lspconfig, {
+          root_dir = function(bufnr, on_dir)
+            if not config_detection.has_deno_config(bufnr) then
+              local root_path = project_roots.get_node_root_dir(bufnr)
+              if root_path then on_dir(root_path) end
+            end
+          end,
+        }),
+        denols = {
+          root_dir = function(bufnr, on_dir)
+            local root_path = project_roots.get_deno_root_dir(bufnr)
+            if root_path then on_dir(root_path) end
+          end,
+        },
       },
     }
   end,

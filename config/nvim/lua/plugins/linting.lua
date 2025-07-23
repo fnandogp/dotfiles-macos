@@ -1,28 +1,46 @@
 return {
   "mfussenegger/nvim-lint",
-  opts = {
-    events = { "BufWritePost", "BufReadPost", "InsertLeave" },
-    linters_by_ft = {
-      markdown = { "markdownlint" },
-      lua = { "luacheck" },
-      javascript = { "biomejs", "eslint" },
-      typescript = { "biomejs", "eslint" },
-      javascriptreact = { "biomejs", "eslint" },
-      typescriptreact = { "biomejs", "eslint" },
-      svelte = { "biomejs", "eslint" },
-      php = { "php", "phpstan", "phpmd" },
-      css = { "stylelint" },
-      scss = { "stylelint" },
-    },
-    linters = {
-      biomejs = {
-        condition = function(ctx) return vim.fs.find({ "biome.json", "biome.jsonc" }, { path = ctx.filename, upward = true })[1] end,
+  opts = function()
+    local config_detection = require("plugins.utils.config_detection")
+    return {
+      events = { "BufWritePost", "BufReadPost", "InsertLeave" },
+      linters_by_ft = {
+        markdown = { "markdownlint" },
+        lua = { "luacheck" },
+        javascript = { "deno", "biomejs", "eslint" },
+        typescript = { "deno", "biomejs", "eslint" },
+        javascriptreact = { "deno", "biomejs", "eslint" },
+        typescriptreact = { "deno", "biomejs", "eslint" },
+        svelte = { "biomejs", "eslint" },
+        php = { "php", "phpstan", "phpmd" },
+        css = { "stylelint" },
+        scss = { "stylelint" },
       },
-      eslint = {
-        condition = function(ctx) return not vim.fs.find({ "biome.json", "biome.jsonc" }, { path = ctx.filename, upward = true })[1] end,
+      linters = {
+        eslint = {
+          condition = function(ctx)
+            local bufnr = vim.fn.bufnr(ctx.filename, false)
+            if bufnr == -1 then return false end
+            return config_detection.has_eslint_config(bufnr)
+          end,
+        },
+        deno = {
+          condition = function(ctx)
+            local bufnr = vim.fn.bufnr(ctx.filename, false)
+            if bufnr == -1 then return false end
+            return config_detection.has_deno_config(bufnr)
+          end,
+        },
+        biomejs = {
+          condition = function(ctx)
+            local bufnr = vim.fn.bufnr(ctx.filename, false)
+            if bufnr == -1 then return false end
+            return config_detection.has_biome_config(bufnr)
+          end,
+        },
       },
-    },
-  },
+    }
+  end,
   config = function(_, opts)
     local M = {}
 

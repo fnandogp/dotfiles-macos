@@ -7,42 +7,50 @@ return {
     vim.b.disable_autoformat = false
     vim.g.disable_autoformat = false
 
-    -- Helper function to conditionally select a formatter
-    local function get_js_ts_formatters(bufnr)
-      local file_path = vim.api.nvim_buf_get_name(bufnr)
-      -- Search for a biome config file upward from the current buffer's path
-      local biome_config = vim.fs.find({ "biome.json", "biome.jsonc" }, {
-        upward = true,
-        path = file_path,
-        stop = vim.loop.os_homedir(),
-      })
-
-      if #biome_config > 0 then
-        vim.notify("Using formatter: biome")
-        return { "biome" }
-      else
-        vim.notify("Using formatter: prettier")
-        return { "prettier" }
-      end
-    end
+    local config_detection = require("plugins.utils.config_detection")
 
     conform.setup({
       formatters_by_ft = {
-        javascript = get_js_ts_formatters,
-        typescript = get_js_ts_formatters,
-        javascriptreact = get_js_ts_formatters,
-        typescriptreact = get_js_ts_formatters,
-        svelte = { "prettier" },
-        css = { "prettier" },
-        html = { "prettier" },
-        json = { "prettier" },
-        yaml = { "prettier" },
-        markdown = { "prettier" },
-        graphql = { "prettier" },
+        javascript = { "deno_fmt", "biome", "prettier" },
+        typescript = { "deno_fmt", "biome", "prettier" },
+        javascriptreact = { "deno_fmt", "biome", "prettier" },
+        typescriptreact = { "deno_fmt", "biome", "prettier" },
+        svelte = { "biome", "prettier" },
+        css = { "biome", "prettier" },
+        html = { "biome", "prettier" },
+        json = { "biome", "prettier" },
+        yaml = { "biome", "prettier" },
+        markdown = { "biome", "prettier" },
+        graphql = { "biome", "prettier" },
         lua = { "stylua" },
         python = { "isort", "black" },
         go = { "gofmt" },
         http = { "kulala-fmt" },
+      },
+      formatters = {
+        injected = { options = { ignore_errors = true } },
+        prettier = {
+          condition = function(ctx)
+            local bufnr = vim.fn.bufnr(ctx.filename, false)
+            if bufnr == -1 then return false end
+            if config_detection.has_biome_config(bufnr) then return false end
+            return config_detection.has_prettier_config(bufnr)
+          end,
+        },
+        deno_fmt = {
+          condition = function(ctx)
+            local bufnr = vim.fn.bufnr(ctx.filename, false)
+            if bufnr == -1 then return false end
+            return config_detection.has_deno_config(bufnr)
+          end,
+        },
+        biome = {
+          condition = function(ctx)
+            local bufnr = vim.fn.bufnr(ctx.filename, false)
+            if bufnr == -1 then return false end
+            return config_detection.has_biome_config(bufnr)
+          end,
+        },
       },
       format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable

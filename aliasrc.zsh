@@ -5,8 +5,8 @@
 # Common
 alias s="sudo"
 alias vim="vim -u DEFAULTS"
-alias v="nvim"
 alias n="nvim"
+alias t="tmux"
 
 alias '..'='cd ..'
 alias '...'='cd ../..'
@@ -32,6 +32,7 @@ alias fd="fd --hidden"
 
 # Shopify Hydrogen alias to local projects
 alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
+
 
 # pnpm
 export PNPM_HOME="/Users/fernando-dotcollective/Library/pnpm"

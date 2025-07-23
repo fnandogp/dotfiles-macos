@@ -1,6 +1,6 @@
 # Dotfiles (Mac OS)
-My Mac OS dotfiles
 
+My Mac OS dotfiles
 
 ## Installation
 
@@ -21,8 +21,8 @@ Clone the project and place it on your home directory under the name
 
 ```bash
 git clone git@github.com:fnandogp/dotfiles-macos.git ~/.dotfiles
-// OR
-git clone https://github.com:fnandogp/dotfiles-macos.git ~/.dotfiles
+# OR
+git clone https://github.com/fnandogp/dotfiles-macos.git ~/.dotfiles
 ```
 
 Install the [rcm](https://github.com/thoughtbot/rcm)
@@ -45,47 +45,38 @@ command:
 brew bundle install
 ```
 
-
 In case you want to update your `Brewfile`, run the following command:
 
 ```bash
 brew bundle dump --file ~/.dotfiles/Brewfile -f
 ```
 
-## ASDF
+## Runtime Management with mise
 
-To install runtime versions:
+Install [mise](https://mise.jdx.dev/) for managing runtime versions:
 
 ```bash
-# Node
-asdf plugin add nodejs
-bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring'
-asdf install nodejs latest:12
-asdf list nodejs
-asdf global nodejs 12.x.x # replace it with you current installed version
-
-# Ruby
-asdf plugin add ruby
-asdf install ruby latest
-asdf list ruby
-asdf global ruby 2.x.x # replace it with you current installed version
-
-# Python
-asdf plugin add python
-asdf install python latest:3
-asdf install python latest:2
-asdf list python
-asdf global python 3.x.x 2.7.x # replace it with you current installed version
-
-# PHP
-asdf plugin add php https://github.com/asdf-community/asdf-php.git
-asdf list php
-PHP_WITHOUT_PEAR=yes asdf install php <versions>
-
-# Java
-asdf plugin add java https://github.com/halcyon/asdf-java.git
-asdf list java
-asdf install java latest:openjdk-10
-adsf global java openjdk-10x # replace it with you current installed version
-
+curl https://mise.run | sh
 ```
+
+Set global runtime versions:
+
+```bash
+# Set common runtimes
+mise use --global node@22
+mise use --global ruby@latest
+mise use --global python@latest
+
+# Run specific versions when needed
+mise exec node@20 -- node -v
+mise exec python@3.11 -- python script.py
+```
+
+## Features
+
+This dotfiles setup includes:
+
+- **Neovim**: Modern Lua configuration with AI integration (Code Companion, Neocodeium)
+- **Terminal**: Kitty and Ghostty configurations
+- **Shell**: Zsh with plugins (fzf, zoxide, starship prompt)
+- **AI Tools**: MCP (Model Context Protocol) integration for enhanced development

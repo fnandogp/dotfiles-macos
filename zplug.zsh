@@ -17,6 +17,7 @@ zplug "lib/clipboard", from:oh-my-zsh
 zplug "plugins/httpie", from:oh-my-zsh
 zplug "plugins/mise", from:oh-my-zsh
 zplug "plugins/starship", from:oh-my-zsh
+zplug "plugins/tmux", from:oh-my-zsh
 
 zplug "mrjohannchang/zsh-interactive-cd"
 
