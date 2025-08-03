@@ -56,11 +56,11 @@ return {
     end,
   },
   keys = {
-    { "<Leader>nn", "<cmd>ObsidianNew<CR>", desc = "Create an Obsidian note" },
-    { "<Leader>nf", "<cmd>ObsidianQuickSwitch<CR>", desc = "Find an Obsidian note" },
-    { "<Leader>ns", "<cmd>ObsidianSearch<CR>", desc = "Search for an Obsidian note" },
-    { "<Leader>nl", "<cmd>ObsidianLinks<CR>", desc = "List Obsidian links" },
-    { "<Leader>nb", "<cmd>ObsidianBackLinks<CR>", desc = "List Obsidian back links" },
-    { "<Leader>nt", "<cmd>ObsidianToday<CR>", desc = "Create a new daily note in Obsidian" },
+    { "<Leader>nn", "<cmd>Obsidian new<CR>", desc = "Create an Obsidian note" },
+    { "<Leader>nf", "<cmd>Obsidian quick_switch<CR>", desc = "Find an Obsidian note" },
+    { "<Leader>ns", "<cmd>Obsidian search<CR>", desc = "Search for an Obsidian note" },
+    { "<Leader>nl", "<cmd>Obsidian links<CR>", desc = "List Obsidian links" },
+    { "<Leader>nb", "<cmd>Obsidian backlinks<CR>", desc = "List Obsidian back links" },
+    { "<Leader>nt", "<cmd>Obsidian today<CR>", desc = "Create a new daily note in Obsidian" },
   },
 }
