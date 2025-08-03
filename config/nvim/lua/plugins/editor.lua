@@ -93,4 +93,15 @@ return {
       ui = { formatter = true },
     },
   },
+  {
+    "folke/zen-mode.nvim",
+    opts = {
+      window = {
+        width = 150, -- width of the Zen window
+      },
+    },
+    keys = {
+      { "<leader>z", "<cmd>ZenMode<CR>", desc = "Toggle Zen Mode", mode = "n" },
+    },
+  },
 }

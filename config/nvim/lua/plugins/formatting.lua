@@ -20,8 +20,8 @@ return {
         html = { "biome", "prettier" },
         json = { "biome", "prettier" },
         yaml = { "biome", "prettier" },
-        markdown = { "biome", "prettier" },
-        graphql = { "biome", "prettier" },
+        markdown = { "prettier" },
+        graphql = { "prettier" },
         lua = { "stylua" },
         python = { "isort", "black" },
         go = { "gofmt" },
@@ -31,23 +31,20 @@ return {
         injected = { options = { ignore_errors = true } },
         prettier = {
           condition = function(ctx)
-            local bufnr = vim.fn.bufnr(ctx.filename, false)
-            if bufnr == -1 then return false end
+            local bufnr = vim.api.nvim_get_current_buf()
             if config_detection.has_biome_config(bufnr) then return false end
             return config_detection.has_prettier_config(bufnr)
           end,
         },
         deno_fmt = {
           condition = function(ctx)
-            local bufnr = vim.fn.bufnr(ctx.filename, false)
-            if bufnr == -1 then return false end
+            local bufnr = vim.api.nvim_get_current_buf()
             return config_detection.has_deno_config(bufnr)
           end,
         },
         biome = {
           condition = function(ctx)
-            local bufnr = vim.fn.bufnr(ctx.filename, false)
-            if bufnr == -1 then return false end
+            local bufnr = vim.api.nvim_get_current_buf()
             return config_detection.has_biome_config(bufnr)
           end,
         },
