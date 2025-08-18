@@ -16,6 +16,7 @@ export PATH="/usr/local/sbin:$PATH"
 export XDG_CONFIG_HOME="$HOME/.config"
 export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-# add homebrew to path
+# Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="/opt/homebrew/bin:$PATH"
 
