@@ -25,4 +25,3 @@ eval "$(zoxide init zsh)"
 export GPG_TTY=$(tty)
 
 source <(fzf --zsh)
-

@@ -36,22 +36,7 @@ return {
           },
         },
       })
-      -- vim.cmd([[colorscheme catppuccin-latte]])
-    end,
-  },
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("tokyonight").setup({
-        transparent = true,
-        styles = {
-          sidebars = "transparent",
-          floats = "transparent",
-        },
-      })
-      -- vim.cmd([[colorscheme tokyonight-day]])
+      vim.cmd([[colorscheme catppuccin-latte]])
     end,
   },
   {
@@ -77,7 +62,7 @@ return {
         },
       })
 
-      vim.cmd("colorscheme rose-pine")
+      -- vim.cmd("colorscheme rose-pine")
     end,
   },
 }
