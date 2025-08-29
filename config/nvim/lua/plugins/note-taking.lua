@@ -8,9 +8,10 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "echasnovski/mini.pick",
+    "nvim-mini/mini.pick",
   },
   opts = {
+    legacy_commands = false,
     ui = { enable = false },
     checkboxes = {
       order = { " ", "x", "-", "~", "?" },

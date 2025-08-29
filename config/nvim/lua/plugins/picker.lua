@@ -1,10 +1,9 @@
 return {
-  "echasnovski/mini.pick",
+  "nvim-mini/mini.pick",
   lazy = false,
   version = "*",
   dependencies = {
-    { "echasnovski/mini.extra", version = false, opts = {} },
-    { "echasnovski/mini.visits", version = false, opts = {} },
+    { "nvim-mini/mini.extra", version = false, opts = {} },
   },
   opts = {
     mappings = {

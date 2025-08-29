@@ -11,6 +11,23 @@ return {
         local luasnip = require("luasnip")
         if opts then luasnip.config.setup(opts) end
         vim.tbl_map(function(type) require("luasnip.loaders.from_" .. type).lazy_load() end, { "vscode", "snipmate", "lua" })
+
+        -- Custom snippets
+        luasnip.add_snippets("javascript", {
+          luasnip.snippet("co", {
+            luasnip.text_node("console.log({"),
+            luasnip.insert_node(0),
+            luasnip.text_node("})"),
+          }),
+        })
+        luasnip.add_snippets("typescript", {
+          luasnip.snippet("co", {
+            luasnip.text_node("console.log({"),
+            luasnip.insert_node(0),
+            luasnip.text_node("})"),
+          }),
+        })
+
         luasnip.filetype_extend("typescript", { "javascript", "tsdoc" })
         luasnip.filetype_extend("typescriptreact", { "javascript", "tsdoc" })
         luasnip.filetype_extend("javascript", { "jsdoc" })

@@ -2,7 +2,7 @@ return {
   { "folke/neoconf.nvim", cmd = "Neoconf" },
   { "folke/neodev.nvim" },
   {
-    "echasnovski/mini.basics",
+    "nvim-mini/mini.basics",
     opts = {
       options = {
         basic = true,

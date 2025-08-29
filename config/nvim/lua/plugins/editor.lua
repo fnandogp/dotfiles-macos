@@ -1,6 +1,6 @@
 return {
-  { "echasnovski/mini.hipatterns", version = false, opts = {} },
-  { "echasnovski/mini.animate", version = false, opts = { scroll = { enable = false } } },
+  { "nvim-mini/mini.hipatterns", version = false, opts = {} },
+  { "nvim-mini/mini.animate", version = false, opts = { scroll = { enable = false } } },
   {
     "olimorris/persisted.nvim",
     cmd = "SessionSelect",
@@ -39,15 +39,14 @@ return {
         mode = "n",
       },
       {
+        "<leader>sw",
+        function() require("grug-far").open({ prefills = { search = vim.fn.expand("<cword>") } }) end,
+        desc = "Open GrugFar with the current visual selection",
+        mode = "x",
+      },
+      {
         "<leader>sf",
-        function()
-          require("grug-far").open({
-            prefills = {
-              search = vim.fn.expand("<cword>"),
-              paths = vim.fn.expand("%"),
-            },
-          })
-        end,
+        function() require("grug-far").open({ prefills = { search = vim.fn.expand("<cword>"), paths = vim.fn.expand("%") } }) end,
         desc = "Open GrugFar with the current visual selection, searching only current file ",
         mode = "x",
       },
@@ -65,7 +64,7 @@ return {
     },
   },
   { "arnamak/stay-centered.nvim", opts = {
-    skip_filetypes = { "toggleterm", "minifiles" },
+    skip_filetypes = { "toggleterm", "minifiles", "codecompanion" },
   } },
   {
     "aaronik/treewalker.nvim",

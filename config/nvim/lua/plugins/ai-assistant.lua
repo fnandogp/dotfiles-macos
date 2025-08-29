@@ -25,7 +25,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "echasnovski/mini.pick",
+      "nvim-mini/mini.pick",
       "ravitemer/codecompanion-history.nvim",
       "j-hui/fidget.nvim",
     },
@@ -35,28 +35,8 @@ return {
         action_palette = { provider = "mini_pick" },
       },
       strategies = {
-        chat = { adapter = "anthropic" },
-        inline = { adapter = "anthropic" },
-      },
-      adapters = {
-        coder = function()
-          return require("codecompanion.adapters").extend("ollama", {
-            name = "coder",
-            schema = { model = { default = "deepseek-coder:6.7b" }, num_ctx = { default = 16384 }, num_predict = { default = -1 } },
-          })
-        end,
-        r1_8b = function()
-          return require("codecompanion.adapters").extend("ollama", {
-            name = "r1_8b",
-            schema = { model = { default = "deepseek-r1:8b" }, num_ctx = { default = 16384 }, num_predict = { default = -1 } },
-          })
-        end,
-        r1_32b = function()
-          return require("codecompanion.adapters").extend("ollama", {
-            name = "r1_32b",
-            schema = { model = { default = "deepseek-r1:32b" }, num_ctx = { default = 16384 }, num_predict = { default = -1 } },
-          })
-        end,
+        chat = { adapter = "gemini" },
+        inline = { adapter = "gemini" },
       },
       prompt_library = {
         ["Improve writing"] = {
@@ -133,7 +113,7 @@ Review and improve the following text for grammar, style, and clarity.
     end,
     keys = {
       { "<leader>ct", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle Code Companion Chat", mode = { "n" } },
-      { "<leader>cc", "<cmd>CodeCompanionChat Add<cr>", desc = "Toggle Code Companion Chat", mode = { "v" } },
+      { "<leader>cc", "<cmd>'<,'>CodeCompanionChat Add<cr>", desc = "Toggle Code Companion Chat", mode = { "v" } },
       { "<leader>cc", "<cmd>CodeCompanionChat<cr>", desc = "Start new Code Companion Chat", mode = { "n" } },
       { "<leader>ce", "<cmd>'<,'>CodeCompanion<cr>", desc = "Code Companion Inline", mode = { "v" } },
       { "<leader>cx", "<cmd>CodeCompanionActions<cr>", desc = "Code Companion Actions", mode = { "n", "v" } },
