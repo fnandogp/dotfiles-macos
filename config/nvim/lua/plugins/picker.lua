@@ -24,7 +24,8 @@ return {
     -- LSP default mappings are conflicting with this so we remove them
     vim.keymap.del("n", "grn")
     vim.keymap.del("n", "grr")
-    vim.keymap.del("n", "gra")
+    vim.keymap.del({ "n", "x" }, "gra")
+    vim.keymap.del("n", "grt")
     vim.keymap.del("n", "gri")
 
     local original_paste = vim.paste

@@ -89,7 +89,7 @@ return {
       global_keymaps_prefix = "<leader>r",
       kulala_keymaps_prefix = "",
       environment_scope = "g",
-      ui = { formatter = true },
+      ui = { formatter = true, max_response_size = 1 * 1000 * 1000 },
     },
   },
   {
