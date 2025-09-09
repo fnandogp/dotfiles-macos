@@ -100,7 +100,17 @@ return {
         diffview = true,
         mini_pick = true,
       },
+      mappings = {
+        popup = {
+          ["l"] = false,
+          ["L"] = "LogPopup",
+        },
+        status = {
+          ["l"] = "OpenFold",
+        },
+      },
     },
+
     keys = {
       { "<leader>g", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
     },

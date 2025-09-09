@@ -89,15 +89,16 @@ return {
       global_keymaps_prefix = "<leader>r",
       kulala_keymaps_prefix = "",
       environment_scope = "g",
-      ui = { formatter = true, max_response_size = 1 * 1000 * 1000 },
+      ui = {
+        formatter = true,
+        max_response_size = 10 * 1000 * 1000,
+      },
     },
   },
   {
     "folke/zen-mode.nvim",
     opts = {
-      window = {
-        width = 150, -- width of the Zen window
-      },
+      window = { width = 150 },
     },
     keys = {
       { "<leader>z", "<cmd>ZenMode<CR>", desc = "Toggle Zen Mode", mode = "n" },
