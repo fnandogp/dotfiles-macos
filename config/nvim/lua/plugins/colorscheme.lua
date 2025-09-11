@@ -36,7 +36,7 @@ return {
           },
         },
       })
-      vim.cmd([[colorscheme catppuccin-latte]])
+      -- vim.cmd([[colorscheme catppuccin-latte]])
     end,
   },
   {
@@ -62,7 +62,7 @@ return {
         },
       })
 
-      -- vim.cmd("colorscheme rose-pine")
+      vim.cmd("colorscheme rose-pine")
     end,
   },
 }
