@@ -1,5 +1,5 @@
-# source zplug
-source ~/.zplug.zsh
+# source zinit
+source ~/.zinit.zsh
 
 source ~/.aliasrc.zsh
 source ~/.pathrc.zsh
