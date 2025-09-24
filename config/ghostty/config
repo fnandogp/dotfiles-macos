@@ -4,4 +4,4 @@ theme = dark:Rose Pine,light:Rose Pine Dawn
 font-family = ""
 font-family = "mononoki Regular"
 font-size = 15
-keybind = shift+enter=text:\n
+keybind = shift+enter=text:\x1b\r
