@@ -5,3 +5,4 @@ font-family = ""
 font-family = "mononoki Regular"
 font-size = 15
 keybind = shift+enter=text:\x1b\r
+keybind = super+v=paste_from_clipboard

@@ -11,7 +11,7 @@ vim.keymap.set({ "n", "i" }, ";;", "<Esc>A;<Esc>")
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "C-v", [["+Y]])
+vim.keymap.set("n", "<C-v>", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("v", "//", "y/\\V<C-r>=escape(@\",'/\\')<CR><CR>")
@@ -32,7 +32,7 @@ vim.keymap.set("n", "<leader>E", ":edit!<CR>", { desc = "Reload buffer" })
 -- Terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 -- Move windows
-vim.keymap.set("n", "<C-M-h>", "<C-w>H", { desc = "Move window to left" })
-vim.keymap.set("n", "<C-M-j>", "<C-w>J", { desc = "Move window to bottom" })
-vim.keymap.set("n", "<C-M-k>", "<C-w>K", { desc = "Move window to top" })
-vim.keymap.set("n", "<C-M-l>", "<C-w>L", { desc = "Move window to right" })
+-- vim.keymap.set("n", "<C-M-h>", "<C-w>H", { desc = "Move window to left" })
+-- vim.keymap.set("n", "<C-M-j>", "<C-w>J", { desc = "Move window to bottom" })
+-- vim.keymap.set("n", "<C-M-k>", "<C-w>K", { desc = "Move window to top" })
+-- vim.keymap.set("n", "<C-M-l>", "<C-w>L", { desc = "Move window to right" })

@@ -22,8 +22,7 @@ zinit wait lucid for \
     OMZP::aliases \
     OMZP::brew \
     OMZP::common-aliases \
-    OMZP::command-not-found \
-    OMZP::tmux
+    OMZP::command-not-found 
 
 # Direct mise integration with built-in hook
 eval "$(mise activate zsh)"
