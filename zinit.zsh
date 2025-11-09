@@ -13,7 +13,8 @@ zinit wait lucid for \
         zsh-users/zsh-completions
 
 # History substring search
-zinit load zsh-users/zsh-history-substring-search
+zinit wait lucid for \
+    zsh-users/zsh-history-substring-search
 
 # Oh-my-zsh plugins (lightweight loading)
 zinit wait lucid for \

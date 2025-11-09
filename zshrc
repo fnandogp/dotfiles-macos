@@ -1,3 +1,7 @@
+# tmux plugin configuration
+export ZSH_TMUX_AUTOSTART=false
+export ZSH_TMUX_AUTOCONNECT=true
+
 # source zinit
 source ~/.zinit.zsh
 

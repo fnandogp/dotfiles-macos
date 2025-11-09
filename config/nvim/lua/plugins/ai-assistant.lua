@@ -87,14 +87,6 @@ Review and improve the following text for grammar, style, and clarity.
             dir_to_save = vim.fn.stdpath("data") .. "/codecompanion-history",
           },
         },
-        mcphub = {
-          callback = "mcphub.extensions.codecompanion",
-          opts = {
-            show_result_in_chat = true, -- Show mcp tool results in chat
-            make_vars = true, -- Convert resources to #variables
-            make_slash_commands = true, -- Add prompts as /slash commands
-          },
-        },
       },
     },
     config = function(_, opts)
@@ -118,21 +110,6 @@ Review and improve the following text for grammar, style, and clarity.
       { "<leader>ce", "<cmd>'<,'>CodeCompanion<cr>", desc = "Code Companion Inline", mode = { "v" } },
       { "<leader>cx", "<cmd>CodeCompanionActions<cr>", desc = "Code Companion Actions", mode = { "n", "v" } },
       { "ga", "<cmd>CodeCompanionChatAddFile<cr>", desc = "Add current file to Code Companion Chat", mode = { "n" } },
-    },
-  },
-  {
-    "ravitemer/mcphub.nvim",
-    build = "npm install -g mcp-hub@latest",
-    dependencies = { "cline/mcp-marketplace" },
-    opts = {
-      -- Optional: specify custom mcphub config file path
-      -- config_file = "path/to/mcphub.json",
-
-      -- Optional: specify which servers to enable
-      -- enabled_servers = { "filesystem", "git", "github" },
-
-      -- Optional: custom server configurations
-      -- server_configs = {},
     },
   },
 }
