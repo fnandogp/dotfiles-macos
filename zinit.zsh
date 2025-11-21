@@ -23,11 +23,7 @@ zinit wait lucid for \
     OMZP::aliases \
     OMZP::brew \
     OMZP::common-aliases \
-    OMZP::command-not-found 
-
-# Direct mise integration with built-in hook
-eval "$(mise activate zsh)"
-eval "$(mise hook-env)"
+    OMZP::command-not-found
 
 # Pure prompt theme
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'

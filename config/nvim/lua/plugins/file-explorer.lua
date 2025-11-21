@@ -2,11 +2,9 @@ return {
   "nvim-mini/mini.files",
   version = false,
   opts = {
-    mappings = {
-      synchronize = "<leader>w",
-    },
+    windows = { preview = true },
+    mappings = { synchronize = "<leader>w" },
   },
-
   config = function(_, opts)
     local MiniFiles = require("mini.files")
 

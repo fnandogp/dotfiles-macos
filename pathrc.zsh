@@ -18,5 +18,4 @@ export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
-export PATH="/opt/homebrew/bin:$PATH"
 

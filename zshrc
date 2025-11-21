@@ -15,3 +15,6 @@ fi
 export GPG_TTY=$(tty)
 
 source <(fzf --zsh)
+
+# mise activation (must be after all PATH modifications)
+eval "$(mise activate zsh)"
