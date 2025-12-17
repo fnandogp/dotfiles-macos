@@ -2,7 +2,7 @@ macos-option-as-alt = true
 # theme = dark:catppuccin-frappe,light:catppuccin-latte
 theme = dark:Rose Pine,light:Rose Pine Dawn
 font-family = ""
-font-family = "mononoki Regular"
+font-family = "JetBrainsMonoNL NFM"
 font-size = 15
 keybind = shift+enter=text:\x1b\r
 keybind = super+v=paste_from_clipboard

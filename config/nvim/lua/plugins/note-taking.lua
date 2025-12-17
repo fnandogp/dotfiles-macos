@@ -60,39 +60,39 @@ return {
       { "<Leader>nt", "<cmd>Obsidian today<CR>", desc = "Create a new daily note in Obsidian" },
     },
   },
-  {
-    "3rd/diagram.nvim",
-    dependencies = {
-      {
-        "3rd/image.nvim",
-        opts = {
-          integrations = {
-            markdown = {
-              only_render_image_at_cursor = true,
-              only_render_image_at_cursor_mode = "inline", -- or "inline"
-              floating_windows = true, -- if true, images will be rendered in floating markdown windows
-            },
-          },
-          max_width_window_percentage = 80,
-          max_height_window_percentage = 80,
-          tmux_show_only_in_active_window = true, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
-        },
-      },
-    },
-    opts = {
-      events = {
-        render_buffer = { "InsertLeave", "BufWinEnter", "TextChanged" },
-        clear_buffer = { "BufLeave" },
-      },
-      renderer_options = {
-        mermaid = {
-          background = "white", -- nil | "transparent" | "white" | "#hex"
-          theme = "neutral", --| "dark" | "forest" | "neutral"
-          -- scale = 1, -- nil | 1 (default) | 2 | 3 | ...
-          -- width = 400, -- nil | 800 | 400 | ...
-          -- height = nil, -- nil | 600 | 300 | ...
-        },
-      },
-    },
-  },
+  -- {
+  --   "3rd/diagram.nvim",
+  --   dependencies = {
+  --     {
+  --       "3rd/image.nvim",
+  --       opts = {
+  --         integrations = {
+  --           markdown = {
+  --             only_render_image_at_cursor = true,
+  --             only_render_image_at_cursor_mode = "inline", -- or "inline"
+  --             floating_windows = true, -- if true, images will be rendered in floating markdown windows
+  --           },
+  --         },
+  --         max_width_window_percentage = 80,
+  --         max_height_window_percentage = 80,
+  --         tmux_show_only_in_active_window = true, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+  --       },
+  --     },
+  --   },
+  --   opts = {
+  --     events = {
+  --       render_buffer = { "InsertLeave", "BufWinEnter", "TextChanged" },
+  --       clear_buffer = { "BufLeave" },
+  --     },
+  --     renderer_options = {
+  --       mermaid = {
+  --         background = "white", -- nil | "transparent" | "white" | "#hex"
+  --         theme = "neutral", --| "dark" | "forest" | "neutral"
+  --         -- scale = 1, -- nil | 1 (default) | 2 | 3 | ...
+  --         -- width = 400, -- nil | 800 | 400 | ...
+  --         -- height = nil, -- nil | 600 | 300 | ...
+  --       },
+  --     },
+  --   },
+  -- },
 }

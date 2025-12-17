@@ -6,7 +6,6 @@
 alias s="sudo"
 alias vim="vim -u DEFAULTS"
 alias n="nvim"
-alias t="tmux"
 
 alias '..'='cd ..'
 alias '...'='cd ../..'
@@ -42,5 +41,3 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-# Claude
-alias claude="~/.claude/local/claude"

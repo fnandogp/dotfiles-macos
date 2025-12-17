@@ -23,7 +23,8 @@ zinit wait lucid for \
     OMZP::aliases \
     OMZP::brew \
     OMZP::common-aliases \
-    OMZP::command-not-found
+    OMZP::command-not-found \
+    OMZP::tmux
 
 # Pure prompt theme
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'

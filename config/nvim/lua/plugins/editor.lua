@@ -88,6 +88,9 @@ return {
       global_keymaps = true,
       global_keymaps_prefix = "<leader>r",
       kulala_keymaps_prefix = "",
+      kulala_keymaps = {
+        ["Show verbose"] = { "!", function() require("kulala.ui").show_verbose() end },
+      },
       environment_scope = "g",
       ui = {
         formatter = true,
@@ -115,11 +118,11 @@ return {
       "TmuxNavigatorProcessList",
     },
     keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+      { "<c-h>", "<cmd>TmuxNavigateLeft<cr>", desc = "Navigate to left tmux pane" },
+      { "<c-j>", "<cmd>TmuxNavigateDown<cr>", desc = "Navigate to bottom tmux pane" },
+      { "<c-k>", "<cmd>TmuxNavigateUp<cr>", desc = "Navigate to top tmux pane" },
+      { "<c-l>", "<cmd>TmuxNavigateRight<cr>", desc = "Navigate to right tmux pane" },
+      { "<c-\\>", "<cmd>TmuxNavigatePrevious<cr>", desc = "Navigate to previous tmux pane" },
     },
   },
 }
