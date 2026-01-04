@@ -18,7 +18,7 @@ return {
         svelte = { "biome", "oxfmt", "prettier" },
         css = { "biome", "prettier" },
         html = { "biome", "prettier" },
-        json = { "biome", "prettier" },
+        json = { "oxfmt", "biome", "prettier" },
         yaml = { "biome", "prettier" },
         markdown = { "prettier" },
         graphql = { "prettier" },
@@ -59,7 +59,7 @@ return {
       format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then return end
-        return { timeout_ms = 2500, lsp_fallback = true }
+        return { timeout_ms = 2500, lsp_fallback = false }
       end,
     })
 
