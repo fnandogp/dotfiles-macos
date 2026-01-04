@@ -7,11 +7,11 @@ return {
       linters_by_ft = {
         markdown = { "markdownlint" },
         lua = { "luacheck" },
-        javascript = { "deno", "biomejs", "eslint" },
-        typescript = { "deno", "biomejs", "eslint" },
-        javascriptreact = { "deno", "biomejs", "eslint" },
-        typescriptreact = { "deno", "biomejs", "eslint" },
-        svelte = { "biomejs", "eslint" },
+        javascript = { "deno", "biomejs", "oxlint", "eslint" },
+        typescript = { "deno", "biomejs", "oxlint", "eslint" },
+        javascriptreact = { "deno", "biomejs", "oxlint", "eslint" },
+        typescriptreact = { "deno", "biomejs", "oxlint", "eslint" },
+        svelte = { "biomejs", "oxlint", "eslint" },
         php = { "php", "phpstan", "phpmd" },
         css = { "stylelint" },
         scss = { "stylelint" },
@@ -36,6 +36,13 @@ return {
             local bufnr = vim.fn.bufnr(ctx.filename, false)
             if bufnr == -1 then return false end
             return config_detection.has_biome_config(bufnr)
+          end,
+        },
+        oxlint = {
+          condition = function(ctx)
+            local bufnr = vim.fn.bufnr(ctx.filename, false)
+            if bufnr == -1 then return false end
+            return config_detection.has_oxc_config(bufnr)
           end,
         },
       },

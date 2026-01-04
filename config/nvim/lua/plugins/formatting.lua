@@ -11,11 +11,11 @@ return {
 
     conform.setup({
       formatters_by_ft = {
-        javascript = { "deno_fmt", "biome", "prettier" },
-        typescript = { "deno_fmt", "biome", "prettier" },
-        javascriptreact = { "deno_fmt", "biome", "prettier" },
-        typescriptreact = { "deno_fmt", "biome", "prettier" },
-        svelte = { "biome", "prettier" },
+        javascript = { "deno_fmt", "biome", "oxfmt", "prettier" },
+        typescript = { "deno_fmt", "biome", "oxfmt", "prettier" },
+        javascriptreact = { "deno_fmt", "biome", "oxfmt", "prettier" },
+        typescriptreact = { "deno_fmt", "biome", "oxfmt", "prettier" },
+        svelte = { "biome", "oxfmt", "prettier" },
         css = { "biome", "prettier" },
         html = { "biome", "prettier" },
         json = { "biome", "prettier" },
@@ -33,6 +33,7 @@ return {
           condition = function(ctx)
             local bufnr = vim.api.nvim_get_current_buf()
             if config_detection.has_biome_config(bufnr) then return false end
+            if config_detection.has_oxc_config(bufnr) then return false end
             return config_detection.has_prettier_config(bufnr)
           end,
         },
@@ -46,6 +47,12 @@ return {
           condition = function(ctx)
             local bufnr = vim.api.nvim_get_current_buf()
             return config_detection.has_biome_config(bufnr)
+          end,
+        },
+        oxfmt = {
+          condition = function(ctx)
+            local bufnr = vim.api.nvim_get_current_buf()
+            return config_detection.has_oxc_config(bufnr)
           end,
         },
       },
