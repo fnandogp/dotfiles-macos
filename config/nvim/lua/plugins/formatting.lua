@@ -19,7 +19,7 @@ return {
         css = { "biome", "prettier" },
         html = { "biome", "prettier" },
         json = { "oxfmt", "biome", "prettier" },
-        yaml = { "biome", "prettier" },
+        yaml = { "yamlfix" },
         markdown = { "prettier" },
         graphql = { "prettier" },
         lua = { "stylua" },

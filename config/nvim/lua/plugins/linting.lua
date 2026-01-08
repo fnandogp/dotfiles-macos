@@ -15,6 +15,7 @@ return {
         php = { "php", "phpstan", "phpmd" },
         css = { "stylelint" },
         scss = { "stylelint" },
+        yaml = { "yamllint" },
       },
       linters = {
         eslint = {

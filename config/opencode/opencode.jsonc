@@ -13,7 +13,7 @@
         "--context",
         "ide-assistant"
       ],
-      "enabled": false,
+      "enabled": true,
       "environment": {}
     },
     "memory": {
