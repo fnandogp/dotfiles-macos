@@ -11,17 +11,17 @@ return {
 
     conform.setup({
       formatters_by_ft = {
-        javascript = { "deno_fmt", "biome", "oxfmt", "prettier" },
-        typescript = { "deno_fmt", "biome", "oxfmt", "prettier" },
-        javascriptreact = { "deno_fmt", "biome", "oxfmt", "prettier" },
-        typescriptreact = { "deno_fmt", "biome", "oxfmt", "prettier" },
-        svelte = { "biome", "oxfmt", "prettier" },
-        css = { "biome", "prettier" },
-        html = { "biome", "prettier" },
-        json = { "oxfmt", "biome", "prettier" },
+        javascript = { "deno_fmt", "biome-check", "oxfmt", "prettier" },
+        typescript = { "deno_fmt", "biome-check", "oxfmt", "prettier" },
+        javascriptreact = { "deno_fmt", "biome-check", "oxfmt", "prettier" },
+        typescriptreact = { "deno_fmt", "biome-check", "oxfmt", "prettier" },
+        svelte = { "biome-check", "oxfmt", "prettier" },
+        css = { "biome-check", "prettier" },
+        html = { "biome-check", "prettier" },
+        json = { "oxfmt", "biome-check", "prettier" },
         yaml = { "yamlfix" },
         markdown = { "prettier" },
-        graphql = { "prettier" },
+        graphql = { "oxfmt", "biome-check", "prettier" },
         lua = { "stylua" },
         python = { "isort", "black" },
         go = { "gofmt" },
@@ -43,7 +43,7 @@ return {
             return config_detection.has_deno_config(bufnr)
           end,
         },
-        biome = {
+        ["biome-check"] = {
           condition = function(ctx)
             local bufnr = vim.api.nvim_get_current_buf()
             return config_detection.has_biome_config(bufnr)

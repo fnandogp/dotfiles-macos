@@ -1,6 +1,16 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "theme": "rosepine",
+  "plugin": [
+    "opencode-gemini-auth@latest",
+    "opencode-openai-codex-auth",
+    "@franlol/opencode-md-table-formatter"
+  ],
+  "tui": {
+    "scroll_acceleration": {
+      "enabled": true
+    }
+  },
   "mcp": {
     "serena": {
       "type": "local",
@@ -36,21 +46,23 @@
       "enabled": true,
       "environment": {}
     },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true,
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    },
     "atlassian": {
       "type": "remote",
-      "url": "https://mcp.atlassian.com/v1/sse",
+      "url": "https://mcp.atlassian.com/v1/mcp",
       "enabled": true
     },
-    "ast-grep": {
+    "tanstack": {
       "type": "local",
-      "command": [
-        "uvx",
-        "--from",
-        "git+https://github.com/ast-grep/ast-grep-mcp",
-        "ast-grep-server"
-      ],
-      "enabled": false,
-      "environment": {}
+      "command": ["npx", "@tanstack/cli", "mcp"],
+      "enabled": true
     }
-  }
+  },
 }

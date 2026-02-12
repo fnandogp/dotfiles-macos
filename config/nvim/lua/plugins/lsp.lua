@@ -60,6 +60,10 @@ return {
             if root_path then on_dir(root_path) end
           end,
         },
+        graphql = {
+          cmd = { "graphql-lsp", "server", "-m", "stream" },
+          filetypes = { "graphql", "gql" },
+        },
       },
     }
   end,

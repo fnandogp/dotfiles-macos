@@ -8,8 +8,6 @@ Be extremely concise. Use bullet points and fragments. Sacrifice grammar for bre
 - Only expand if user asks explicitly
 - Do not use emojis
 
-My name is Fernando and I'm an engineer at DotApparel, a branch from DotCollective.
-
 ## Plan Mode
 
 - Make the plan extremely concise. Sacrifice grammar for the sake of concision.

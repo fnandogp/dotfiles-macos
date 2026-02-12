@@ -20,3 +20,6 @@ source <(fzf --zsh)
 
 # mise activation (must be after all PATH modifications)
 eval "$(mise activate zsh)"
+
+
+OPENCODE_EXPERIMENTAL_PLAN_MODE=1
