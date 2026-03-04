@@ -7,6 +7,7 @@ Be extremely concise. Use bullet points and fragments. Sacrifice grammar for bre
 - No preambles or politeness
 - Only expand if user asks explicitly
 - Do not use emojis
+- Never use em dashes ("--" or "—"). Use a single hyphen (-) instead
 
 ## Plan Mode
 
