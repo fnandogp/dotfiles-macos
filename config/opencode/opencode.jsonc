@@ -83,6 +83,16 @@
         "PRODUCTIVE_API_TOKEN": "{env:PRODUCTIVE_API_TOKEN}",
         "PRODUCTIVE_USER_ID": "{env:PRODUCTIVE_USER_ID}"
       }
+    },
+    "shopify-dev-mcp": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@shopify/dev-mcp@latest"
+      ],
+      "enabled": true,
+      "environment": {}
     }
   },
   "provider": {

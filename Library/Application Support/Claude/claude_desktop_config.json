@@ -1,1 +1,26 @@
-{"globalShortcut":"","mcpServers":{"shopify-dev-mcp":{"command":"npx","args":["-y","@shopify/dev-mcp@latest"]}},"preferences":{"menuBarEnabled":false,"quickEntryDictationShortcut":"off","coworkScheduledTasksEnabled":true,"sidebarMode":"chat","coworkWebSearchEnabled":true}}
+{
+  "globalShortcut": "",
+  "mcpServers": {
+    "shopify-dev-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@shopify/dev-mcp@latest"
+      ]
+    },
+    "productive": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@studiometa/productive-mcp@latest"
+      ]
+    }
+  },
+  "preferences": {
+    "menuBarEnabled": false,
+    "quickEntryDictationShortcut": "off",
+    "coworkScheduledTasksEnabled": true,
+    "sidebarMode": "chat",
+    "coworkWebSearchEnabled": true
+  }
+}
