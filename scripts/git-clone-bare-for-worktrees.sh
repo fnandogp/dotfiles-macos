@@ -12,7 +12,14 @@ url=$1
 basename=${url##*/}
 name=${2:-${basename%.*}}
 
-mkdir $name
+# Verify we can access the remote before creating directories
+if ! git ls-remote "$url" HEAD >/dev/null 2>&1; then
+	echo "Error: Cannot access remote repository '$url'" >&2
+	echo "Check your permissions and network connection." >&2
+	exit 1
+fi
+
+mkdir "$name"
 cd "$name"
 
 # Moves all the administrative git files (a.k.a $GIT_DIR) under .bare directory.

@@ -3,7 +3,6 @@
 ##
 
 # Common
-alias s="sudo"
 alias vim="vim -u DEFAULTS"
 alias n="nvim"
 
@@ -31,13 +30,4 @@ alias fd="fd --hidden"
 
 # Shopify Hydrogen alias to local projects
 alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
-
-
-# pnpm
-export PNPM_HOME="/Users/fernando-dotcollective/Library/pnpm"
-case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
 
