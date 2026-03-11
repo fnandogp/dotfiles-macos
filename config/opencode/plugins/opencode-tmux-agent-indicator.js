@@ -4,7 +4,7 @@
 
 export const TmuxAgentIndicator = async ({ $ }) => {
   const dir = process.env.TMUX_AGENT_INDICATOR_DIR
-    || `${process.env.HOME}/.tmux/plugins/tmux-agent-indicator`;
+    || `${process.env.HOME}/.config/tmux/plugins/tmux-agent-indicator`;
   const script = `${dir}/scripts/agent-state.sh`;
 
   let lastState = "off";
