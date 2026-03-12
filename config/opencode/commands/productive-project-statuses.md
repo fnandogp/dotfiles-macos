@@ -10,6 +10,13 @@ Read the env var PRODUCTIVE_PROJECT_IDS. It contains a comma-separated list of P
 
 Use the `productive` MCP tool for all data fetching.
 
+## Configuration
+
+- **Timezone:** Australia/Melbourne (AEST/AEDT)
+- **Week range:** Sunday to Saturday (first day of week: Sunday)
+
+Use this timezone for all date calculations ("today", "last 24h", etc).
+
 ## Steps
 
 1. Parse the comma-separated project IDs from PRODUCTIVE_PROJECT_IDS

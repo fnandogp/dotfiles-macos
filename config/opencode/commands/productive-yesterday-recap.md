@@ -6,6 +6,13 @@ description: Yesterday's recap - what you and your teammates accomplished, time 
 
 Generate a recap of yesterday's work across the team. Use the `productive` MCP tool to gather data.
 
+## Configuration
+
+- **Timezone:** Australia/Melbourne (AEST/AEDT)
+- **Week range:** Sunday to Saturday (first day of week: Sunday)
+
+Use this timezone for all date calculations ("yesterday", date boundaries, etc).
+
 ## Setup
 
 1. Get the authenticated user via `productive(resource="people", action="me")`

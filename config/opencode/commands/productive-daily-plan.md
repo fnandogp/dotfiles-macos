@@ -6,6 +6,13 @@ description: Daily planning briefing - shows your tasks, deadlines, activity, an
 
 Generate my daily plan for today. Use the `productive` MCP tool to gather the following data about ME (the authenticated user).
 
+## Configuration
+
+- **Timezone:** Australia/Melbourne (AEST/AEDT)
+- **Week range:** Sunday to Saturday (first day of week: Sunday)
+
+Use this timezone for all date calculations ("today", "this week", etc). "This week" means the current Sunday through Saturday.
+
 ## Data to fetch
 
 1. **My open tasks** - all tasks assigned to me with status open
