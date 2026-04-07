@@ -26,6 +26,7 @@ return {
         python = { "isort", "black" },
         go = { "gofmt" },
         http = { "kulala-fmt" },
+        ruby = { "rubocop" },
       },
       formatters = {
         injected = { options = { ignore_errors = true } },

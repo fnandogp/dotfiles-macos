@@ -75,7 +75,7 @@ end
 --- @return boolean
 function M.has_oxc_config(bufnr)
   local path = vim.api.nvim_buf_get_name(bufnr)
-  return vim.fs.find({ "oxcrc.json", "oxcrc.json5", ".oxcrc.json", ".oxcrc.json5" }, {
+  return vim.fs.find({ "oxcrc.json", "oxcrc.json5", ".oxcrc.json", ".oxcrc.json5", ".oxfmtrc.json", ".oxfmtrc.jsonc", "oxfmt.config.ts" }, {
     upward = true,
     path = path,
   })[1] ~= nil

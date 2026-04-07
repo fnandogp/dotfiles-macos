@@ -18,6 +18,10 @@ fi
 
 export GPG_TTY=$(tty)
 
+# Workaround: opencode experimental markdown renders code blocks with
+# hardcoded white foreground, unreadable on light terminals (gh#16470)
+export OPENCODE_EXPERIMENTAL_MARKDOWN=0
+
 source <(fzf --zsh)
 
 # mise activation (must be after all PATH modifications)

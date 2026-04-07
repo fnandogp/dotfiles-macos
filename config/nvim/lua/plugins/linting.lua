@@ -16,6 +16,7 @@ return {
         css = { "stylelint" },
         scss = { "stylelint" },
         yaml = { "yamllint" },
+        ruby = { "rubocop" },
       },
       linters = {
         eslint = {

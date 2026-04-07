@@ -1,20 +1,25 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  run = ":TSUpdate",
+  branch = "main",
   dependencies = {
     "nvim-treesitter/nvim-treesitter-context",
     { "windwp/nvim-ts-autotag", opts = {} },
   },
-  config = function()
-    require("nvim-treesitter.configs").setup({
-      ensure_installed = "all",
-      highlight = { enable = true, additional_vim_regex_highlighting = false },
-      context = { enable = true },
-      indent = { enable = true },
-      textobjects = { enable = true },
+  init = function()
+    -- Enable highlighting via FileType autocmd
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function()
+        pcall(vim.treesitter.start)
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
     })
-    vim.w.foldexpr = "expr"
-    vim.w.foldmethod = "nvim_treesitter#foldexpr()"
-    vim.w.nofoldenable = true
+
+    -- Install all maintained parsers
+    require("nvim-treesitter").install("all")
+
+    -- Folding
+    vim.opt.foldmethod = "expr"
+    vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    vim.opt.foldenable = false
   end,
 }
