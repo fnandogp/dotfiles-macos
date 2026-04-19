@@ -15,7 +15,7 @@ return {
         typescript = { "deno_fmt", "biome-check", "oxfmt", "prettier" },
         javascriptreact = { "deno_fmt", "biome-check", "oxfmt", "prettier" },
         typescriptreact = { "deno_fmt", "biome-check", "oxfmt", "prettier" },
-        svelte = { "biome-check", "oxfmt", "prettier" },
+        svelte = { "biome-check", "prettier" },
         css = { "biome-check", "prettier" },
         html = { "biome-check", "prettier" },
         json = { "oxfmt", "biome-check", "prettier" },

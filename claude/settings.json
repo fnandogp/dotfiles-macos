@@ -4,6 +4,25 @@
     "commit": "",
     "pr": ""
   },
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "WebFetch(domain:www.algolia.com)",
+      "WebSearch",
+      "mcp__notion__notion-fetch",
+      "mcp__notion__notion-search",
+      "mcp__plugin_context7_context7__query-docs",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__shopify-dev-mcp__fetch_full_docs",
+      "mcp__shopify-dev-mcp__introspect_graphql_schema",
+      "mcp__shopify-dev-mcp__learn_shopify_api",
+      "mcp__shopify-dev-mcp__search_docs_chunks",
+      "WebFetch(domain:help.shopify.com)",
+      "Bash(python3:*)"
+    ],
+    "defaultMode": "default"
+  },
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -72,7 +91,17 @@
     "atlassian@claude-plugins-official": true,
     "frontend-design@claude-skills": true,
     "bun@claude-skills": true,
-    "frontend-design@claude-plugins-official": true
+    "frontend-design@claude-plugins-official": true,
+    "shopify-plugin@shopify-ai-toolkit": true,
+    "slack@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "shopify-ai-toolkit": {
+      "source": {
+        "source": "github",
+        "repo": "Shopify/shopify-ai-toolkit"
+      }
+    }
   },
   "language": "Australian English",
   "syntaxHighlightingDisabled": false,
@@ -88,5 +117,6 @@
         "X-POCKETSMITH-API-KEY: ${POCKETSMITH_API_KEY}"
       ]
     }
-  }
+  },
+  "effortLevel": "high"
 }

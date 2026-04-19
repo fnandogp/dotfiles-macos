@@ -1,22 +1,8 @@
 ---
+name: scope
 description: Technical Architect for generating comprehensive technical specifications.
-mode: subagent
-tools:
-  write: false
-  edit: false
-  todowrite: false
-permission:
-  read: allow
-  glob: allow
-  grep: allow
-  websearch: allow
-  webfetch: allow
-  bash:
-    "ls*": allow
-    "git log*": allow
-    "git status": allow
-    "git diff*": allow
-    "*": deny
+tools: Read, Glob, Grep, WebSearch, WebFetch, Bash
+model: sonnet
 ---
 
 # Role: Technical Architect
