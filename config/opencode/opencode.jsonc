@@ -4,7 +4,7 @@
     "opencode-antigravity-auth@latest",
     "opencode-openai-codex-auth",
     "@franlol/opencode-md-table-formatter",
-    // "oh-my-opencode@latest"
+    // "oh-my-openagent@latest"
   ],
   "mcp": {
     "serena": {
@@ -18,51 +18,47 @@
         "--context",
         "ide-assistant",
         "--open-web-dashboard",
-        "False"
+        "False",
       ],
       "enabled": true,
-      "environment": {}
+      "environment": {},
     },
     "memory": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-memory"
-      ],
+      "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
       "enabled": true,
-      "environment": {}
+      "environment": {},
     },
     "sequential-thinking": {
       "type": "local",
       "command": [
         "npx",
         "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
+        "@modelcontextprotocol/server-sequential-thinking",
       ],
       "enabled": true,
-      "environment": {}
+      "environment": {},
     },
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
       "enabled": true,
       "headers": {
-        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
-      }
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}",
+      },
     },
     "cloudflare-api": {
       "type": "remote",
       "url": "https://mcp.cloudflare.com/mcp",
-      "enabled": true
+      "enabled": true,
     },
     "github": {
       "type": "remote",
       "url": "https://api.githubcopilot.com/mcp/",
       "enabled": true,
       "headers": {
-        "Authorization": "Bearer {env:GITHUB_TOKEN}"
-      }
+        "Authorization": "Bearer {env:GITHUB_TOKEN}",
+      },
     },
     "buxfer": {
       "type": "remote",
@@ -70,32 +66,36 @@
       "enabled": true,
       "headers": {
         "x-buxfer-email": "{env:BUXFER_EMAIL}",
-        "x-buxfer-password": "{env:BUXFER_PASSWORD}"
-      }
+        "x-buxfer-password": "{env:BUXFER_PASSWORD}",
+      },
     },
     "pocketsmith": {
       "type": "remote",
       "url": "https://pocketsmith-mcp.fnandogp.workers.dev/mcp",
       "enabled": true,
       "headers": {
-        "X-POCKETSMITH-API-KEY": "{env:POCKETSMITH_API_KEY}"
-      }
+        "X-POCKETSMITH-API-KEY": "{env:POCKETSMITH_API_KEY}",
+      },
     },
     "playwright": {
       "type": "local",
-      "command": [
-        "npx",
-        "@playwright/mcp@latest"
-      ],
-      "enabled": true
+      "command": ["npx", "@playwright/mcp@latest"],
+      "enabled": true,
     },
     "time": {
       "type": "local",
-      "command": [
-        "uvx",
-        "mcp-server-time"
-      ],
-      "enabled": true
-    }
-  }
+      "command": ["uvx", "mcp-server-time"],
+      "enabled": true,
+    },
+    "clickup": {
+      "type": "remote",
+      "url": "https://mcp.clickup.com/mcp",
+      "enabled": true,
+    },
+    "clerk": {
+      "type": "remote",
+      "url": "https://mcp.clerk.com/mcp",
+      "enabled": true,
+    },
+  },
 }

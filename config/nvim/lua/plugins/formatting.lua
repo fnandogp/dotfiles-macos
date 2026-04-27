@@ -19,6 +19,7 @@ return {
         css = { "biome-check", "prettier" },
         html = { "biome-check", "prettier" },
         json = { "oxfmt", "biome-check", "prettier" },
+        jsonc = { "oxfmt", "biome-check", "prettier" },
         yaml = { "yamlfix" },
         markdown = { "prettier" },
         graphql = { "oxfmt", "biome-check", "prettier" },
