@@ -1,15 +1,20 @@
+-- Formatting via conform.nvim with format-on-save.
+-- Per-filetype formatter lists are tried in order; conditions (below) pick the one
+-- matching the project's config (Deno/Biome/oxc/Prettier) so only one actually runs.
 return {
   "stevearc/conform.nvim",
   event = { "BufReadPre", "BufNewFile" },
   cmd = { "ConformInfo" },
   config = function()
     local conform = require("conform")
+    -- Autoformat enabled by default (toggled via the *Disable/*Enable commands below)
     vim.b.disable_autoformat = false
     vim.g.disable_autoformat = false
 
     local config_detection = require("plugins.utils.config_detection")
 
     conform.setup({
+      -- First formatter whose condition passes wins (order = priority)
       formatters_by_ft = {
         javascript = { "deno_fmt", "biome-check", "oxfmt", "prettier" },
         typescript = { "deno_fmt", "biome-check", "oxfmt", "prettier" },
@@ -29,8 +34,10 @@ return {
         http = { "kulala-fmt" },
         ruby = { "rubocop" },
       },
+      -- Gate each JS-ecosystem formatter on the matching project config so they're mutually exclusive
       formatters = {
-        injected = { options = { ignore_errors = true } },
+        injected = { options = { ignore_errors = true } }, -- format code embedded in other files
+        -- Prettier: only when a prettier config exists and neither Biome nor oxc is present
         prettier = {
           condition = function(ctx)
             local bufnr = vim.api.nvim_get_current_buf()
@@ -39,19 +46,19 @@ return {
             return config_detection.has_prettier_config(bufnr)
           end,
         },
-        deno_fmt = {
+        deno_fmt = { -- only in Deno projects
           condition = function(ctx)
             local bufnr = vim.api.nvim_get_current_buf()
             return config_detection.has_deno_config(bufnr)
           end,
         },
-        ["biome-check"] = {
+        ["biome-check"] = { -- only when biome.json present
           condition = function(ctx)
             local bufnr = vim.api.nvim_get_current_buf()
             return config_detection.has_biome_config(bufnr)
           end,
         },
-        oxfmt = {
+        oxfmt = { -- only when oxc config present
           condition = function(ctx)
             local bufnr = vim.api.nvim_get_current_buf()
             return config_detection.has_oxc_config(bufnr)
@@ -64,6 +71,8 @@ return {
         return { timeout_ms = 2500, lsp_fallback = false }
       end,
     })
+
+    -- :Format [range] - format buffer or selection asynchronously (falls back to LSP formatter)
 
     vim.api.nvim_create_user_command("Format", function(args)
       local range = nil
@@ -88,6 +97,7 @@ return {
       vim.g.disable_autoformat = false
     end, { desc = "Re-enable autoformat-on-save" })
 
+    -- <leader>Ff: format now; drop back to normal mode after a visual-mode format
     vim.keymap.set("", "<leader>Ff", function()
       conform.format({ async = true }, function(err)
         if not err then

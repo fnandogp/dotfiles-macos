@@ -1,141 +1,65 @@
+-- Completion stack (migrated from blink.cmp+LuaSnip):
+-- mini.snippets (snippet engine) + mini.completion (LSP popup) + mini.keymap (Tab/CR multistep).
 return {
-  "saghen/blink.cmp",
-  lazy = false,
-  dependencies = {
-    { "rafamadriz/friendly-snippets" },
-    { "xzbdmw/colorful-menu.nvim", opts = {} },
-    {
-      "L3MON4D3/LuaSnip",
-      version = "v2.*",
-      config = function(_, opts)
-        local luasnip = require("luasnip")
-        if opts then luasnip.config.setup(opts) end
-        vim.tbl_map(function(type) require("luasnip.loaders.from_" .. type).lazy_load() end, { "vscode", "snipmate", "lua" })
-
-        -- Custom snippets
-        luasnip.add_snippets("javascript", {
-          luasnip.snippet("co", {
-            luasnip.text_node("console.log({"),
-            luasnip.insert_node(0),
-            luasnip.text_node("})"),
-          }),
-        })
-        luasnip.add_snippets("typescript", {
-          luasnip.snippet("co", {
-            luasnip.text_node("console.log({"),
-            luasnip.insert_node(0),
-            luasnip.text_node("})"),
-          }),
-        })
-
-        luasnip.filetype_extend("typescript", { "javascript", "tsdoc" })
-        luasnip.filetype_extend("typescriptreact", { "javascript", "tsdoc" })
-        luasnip.filetype_extend("javascript", { "jsdoc" })
-        luasnip.filetype_extend("javascriptreact", { "javascript", "jsdoc" })
-        luasnip.filetype_extend("lua", { "luadoc" })
-        luasnip.filetype_extend("python", { "pydoc" })
-        luasnip.filetype_extend("rust", { "rustdoc" })
-        luasnip.filetype_extend("cs", { "csharpdoc" })
-        luasnip.filetype_extend("java", { "javadoc" })
-        luasnip.filetype_extend("c", { "cdoc" })
-        luasnip.filetype_extend("cpp", { "cppdoc" })
-        luasnip.filetype_extend("php", { "phpdoc" })
-        luasnip.filetype_extend("kotlin", { "kdoc" })
-        luasnip.filetype_extend("ruby", { "rdoc" })
-        luasnip.filetype_extend("sh", { "shelldoc" })
-      end,
-    },
-  },
-  version = "*",
-  ---@module 'blink.cmp'
-  ---@type blink.cmp.Config
-  opts = {
-    keymap = {
-      preset = "none",
-      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-      ["<C-e>"] = { "hide", "fallback" },
-      ["<C-y>"] = { "select_and_accept", "fallback" },
-      ["<CR>"] = { "select_and_accept", "fallback" },
-
-      ["<Tab>"] = { "snippet_forward", "fallback" },
-      ["<S-Tab>"] = { "snippet_backward", "fallback" },
-
-      ["<Up>"] = { "select_prev", "fallback" },
-      ["<Down>"] = { "select_next", "fallback" },
-      ["<C-p>"] = { "select_prev", "fallback" },
-      ["<C-n>"] = { "show", "select_next", "fallback" },
-
-      ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-      ["<C-d>"] = { "scroll_documentation_down", "fallback" },
-    },
-
-    cmdline = {
-      completion = { ghost_text = { enabled = false } },
-      keymap = {
-        preset = "none",
-        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-        ["<C-e>"] = { "hide", "fallback" },
-        ["<C-y>"] = { "select_and_accept" },
-        ["<CR>"] = { "accept", "fallback" },
-
-        ["<Up>"] = { "select_prev", "fallback" },
-        ["<Down>"] = { "select_next", "fallback" },
-        ["<C-p>"] = { "select_prev", "fallback" },
-        ["<C-n>"] = { "show", "select_next", "fallback" },
-
-        ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
-      },
-    },
-
-    appearance = {
-      -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- Adjusts spacing to ensure icons are aligned
-      nerd_font_variant = "mono",
-    },
-
-    completion = {
-      accept = {
-        auto_brackets = {
-          semantic_token_resolution = { enabled = false },
+  -- Snippet engine; loads friendly-snippets + a custom JS/TS console.log snippet
+  {
+    "nvim-mini/mini.snippets",
+    version = false,
+    dependencies = { "rafamadriz/friendly-snippets" },
+    lazy = false,
+    config = function()
+      local gen = require("mini.snippets").gen_loader
+      require("mini.snippets").setup({
+        snippets = {
+          -- Custom snippets (console.log for JS/TS)
+          function(ctx)
+            if ctx.lang == "javascript" or ctx.lang == "typescript" then return { { prefix = "co", body = "console.log({$0})" } } end
+          end,
+          -- friendly-snippets (vscode format), loaded per language from runtimepath
+          gen.from_lang(),
         },
-      },
-      menu = {
-        auto_show = function(ctx)
-          -- Don't show completion in cmdline or dressing.nvim
-          return ctx.mode ~= "cmdline" and vim.bo.filetype ~= "DressingInput"
-        end,
-        draw = {
-          -- We don't need label_description now because label and label_description are already
-          -- combined together in label by colorful-menu.nvim.
-          columns = { { "kind_icon" }, { "label", gap = 1 } },
-          components = {
-            label = {
-              text = function(ctx) return require("colorful-menu").blink_components_text(ctx) end,
-              highlight = function(ctx) return require("colorful-menu").blink_components_highlight(ctx) end,
-            },
-          },
-        },
-      },
-      documentation = {
-        auto_show = true,
-        auto_show_delay_ms = 500,
-      },
-    },
-
-    snippets = { preset = "luasnip" },
-
-    sources = {
-      default = { "snippets", "lsp", "path", "buffer" },
-      providers = {
-        buffer = { score_offset = 3 },
-        lsp = { score_offset = 2 },
-        path = { score_offset = 1 },
-        snippets = { score_offset = 0 },
-      },
-    },
-
-    fuzzy = { prebuilt_binaries = { download = true } },
+      })
+    end,
   },
-  opts_extend = { "sources.default" },
+  -- LSP-driven completion popup with bordered info/signature windows
+  {
+    "nvim-mini/mini.completion",
+    version = false,
+    -- mini.basics dep guarantees it loads (and sets completeopt) before we append "fuzzy"
+    dependencies = { "nvim-mini/mini.snippets", "nvim-mini/mini.basics" },
+    lazy = false,
+    config = function()
+      require("mini.completion").setup({
+        lsp_completion = {
+          -- Use 'completefunc' and auto-wire it to every LSP-attached buffer
+          -- (kind icons come from MiniIcons.tweak_lsp_kind() in ui.lua)
+          source_func = "completefunc",
+          auto_setup = true,
+        },
+        window = {
+          info = { border = "rounded" },
+          signature = { border = "rounded" },
+        },
+      })
+      -- Enable fuzzy matching for the completion popup (mini only auto-sets menuone,noselect)
+      vim.opt.completeopt:append("fuzzy")
+    end,
+  },
+  -- Smart insert-mode keys: each key tries steps in order, falling back to normal behaviour
+  {
+    "nvim-mini/mini.keymap",
+    version = false,
+    event = "VeryLazy",
+    -- mini.pairs provides the minipairs_cr fallback step for <CR>
+    dependencies = { "nvim-mini/mini.pairs" },
+    config = function()
+      local map_multistep = require("mini.keymap").map_multistep
+      -- Tab: jump to next snippet tabstop, else expand snippet, else next popup item
+      map_multistep("i", "<Tab>", { "minisnippets_next", "minisnippets_expand", "pmenu_next" })
+      -- Shift-Tab: prev snippet tabstop, else prev popup item
+      map_multistep("i", "<S-Tab>", { "minisnippets_prev", "pmenu_prev" })
+      -- Enter: accept popup selection, else insert newline with auto-pair handling
+      map_multistep("i", "<CR>", { "pmenu_accept", "minipairs_cr" })
+    end,
+  },
 }

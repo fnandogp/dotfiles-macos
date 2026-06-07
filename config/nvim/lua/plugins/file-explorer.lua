@@ -1,8 +1,12 @@
+-- File explorer: mini.files with preview pane.
+-- Adds custom buffer-local mappings: dotfile toggle, open-in-split,
+-- set cwd / yank path from entry under cursor, plus a global toggle.
 return {
   "nvim-mini/mini.files",
   version = false,
   opts = {
     windows = { preview = true },
+    -- Sync filesystem changes with <leader>w (matches the global save key)
     mappings = { synchronize = "<leader>w" },
   },
   config = function(_, opts)
@@ -30,6 +34,8 @@ return {
     })
 
     -- Create mappings to modify target window via split ~
+    -- Open the entry under cursor in a new split: create the split in the
+    -- current target window, make it the new target, then go into the entry.
     local map_split = function(buf_id, lhs, direction)
       local rhs = function()
         -- Make new window and set it as target
@@ -73,37 +79,18 @@ return {
       vim.fn.setreg(vim.v.register, path)
     end
 
-    local add_path_to_codecompanion_chat = function()
-      local path = MiniFiles.get_fs_entry().path
-      if path == nil then return vim.notify("Cursor is not on valid entry", vim.log.levels.WARN) end
-
-      local utils = require("plugins.utils.ai-assistant")
-      local file_paths = utils.list_file_paths(path)
-
-      if #file_paths == 0 then return print("No files found") end
-
-      local codecompanion = require("codecompanion")
-      local chat = codecompanion.last_chat()
-      if chat == nil then --if no chat, create one
-        chat = codecompanion.chat()
-      end
-
-      for _, file_path in ipairs(file_paths) do
-        utils.add_file_path_to_chat(file_path, chat)
-      end
-    end
-
     vim.api.nvim_create_autocmd("User", {
       pattern = "MiniFilesBufferCreate",
       callback = function(args)
         local b = args.data.buf_id
         vim.keymap.set("n", "g~", set_cwd, { buffer = b, desc = "Set cwd" })
         vim.keymap.set("n", "gy", yank_path, { buffer = b, desc = "Yank path" })
-        vim.keymap.set("n", "ga", add_path_to_codecompanion_chat, { buffer = b, desc = "Add to CodeCompanion" })
       end,
     })
 
     -- Create mapping to toggle file explorer
+    -- close() returns false when nothing was open, so open instead - focused
+    -- on the current buffer's file, falling back to cwd if it has no name.
     local minifiles_toggle = function()
       if not MiniFiles.close() then
         local ok, res = pcall(function() MiniFiles.open(vim.api.nvim_buf_get_name(0)) end)

@@ -1,8 +1,11 @@
+-- Linting via nvim-lint. Runs on the listed events; for JS/TS the linter is chosen
+-- by which project config exists (Deno/Biome/oxc/ESLint) via the conditions below.
 return {
   "mfussenegger/nvim-lint",
   opts = function()
     local config_detection = require("plugins.utils.config_detection")
     return {
+      -- Events that trigger a (debounced) lint pass
       events = { "BufWritePost", "BufReadPost", "InsertLeave" },
       linters_by_ft = {
         markdown = { "markdownlint" },
@@ -18,6 +21,7 @@ return {
         yaml = { "yamllint" },
         ruby = { "rubocop" },
       },
+      -- Each JS-ecosystem linter only runs when its project config is detected (mutually exclusive)
       linters = {
         eslint = {
           condition = function(ctx)
@@ -54,6 +58,7 @@ return {
     local M = {}
 
     local lint = require("lint")
+    -- Merge our linter overrides into nvim-lint's defaults (and append any prepend_args)
     for name, linter in pairs(opts.linters) do
       if type(linter) == "table" and type(lint.linters[name]) == "table" then
         lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
@@ -67,6 +72,7 @@ return {
     end
     lint.linters_by_ft = opts.linters_by_ft
 
+    -- Coalesce rapid triggers so we lint once after activity settles
     function M.debounce(ms, fn)
       local timer = vim.uv.new_timer()
       return function(...)
@@ -78,16 +84,19 @@ return {
       end
     end
 
+    -- Resolve linters for the current buffer and run those whose condition passes
     function M.lint()
       local names = lint._resolve_linter_by_ft(vim.bo.filetype)
       names = vim.list_extend({}, names)
 
+      -- "_" = fallback linters when none match the filetype; "*" = always-run linters
       if #names == 0 then vim.list_extend(names, lint.linters_by_ft["_"] or {}) end
 
       vim.list_extend(names, lint.linters_by_ft["*"] or {})
 
       local ctx = { filename = vim.api.nvim_buf_get_name(0) }
       ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
+      -- Drop linters that aren't installed or whose condition fails
       names = vim.tbl_filter(function(name)
         local linter = lint.linters[name]
         if not linter then vim.notify("Linter not found: " .. name, vim.log.levels.WARN) end

@@ -1,6 +1,11 @@
+-- Editor enhancements: highlighting, animation, sessions, folds, search/replace,
+-- code outline, tree navigation, HTTP client, zen mode and tmux pane navigation.
 return {
+  -- Highlights patterns like hex colours and TODO/FIXME words
   { "nvim-mini/mini.hipatterns", version = false, opts = {} },
+  -- Animated cursor/window transitions; scroll animation disabled (jarring with stay-centered)
   { "nvim-mini/mini.animate", version = false, opts = { scroll = { enable = false } } },
+  -- Auto save/restore sessions, scoped per git branch and to specific dirs
   {
     "olimorris/persisted.nvim",
     cmd = "SessionSelect",
@@ -16,6 +21,7 @@ return {
     },
     keys = { "<leader>S", "<cmd>SessionSelect<CR>", desc = "Select session" },
   },
+  -- Nicer folding UX; start fully unfolded (foldlevel 99)
   {
     "chrisgrieser/nvim-origami",
     event = "VeryLazy",
@@ -25,6 +31,7 @@ return {
     end,
     opts = {},
   },
+  -- Project-wide find & replace UI (buffer-based, ripgrep backed)
   {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",
@@ -52,6 +59,7 @@ return {
       },
     },
   },
+  -- Symbol/code outline sidebar (LSP symbols)
   {
     "hedyhli/outline.nvim",
     cmd = { "Outline", "OutlineOpen" },
@@ -63,9 +71,11 @@ return {
       { "<leader>o", "<cmd>Outline<CR>", desc = "Toggle Outline", mode = "n" },
     },
   },
+  -- Keeps cursor vertically centred; skipped in terminal/file-tree/chat buffers
   { "arnamak/stay-centered.nvim", opts = {
     skip_filetypes = { "toggleterm", "minifiles", "codecompanion" },
   } },
+  -- Move/swap by treesitter nodes; <tab>+hjkl navigates the syntax tree
   {
     "aaronik/treewalker.nvim",
     opts = {},
@@ -76,11 +86,13 @@ return {
       { "<tab>l", "<cmd>Treewalker Right<CR>" },
     },
   },
+  -- Prettier rendering of :help / vimdoc buffers
   {
     "OXY2DEV/helpview.nvim",
     lazy = false,
     opts = {},
   },
+  -- HTTP/REST client for .http files; <leader>r prefix runs requests, env scoped globally
   {
     "mistweaverco/kulala.nvim",
     ft = { "http", "rest" },
@@ -98,6 +110,7 @@ return {
       },
     },
   },
+  -- Distraction-free centred editing (<leader>z)
   {
     "folke/zen-mode.nvim",
     opts = {
@@ -107,6 +120,7 @@ return {
       { "<leader>z", "<cmd>ZenMode<CR>", desc = "Toggle Zen Mode", mode = "n" },
     },
   },
+  -- Seamless <c-hjkl> movement between nvim splits and tmux panes
   {
     "christoomey/vim-tmux-navigator",
     cmd = {

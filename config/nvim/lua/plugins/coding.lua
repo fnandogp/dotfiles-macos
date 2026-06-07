@@ -1,4 +1,7 @@
+-- Editing utilities: mini.* modules (comment/pairs/surround/bufremove/move/ai)
+-- plus the git toolset (gitsigns, diffview, fugitive, neogit).
 return {
+  -- Toggle comments; commentstring resolved per-context via treesitter (e.g. JSX vs JS)
   {
     "nvim-mini/mini.comment",
     dependencies = { "JoosepAlviste/nvim-ts-context-commentstring", opts = { enable_autocmd = false } },
@@ -9,10 +12,11 @@ return {
       },
     },
   },
-  { "nvim-mini/mini.pairs", version = false, opts = {} },
-  { "nvim-mini/mini.surround", version = false, opts = {} },
-  { "nvim-mini/mini.bufremove", version = false, opts = {} },
-  { "nvim-mini/mini.move", version = false, opts = {} },
+  { "nvim-mini/mini.pairs", version = false, opts = {} }, -- auto-close brackets/quotes
+  { "nvim-mini/mini.surround", version = false, opts = {} }, -- add/change/delete surrounding pairs
+  { "nvim-mini/mini.bufremove", version = false, opts = {} }, -- delete buffers without closing windows
+  { "nvim-mini/mini.move", version = false, opts = {} }, -- move lines/selections with Alt+hjkl
+  -- Extended a/i text objects (custom: f = function, g = whole buffer)
   {
     "nvim-mini/mini.ai",
     version = false,
@@ -31,6 +35,7 @@ return {
       }
     end,
   },
+  -- Git gutter signs + hunk navigation/staging keymaps (all under <leader>h)
   {
     "lewis6991/gitsigns.nvim",
     opts = {
@@ -42,7 +47,7 @@ return {
           opts.buffer = bufnr
           vim.keymap.set(mode, l, r, opts)
         end
-        -- Navigation
+        -- Navigation: ]c/[c jump hunks (defer to native diff motions when in diff mode)
         map("n", "]c", function()
           if vim.wo.diff then
             vim.cmd.normal({ "]c", bang = true })
@@ -76,10 +81,12 @@ return {
       end,
     },
   },
+  -- Side-by-side diff/merge UI; q closes it from the file panel
   { "sindrets/diffview.nvim", opts = {}, keys = {
     { "q", "<cmd>DiffviewClose<CR>", desc = "Close Diffview", mode = "n", ft = "DiffviewFiles" },
   } },
-  { "tpope/vim-fugitive" },
+  { "tpope/vim-fugitive" }, -- classic git command wrapper (:Git ...)
+  -- Magit-style git interface; <leader>g opens status (uses mini.pick + diffview)
   {
     "NeogitOrg/neogit",
     dependencies = {
@@ -89,6 +96,7 @@ return {
     },
     opts = {
       kind = "auto",
+      graph_style = "unicode",
       signs = {
         --{ CLOSED, OPENED }
         hunk = { "", "" },
@@ -114,5 +122,13 @@ return {
     keys = {
       { "<leader>g", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
     },
+
+    -- Soft-wrap long lines in the Neogit status buffer
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "NeogitStatus",
+        callback = function(args) vim.wo[0][0].wrap = true end,
+      })
+    end,
   },
 }

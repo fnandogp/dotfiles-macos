@@ -1,5 +1,6 @@
 --- AI assistant utilities for CodeCompanion integration
---- Provides helper functions for managing file references and path operations
+--- Provides helper functions for managing file references and path operations.
+--- Used by ai-assistant.lua plugin spec (e.g. the `ga` "add file" keymap).
 local M = {}
 
 --- Add a file path to an active CodeCompanion chat session.

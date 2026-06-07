@@ -1,8 +1,12 @@
+-- Note-taking: obsidian.nvim over Obsidian vaults in ~/Documents/Vaults.
+-- Two workspaces (work/personal), Zettelkasten note IDs, daily notes.
+-- (diagram.nvim/image.nvim block below kept disabled for reference.)
 return {
   {
     "obsidian-nvim/obsidian.nvim",
     version = "*",
     ft = "markdown",
+    -- Also load early when opening any markdown file inside the vaults dir
     event = {
       "BufReadPre " .. vim.fn.expand("~") .. "/Documents/Vaults/*.md",
     },
@@ -13,7 +17,9 @@ return {
     },
     opts = {
       legacy_commands = false,
+      -- Disable built-in concealing UI (handled elsewhere / not wanted)
       ui = { enable = false },
+      -- Checkbox states cycled with the toggle command, in this order
       checkboxes = {
         order = { " ", "x", "-", "~", "?" },
       },

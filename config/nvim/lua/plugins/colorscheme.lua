@@ -1,4 +1,7 @@
+-- Colourschemes. catppuccin configured with plugin integrations; rose-pine is the
+-- one actually applied (its config calls `colorscheme rose-pine`).
 return {
+  -- Catppuccin: configured but not activated (its colorscheme line is commented out below)
   {
     "catppuccin/nvim",
     name = "catppuccin-nvim",
@@ -18,13 +21,12 @@ return {
             TelescopeNormal = { bg = colors.mantle },
           }
         end,
+        -- Per-plugin highlight integrations
         integrations = {
-          blink_cmp = true,
           neogit = true,
           grug_far = true,
           mason = true,
           notify = true,
-          noice = true,
           lsp_trouble = true,
           mini = {
             enabled = true,
@@ -39,6 +41,7 @@ return {
       -- vim.cmd([[colorscheme catppuccin-latte]])
     end,
   },
+  -- Rose Pine: the active theme (light "dawn" variant), applied at the end of config
   {
     "rose-pine/neovim",
     name = "rose-pine",
@@ -59,6 +62,20 @@ return {
           bold = true,
           italic = true,
           transparency = false,
+        },
+
+        -- Completion popup (mini.completion / native pum) styled with rose-pine palette roles
+        highlight_groups = {
+          Pmenu = { fg = "text", bg = "surface" }, -- item rows
+          PmenuSel = { fg = "text", bg = "overlay", bold = true }, -- selected row
+          PmenuKind = { bg = "surface" }, -- kind/icon column (per-item colour set via mini.icons)
+          PmenuKindSel = { bg = "overlay" },
+          PmenuExtra = { fg = "muted", bg = "surface" }, -- menu/detail column
+          PmenuExtraSel = { fg = "subtle", bg = "overlay" },
+          PmenuMatch = { fg = "rose", bg = "surface", bold = true }, -- fuzzy-matched chars
+          PmenuMatchSel = { fg = "rose", bg = "overlay", bold = true },
+          PmenuSbar = { bg = "surface" }, -- scrollbar track
+          PmenuThumb = { bg = "muted" }, -- scrollbar thumb
         },
       })
 

@@ -1,3 +1,5 @@
+-- Fuzzy finder: mini.pick (+ mini.extra pickers, mini.visits for frecency).
+-- Wires vim.ui.select to MiniPick so all selection prompts use the picker.
 return {
   {
     "nvim-mini/mini.pick",
@@ -9,25 +11,23 @@ return {
     },
     opts = {
       mappings = {
+        -- Move caret within the query; <M-h>/<M-l> instead of arrows
         caret_left = "<M-h>",
         caret_right = "<M-l>",
         scroll_down = "<C-d>",
         scroll_up = "<C-u>",
       },
+      -- Full-width picker window
       window = { config = { width = vim.o.columns } },
     },
     config = function(_, opts)
       local MiniPick = require("mini.pick")
       MiniPick.setup(opts)
+      -- Route every vim.ui.select prompt (code actions, etc.) through mini.pick
       vim.ui.select = MiniPick.ui_select
 
-      -- LSP default mappings are conflicting with this so we remove them
-      vim.keymap.del("n", "grn")
-      vim.keymap.del("n", "grr")
-      vim.keymap.del({ "n", "x" }, "gra")
-      vim.keymap.del("n", "grt")
-      vim.keymap.del("n", "gri")
-
+      -- Override vim.paste so OS paste inside the picker fills the query.
+      -- Falls back to the original paste handler when no picker is open.
       local original_paste = vim.paste
       vim.paste = function(...)
         if not MiniPick.is_picker_active() then return original_paste(...) end
@@ -43,19 +43,20 @@ return {
     end,
     keys = {
       { "<leader>p", "<cmd>Pick files<CR>", desc = "Files picker" },
+      -- visit_paths: frecency-ranked recent files (via mini.visits)
       { "<leader>P", "<cmd>Pick visit_paths<CR>", desc = "Visited paths" },
       { "<leader>f", "<cmd>Pick grep_live<CR>", desc = "Grep live" },
-      -- LSP
+      -- LSP (override defaults with picker)
       { "gd", "<cmd>Pick lsp scope='definition'<CR>", desc = "Go to definition" },
       { "gD", "<cmd>Pick lsp scope='declaration'<CR>", desc = "Go to declaration" },
-      { "gr", "<cmd>Pick lsp scope='references'<CR>", desc = "Go to references", { nowait = true } },
-      { "go", function() require("mini.extra").pickers.lsp({ scope = "document_symbol" }) end, desc = "Go to document symbol" },
-      -- { "gO", "<cmd>Pick lsp scope='document_symbol'<CR>", desc = "Go to document symbol" },
-      { "gw", function() require("mini.extra").pickers.lsp({ scope = "workspace_symbol" }) end, desc = "Go to document symbol" },
-      -- { "gW", "<cmd>Pick lsp scope='workspace_symbol'<CR>", desc = "Go to workspace symbol" },
-      { "gi", "<cmd>Pick lsp scope='implementation'<CR>", desc = "Go to implementation" },
-      { "gt", "<cmd>Pick lsp scope='type_definition'<CR>", desc = "Go to type definition" },
+      { "grr", "<cmd>Pick lsp scope='references'<CR>", desc = "Go to references" },
+      { "gri", "<cmd>Pick lsp scope='implementation'<CR>", desc = "Go to implementation" },
+      { "grt", "<cmd>Pick lsp scope='type_definition'<CR>", desc = "Go to type definition" },
+      { "gO", function() require("mini.extra").pickers.lsp({ scope = "document_symbol" }) end, desc = "Go to document symbol" },
+      -- Extra (no default equivalent)
+      { "gw", function() require("mini.extra").pickers.lsp({ scope = "workspace_symbol" }) end, desc = "Go to workspace symbol" },
       { "gL", "<cmd>Pick diagnostic<cr>", desc = "List diagnostics" },
+      -- Cmd+V inside the picker buffer: insert both * and + registers
       { "<command-v>", "<C-r>*<C-r>+", desc = "Paste from clipboard", ft = "minipick" },
     },
   },

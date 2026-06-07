@@ -1,3 +1,6 @@
+-- Per-project file bookmarks built on mini.visits.
+-- Bookmarks are visits tagged with a "bookmark" label, scoped to cwd.
+-- Provides add/remove/toggle, a picker view, cyclic nav, and slots 1-4.
 return {
   "nvim-mini/mini.visits",
   version = false,
@@ -7,6 +10,7 @@ return {
 
     MiniVisits.setup()
 
+    -- Label used to mark a visit as a bookmark
     local BOOKMARK_LABEL = "bookmark"
 
     -- Add bookmark to current file
@@ -63,10 +67,11 @@ return {
       end
     end
 
-    -- Show only bookmarked files
+    -- Show only bookmarked files in a mini.pick picker
     local function show_bookmarks()
       local project_dir = vim.fn.getcwd()
       local all_paths = MiniVisits.list_paths(project_dir)
+      -- Filter all project visits down to those carrying the bookmark label
       local bookmarked_paths = {}
 
       for _, path in ipairs(all_paths) do
@@ -94,6 +99,7 @@ return {
     end
 
     -- Navigate through bookmarked files only
+    -- bookmark_index tracks position in the bookmark list across calls
     local bookmark_index = 1
     local function navigate_bookmarks(direction)
       local project_dir = vim.fn.getcwd()
@@ -115,6 +121,7 @@ return {
         return
       end
 
+      -- Wrap around either end of the list
       if direction == "forward" then
         bookmark_index = bookmark_index % #bookmarked_paths + 1
       else
@@ -124,7 +131,7 @@ return {
       vim.cmd("edit " .. vim.fn.fnameescape(bookmarked_paths[bookmark_index]))
     end
 
-    -- Direct access to bookmarked files by number
+    -- Direct access to bookmarked files by ordinal position (1-based)
     local function goto_bookmark(number)
       local project_dir = vim.fn.getcwd()
       local all_paths = MiniVisits.list_paths(project_dir)

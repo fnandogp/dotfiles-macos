@@ -1,3 +1,5 @@
+-- Integrated terminals via toggleterm.nvim, themed to match rose-pine.
+-- <leader>t toggles a side terminal, <leader>T a floating one; tmux nav works inside.
 return {
   {
     "akinsho/toggleterm.nvim",
@@ -6,9 +8,11 @@ return {
     },
     config = function()
       local toggleterm = require("toggleterm")
+      -- Borrow rose-pine's toggleterm highlight group so terminals match the theme
       local highlights = require("rose-pine.plugins.toggleterm")
       toggleterm.setup({
         highlights = highlights,
+        -- Sizing per direction: fixed height horizontal, 40% width vertical
         size = function(term)
           if term.direction == "horizontal" then
             return 10
