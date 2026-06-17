@@ -76,6 +76,14 @@ return {
           PmenuMatchSel = { fg = "rose", bg = "overlay", bold = true },
           PmenuSbar = { bg = "surface" }, -- scrollbar track
           PmenuThumb = { bg = "muted" }, -- scrollbar thumb
+
+          -- Floating windows (LSP hover/K, signature, info docs, diagnostics).
+          -- Body bg matches the buffer (base) so there's no tint; the rounded
+          -- border line does all the visual separation (see vim.o.winborder).
+          NormalFloat = { fg = "text", bg = "base" }, -- float body, same bg as buffer
+          FloatBorder = { fg = "muted", bg = "base" }, -- the rounded line
+          FloatTitle = { fg = "rose", bg = "base", bold = true }, -- title (e.g. "hover")
+          FloatFooter = { fg = "subtle", bg = "base" },
         },
       })
 

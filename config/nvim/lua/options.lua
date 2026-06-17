@@ -29,6 +29,10 @@ vim.opt.conceallevel = 1 -- Hide concealed text (e.g. markdown syntax) but keep 
 -- Native extended UI for cmdline/messages (Neovim 0.12+; replaces noice UI)
 pcall(function() require("vim._extui").enable({ msg = { target = "cmd", timeout = 3000 } }) end)
 
+-- Default border for floats that don't set their own (LSP hover/K, signature).
+-- mini.completion's info/signature and the diagnostic float set their own; this catches the rest.
+vim.o.winborder = "rounded"
+
 -- Diagnostics: signs in the gutter, no inline virtual text, details shown in a
 -- rounded float on jump (source + code appended, trailing periods stripped).
 vim.diagnostic.config({
