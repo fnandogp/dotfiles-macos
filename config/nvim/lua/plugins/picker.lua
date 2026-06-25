@@ -16,6 +16,8 @@ return {
         caret_right = "<M-l>",
         scroll_down = "<C-d>",
         scroll_up = "<C-u>",
+        -- Disabled: default <C-u> collides with scroll_up; <BS>/<C-w> cover deletion
+        delete_left = "",
       },
       -- Full-width picker window
       window = { config = { width = vim.o.columns } },
