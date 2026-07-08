@@ -3,7 +3,7 @@
 -- Provides add/remove/toggle, a picker view, cyclic nav, and slots 1-4.
 return {
   "nvim-mini/mini.visits",
-  version = false,
+  version = "*",
   config = function()
     local MiniVisits = require("mini.visits")
     local MiniExtra = require("mini.extra")

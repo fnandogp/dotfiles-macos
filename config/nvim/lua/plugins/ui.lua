@@ -2,10 +2,10 @@
 -- Built mostly from mini.* modules; markdown via render-markdown.nvim.
 return {
   -- File-type icons (devicons for legacy consumers, mini.icons as the modern provider)
-  { "nvim-tree/nvim-web-devicons", version = false, opts = {} },
+  { "nvim-tree/nvim-web-devicons", version = "*", opts = {} },
   {
     "nvim-mini/mini.icons",
-    version = false,
+    version = "*",
     opts = {},
     config = function(_, opts)
       require("mini.icons").setup(opts)
@@ -17,7 +17,7 @@ return {
   -- drop out progressively as the window narrows.
   {
     "nvim-mini/mini.statusline",
-    version = false,
+    version = "*",
     opts = {
       content = {
         active = function()
@@ -49,15 +49,15 @@ return {
     },
   },
   -- Highlights other instances of the word under the cursor
-  { "nvim-mini/mini.cursorword", version = false, opts = {} },
+  { "nvim-mini/mini.cursorword", version = "*", opts = {} },
   -- Command line tweaks (autocomplete/autocorrect/range-peek); popup UI handled by vim._extui
-  { "nvim-mini/mini.cmdline", version = false, opts = {} },
+  { "nvim-mini/mini.cmdline", version = "*", opts = {} },
   -- vim.ui.input override (vim.ui.select is wired to MiniPick.ui_select in picker.lua)
-  { "nvim-mini/mini.input", version = false, opts = {} },
+  { "nvim-mini/mini.input", version = "*", opts = {} },
   -- Notifications + LSP progress (replaces noice notify and fidget)
   {
     "nvim-mini/mini.notify",
-    version = false,
+    version = "*",
     lazy = false, -- load at startup so the vim.notify override is in place early
     config = function()
       require("mini.notify").setup()
@@ -87,7 +87,7 @@ return {
   -- Shows a popup of available next keys after a trigger (which-key style)
   {
     "nvim-mini/mini.clue",
-    version = false,
+    version = "*",
     opts = {
       triggers = {
         -- Leader triggers

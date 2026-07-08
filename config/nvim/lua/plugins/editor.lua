@@ -2,9 +2,9 @@
 -- code outline, tree navigation, HTTP client, zen mode and tmux pane navigation.
 return {
   -- Highlights patterns like hex colours and TODO/FIXME words
-  { "nvim-mini/mini.hipatterns", version = false, opts = {} },
+  { "nvim-mini/mini.hipatterns", version = "*", opts = {} },
   -- Animated cursor/window transitions; scroll animation disabled (jarring with stay-centered)
-  { "nvim-mini/mini.animate", version = false, opts = { scroll = { enable = false } } },
+  { "nvim-mini/mini.animate", version = "*", opts = { scroll = { enable = false } } },
   -- Auto save/restore sessions, scoped per git branch and to specific dirs
   {
     "olimorris/persisted.nvim",

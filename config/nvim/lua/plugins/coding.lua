@@ -5,21 +5,21 @@ return {
   {
     "nvim-mini/mini.comment",
     dependencies = { "JoosepAlviste/nvim-ts-context-commentstring", opts = { enable_autocmd = false } },
-    version = false,
+    version = "*",
     opts = {
       options = {
         custom_commentstring = function() return require("ts_context_commentstring").calculate_commentstring() or vim.bo.commentstring end,
       },
     },
   },
-  { "nvim-mini/mini.pairs", version = false, opts = {} }, -- auto-close brackets/quotes
-  { "nvim-mini/mini.surround", version = false, opts = {} }, -- add/change/delete surrounding pairs
-  { "nvim-mini/mini.bufremove", version = false, opts = {} }, -- delete buffers without closing windows
-  { "nvim-mini/mini.move", version = false, opts = {} }, -- move lines/selections with Alt+hjkl
+  { "nvim-mini/mini.pairs", version = "*", opts = {} }, -- auto-close brackets/quotes
+  { "nvim-mini/mini.surround", version = "*", opts = {} }, -- add/change/delete surrounding pairs
+  { "nvim-mini/mini.bufremove", version = "*", opts = {} }, -- delete buffers without closing windows
+  { "nvim-mini/mini.move", version = "*", opts = {} }, -- move lines/selections with Alt+hjkl
   -- Extended a/i text objects (custom: f = function, g = whole buffer)
   {
     "nvim-mini/mini.ai",
-    version = false,
+    version = "*",
     opts = function()
       local miniai = require("mini.ai")
       return {

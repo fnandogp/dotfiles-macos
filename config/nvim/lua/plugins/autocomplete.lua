@@ -4,7 +4,7 @@ return {
   -- Snippet engine; loads friendly-snippets + a custom JS/TS console.log snippet
   {
     "nvim-mini/mini.snippets",
-    version = false,
+    version = "*",
     dependencies = { "rafamadriz/friendly-snippets" },
     lazy = false,
     config = function()
@@ -24,7 +24,7 @@ return {
   -- LSP-driven completion popup with bordered info/signature windows
   {
     "nvim-mini/mini.completion",
-    version = false,
+    version = "*",
     -- mini.basics dep guarantees it loads (and sets completeopt) before we append "fuzzy"
     dependencies = { "nvim-mini/mini.snippets", "nvim-mini/mini.basics" },
     lazy = false,
@@ -48,7 +48,7 @@ return {
   -- Smart insert-mode keys: each key tries steps in order, falling back to normal behaviour
   {
     "nvim-mini/mini.keymap",
-    version = false,
+    version = "*",
     event = "VeryLazy",
     -- mini.pairs provides the minipairs_cr fallback step for <CR>
     dependencies = { "nvim-mini/mini.pairs" },
