@@ -85,7 +85,6 @@ return {
   { "sindrets/diffview.nvim", opts = {}, keys = {
     { "q", "<cmd>DiffviewClose<CR>", desc = "Close Diffview", mode = "n", ft = "DiffviewFiles" },
   } },
-  { "tpope/vim-fugitive" }, -- classic git command wrapper (:Git ...)
   -- Magit-style git interface; <leader>g opens status (uses mini.pick + diffview)
   {
     "NeogitOrg/neogit",
@@ -96,6 +95,11 @@ return {
     },
     opts = {
       kind = "auto",
+      -- Build the log graph from the commit list itself. The default "ascii"
+      -- style runs a separate `git log --graph` command whose commit set can
+      -- diverge from the main log under --max-count on merge histories,
+      -- throwing "No commit found for oid" in parse_log. "unicode" derives the
+      -- graph from the same commits, so oids always resolve.
       graph_style = "unicode",
       signs = {
         --{ CLOSED, OPENED }
@@ -104,18 +108,19 @@ return {
         section = { "▸", "▾" },
       },
       integrations = {
-        telescope = false,
+        telescope = nil,
         diffview = true,
-        mini_pick = true,
+        -- Route finders through vim.ui.select (wired to MiniPick.ui_select in
+        -- picker.lua) instead of neogit's native mini_pick integration. The
+        -- native path (finder.lua) starts the picker with only a `choose`
+        -- callback and no abort handler, so dismissing a picker never resumes
+        -- neogit's async coroutine and the action stalls silently. ui_select
+        -- calls on_choice(nil) on cancel, so the coroutine resumes cleanly.
+        mini_pick = false,
       },
       mappings = {
-        popup = {
-          ["l"] = false,
-          ["L"] = "LogPopup",
-        },
-        status = {
-          ["l"] = "OpenFold",
-        },
+        popup = { ["l"] = false, ["L"] = "LogPopup" },
+        status = { ["l"] = "OpenFold" },
       },
     },
 
@@ -123,11 +128,27 @@ return {
       { "<leader>g", "<Cmd>Neogit<CR>", desc = "Open Neogit", mode = "n" },
     },
 
-    -- Soft-wrap long lines in the Neogit status buffer
     init = function()
+      -- Echo Neogit's own log (incl. failed actions) to :messages. Set before
+      -- the plugin loads so its logger reads it. Any non-nil value enables it.
+      vim.env.NEOGIT_LOG_CONSOLE = "true"
+      vim.env.NEOGIT_LOG_LEVEL = "warn" -- errors/warnings only; drop info chatter
+
+      -- Soft-wrap long lines in the Neogit status buffer
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "NeogitStatus",
         callback = function(args) vim.wo[0][0].wrap = true end,
+      })
+
+      -- Neogit's process console (bufhidden="hide") keeps its terminal channel
+      -- when dismissed. The next console reuses the same-named buffer and calls
+      -- nvim_open_term on it again -> "Terminal already connected" crash. Wipe
+      -- the hidden buffer so it's never reused with a live terminal.
+      vim.api.nvim_create_autocmd("BufHidden", {
+        callback = function(args)
+          if vim.bo[args.buf].filetype ~= "NeogitConsole" then return end
+          vim.schedule(function() pcall(vim.api.nvim_buf_delete, args.buf, { force = true }) end)
+        end,
       })
     end,
   },

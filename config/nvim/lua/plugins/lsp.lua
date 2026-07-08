@@ -2,7 +2,8 @@
 -- Capabilities are advertised via mini.completion; server configs use vim.lsp.config().
 return {
   "neovim/nvim-lspconfig",
-  cmd = { "LspInfo", "LspInstall", "LspStart" },
+  -- Load on file open; LspInstall (from mason) is the only command worth a lazy trigger.
+  cmd = { "LspInstall" },
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "mason-org/mason.nvim",
@@ -106,10 +107,11 @@ return {
     require("mason").setup() -- LSP server installer
     require("mason-lspconfig").setup() -- bridges Mason-installed servers into lspconfig
   end,
-  -- LSP lifecycle controls
+  -- LSP lifecycle via the native `:Lsp` command.
   keys = {
-    { "<Leader>ls", "<cmd>LspStart<CR>", desc = "Start LSP server" },
-    { "<Leader>lt", "<cmd>LspStop<CR>", desc = "Stop LSP server" },
-    { "<Leader>lr", "<cmd>LspRestart<CR>", desc = "Restart LSP server" },
+    { "<Leader>lr", "<cmd>Lsp restart<CR>", desc = "Restart LSP server" },
+    { "<Leader>lt", "<cmd>Lsp stop<CR>", desc = "Stop LSP server" },
+    { "<Leader>ls", "<cmd>Lsp start<CR>", desc = "Start LSP server" },
+    { "<Leader>li", "<cmd>Lsp info<CR>", desc = "LSP info" },
   },
 }

@@ -63,6 +63,7 @@ return {
   {
     "hedyhli/outline.nvim",
     cmd = { "Outline", "OutlineOpen" },
+    dependencies = { "onsails/lspkind.nvim" }, -- provides the lspkind icon_source below
     opts = {
       symbols = { icon_source = "lspkind" },
       symbol_folding = { auto_unfold = { only = 2 } },

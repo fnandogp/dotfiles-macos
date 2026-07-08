@@ -6,8 +6,8 @@ return {
     lazy = false,
     version = "*",
     dependencies = {
-      { "nvim-mini/mini.visits" },
-      { "nvim-mini/mini.extra", version = false, opts = {} },
+      { "nvim-mini/mini.visits", version = "*" },
+      { "nvim-mini/mini.extra", version = "*", opts = {} },
     },
     opts = {
       mappings = {
@@ -16,11 +16,10 @@ return {
         caret_right = "<M-l>",
         scroll_down = "<C-d>",
         scroll_up = "<C-u>",
-        -- Disabled: default <C-u> collides with scroll_up; <BS>/<C-w> cover deletion
-        delete_left = "",
+        delete_left = "", -- Disabled: default <C-u> collides with scroll_up; <BS>/<C-w> cover deletion
       },
-      -- Full-width picker window
-      window = { config = { width = vim.o.columns } },
+      -- Full-width picker window; callable so it tracks terminal resizes
+      window = { config = function() return { width = vim.o.columns } end },
     },
     config = function(_, opts)
       local MiniPick = require("mini.pick")
@@ -58,8 +57,6 @@ return {
       -- Extra (no default equivalent)
       { "gw", function() require("mini.extra").pickers.lsp({ scope = "workspace_symbol" }) end, desc = "Go to workspace symbol" },
       { "gL", "<cmd>Pick diagnostic<cr>", desc = "List diagnostics" },
-      -- Cmd+V inside the picker buffer: insert both * and + registers
-      { "<command-v>", "<C-r>*<C-r>+", desc = "Paste from clipboard", ft = "minipick" },
     },
   },
 }

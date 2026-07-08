@@ -58,10 +58,31 @@ return {
   {
     "nvim-mini/mini.notify",
     version = false,
+    lazy = false, -- load at startup so the vim.notify override is in place early
     config = function()
       require("mini.notify").setup()
       vim.notify = require("mini.notify").make_notify()
     end,
+    keys = {
+      {
+        "<leader>N",
+        function() require("mini.notify").show_history() end,
+        desc = "Notification history",
+      },
+      {
+        -- Full :messages (native echo/errors/aborted output mini.notify never sees)
+        "<leader>M",
+        function()
+          local messages = vim.api.nvim_exec2("messages", { output = true }).output
+          vim.cmd("botright new")
+          vim.bo.buftype = "nofile"
+          vim.bo.bufhidden = "wipe"
+          vim.bo.swapfile = false
+          vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(messages, "\n"))
+        end,
+        desc = "All messages (:messages)",
+      },
+    },
   },
   -- Shows a popup of available next keys after a trigger (which-key style)
   {
