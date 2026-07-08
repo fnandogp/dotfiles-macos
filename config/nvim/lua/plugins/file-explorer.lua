@@ -1,9 +1,9 @@
 -- File explorer: mini.files with preview pane.
 -- Adds custom buffer-local mappings: dotfile toggle, open-in-split,
--- set cwd / yank path from entry under cursor, plus a global toggle.
+-- set cwd / yank name/path from entry under cursor, plus a global toggle.
 return {
   "nvim-mini/mini.files",
-  version = false,
+  version = "*",
   opts = {
     windows = { preview = true },
     -- Sync filesystem changes with <leader>w (matches the global save key)
@@ -72,19 +72,30 @@ return {
       vim.fn.chdir(vim.fs.dirname(path))
     end
 
-    -- Yank in register full path of entry under cursor
-    local yank_path = function()
-      local path = (MiniFiles.get_fs_entry() or {}).path
-      if path == nil then return vim.notify("Cursor is not on valid entry") end
-      vim.fn.setreg(vim.v.register, path)
+    -- Yank a value derived from the entry under cursor into the (optionally
+    -- prefixed) register, e.g. `"+gy` copies the filename to the clipboard.
+    local yank_entry = function(transform, label)
+      return function()
+        local path = (MiniFiles.get_fs_entry() or {}).path
+        if path == nil then return vim.notify("Cursor is not on valid entry") end
+        local value = transform(path)
+        vim.fn.setreg(vim.v.register, value)
+        vim.notify("Yanked " .. label .. ": " .. value)
+      end
     end
+
+    local yank_name = yank_entry(function(path) return vim.fs.basename(path) end, "name")
+    local yank_full = yank_entry(function(path) return path end, "path")
+    local yank_relative = yank_entry(function(path) return vim.fn.fnamemodify(path, ":.") end, "relative path")
 
     vim.api.nvim_create_autocmd("User", {
       pattern = "MiniFilesBufferCreate",
       callback = function(args)
         local b = args.data.buf_id
         vim.keymap.set("n", "g~", set_cwd, { buffer = b, desc = "Set cwd" })
-        vim.keymap.set("n", "gy", yank_path, { buffer = b, desc = "Yank path" })
+        vim.keymap.set("n", "gyf", yank_name, { buffer = b, desc = "Yank filename" })
+        vim.keymap.set("n", "gyp", yank_full, { buffer = b, desc = "Yank full path" })
+        vim.keymap.set("n", "gyr", yank_relative, { buffer = b, desc = "Yank relative path" })
       end,
     })
 
