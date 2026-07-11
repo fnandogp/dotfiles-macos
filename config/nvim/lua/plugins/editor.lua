@@ -103,10 +103,13 @@ return {
       kulala_keymaps_prefix = "",
       kulala_keymaps = {
         ["Show verbose"] = { "!", function() require("kulala.ui").show_verbose() end },
+        -- Free <C-h>/<C-l> for window navigation inside the response window
+        ["Previous tab"] = false,
+        ["Next tab"] = false,
       },
       environment_scope = "g",
+      lsp = { keymaps = true }, -- .http document symbols / format / hover
       ui = {
-        formatter = true,
         max_response_size = 10 * 1000 * 1000,
       },
     },
