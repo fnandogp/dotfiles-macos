@@ -24,7 +24,7 @@ return {
           if navic_location ~= "" then winbar_content = winbar_content .. " > " .. navic_location end
 
           -- Hide winbar for specific filetypes
-          local ignored_filetypes = { "minifiles", "text.kulala_ui", "json.kulala_ui" }
+          local ignored_filetypes = { "minifiles", "kulala_ui", "text.kulala_ui", "json.kulala_ui" }
           local should_hide = vim.tbl_contains(ignored_filetypes, vim.bo.filetype)
           if not should_hide then vim.wo.winbar = winbar_content end
         end
@@ -107,11 +107,11 @@ return {
     require("mason").setup() -- LSP server installer
     require("mason-lspconfig").setup() -- bridges Mason-installed servers into lspconfig
   end,
-  -- LSP lifecycle via the native `:Lsp` command.
+  -- LSP lifecycle via the native `:lsp` command.
   keys = {
-    { "<Leader>lr", "<cmd>Lsp restart<CR>", desc = "Restart LSP server" },
-    { "<Leader>lt", "<cmd>Lsp stop<CR>", desc = "Stop LSP server" },
-    { "<Leader>ls", "<cmd>Lsp start<CR>", desc = "Start LSP server" },
-    { "<Leader>li", "<cmd>Lsp info<CR>", desc = "LSP info" },
+    { "<Leader>lr", "<cmd>lsp restart<CR>", desc = "Restart LSP server" },
+    { "<Leader>lt", "<cmd>lsp stop<CR>", desc = "Stop LSP server" },
+    { "<Leader>ls", "<cmd>lsp start<CR>", desc = "Start LSP server" },
+    { "<Leader>li", "<cmd>lsp info<CR>", desc = "LSP info" },
   },
 }

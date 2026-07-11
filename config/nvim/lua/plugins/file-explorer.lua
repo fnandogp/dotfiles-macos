@@ -5,7 +5,7 @@ return {
   "nvim-mini/mini.files",
   version = "*",
   opts = {
-    windows = { preview = true },
+    windows = { preview = true, width_preview = 80 },
     -- Sync filesystem changes with <leader>w (matches the global save key)
     mappings = { synchronize = "<leader>w" },
   },
