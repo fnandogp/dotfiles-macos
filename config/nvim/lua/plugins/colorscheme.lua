@@ -1,7 +1,7 @@
--- Colourschemes. catppuccin configured with plugin integrations; rose-pine is the
--- one actually applied (its config calls `colorscheme rose-pine`).
+-- Colourschemes. One `colorscheme` call applies the theme; the other plugin stays
+-- installed so swapping means flipping which line is commented.
 return {
-  -- Catppuccin: configured but not activated (its colorscheme line is commented out below)
+  -- Catppuccin (light "latte" variant)
   {
     "catppuccin/nvim",
     name = "catppuccin-nvim",
@@ -17,8 +17,14 @@ return {
         },
         custom_highlights = function(colors)
           return {
-            NormalFloat = { bg = colors.base },
-            TelescopeNormal = { bg = colors.mantle },
+            -- Whole float family sits on `base` so bodies, borders and titles share
+            -- one background; the rounded border line does the visual separation.
+            -- MiniNotify/MiniPick/LSP floats all link back to these three groups.
+            NormalFloat = { fg = colors.text, bg = colors.base },
+            FloatBorder = { fg = colors.overlay0, bg = colors.base },
+            FloatTitle = { fg = colors.mauve, bg = colors.base, bold = true },
+            FloatFooter = { fg = colors.subtext0, bg = colors.base },
+            MiniNotifyLspProgress = { fg = colors.subtext0, bg = colors.base },
           }
         end,
         -- Per-plugin highlight integrations
@@ -26,8 +32,8 @@ return {
           neogit = true,
           grug_far = true,
           mason = true,
-          notify = true,
           lsp_trouble = true,
+          toggleterm = true,
           mini = {
             enabled = true,
             indentscope_color = "",
@@ -38,10 +44,10 @@ return {
           },
         },
       })
-      -- vim.cmd([[colorscheme catppuccin-latte]])
+      vim.cmd([[colorscheme catppuccin-latte]])
     end,
   },
-  -- Rose Pine: the active theme (light "dawn" variant), applied at the end of config
+  -- Rose Pine (light "dawn" variant)
   {
     "rose-pine/neovim",
     name = "rose-pine",
@@ -87,7 +93,7 @@ return {
         },
       })
 
-      vim.cmd("colorscheme rose-pine")
+      -- vim.cmd("colorscheme rose-pine")
     end,
   },
 }

@@ -60,7 +60,12 @@ return {
     version = "*",
     lazy = false, -- load at startup so the vim.notify override is in place early
     config = function()
-      require("mini.notify").setup()
+      require("mini.notify").setup({
+        window = {
+          config = { border = "rounded" }, -- match vim.o.winborder used by the other floats
+          winblend = 0, -- opaque; the module default of 25 ignores the global 'winblend'
+        },
+      })
       vim.notify = require("mini.notify").make_notify()
     end,
     keys = {
