@@ -1,5 +1,6 @@
 macos-option-as-alt = true
-theme = Gruvbox Dark
+theme = TokyoNight Night
+# theme = Gruvbox Dark
 # theme = Gruvbox Light
 # theme = Dracula
 # theme = alucard

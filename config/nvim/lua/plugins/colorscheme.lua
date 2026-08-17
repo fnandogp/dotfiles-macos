@@ -67,7 +67,17 @@ return {
       require("gruvbox").setup({})
       -- gruvbox.nvim picks its light/dark palette from 'background'
       vim.o.background = "dark"
-      vim.cmd([[colorscheme gruvbox]])
+      -- vim.cmd([[colorscheme gruvbox]])
+    end,
+  },
+  -- Tokyo Night (folke/tokyonight.nvim; night/storm/moon/day variants)
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("tokyonight").setup({})
+      vim.cmd([[colorscheme tokyonight-night]])
     end,
   },
   -- Rose Pine (light "dawn" variant)
