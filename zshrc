@@ -28,3 +28,11 @@ source <(fzf --zsh)
 eval "$(mise activate zsh)"
 
 eval "$(direnv hook zsh)"
+
+# pnpm
+export PNPM_HOME="/Users/fernando-dotcollective/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end

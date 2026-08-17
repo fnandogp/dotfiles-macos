@@ -3,8 +3,7 @@
   "plugin": [
     "opencode-antigravity-auth@latest",
     "opencode-openai-codex-auth",
-    "@franlol/opencode-md-table-formatter",
-    // "oh-my-openagent@latest"
+    "@franlol/opencode-md-table-formatter"
   ],
   "mcp": {
     "serena": {
@@ -67,14 +66,6 @@
       "headers": {
         "x-buxfer-email": "{env:BUXFER_EMAIL}",
         "x-buxfer-password": "{env:BUXFER_PASSWORD}",
-      },
-    },
-    "pocketsmith": {
-      "type": "remote",
-      "url": "https://pocketsmith-mcp.fnandogp.workers.dev/mcp",
-      "enabled": true,
-      "headers": {
-        "X-POCKETSMITH-API-KEY": "{env:POCKETSMITH_API_KEY}",
       },
     },
     "playwright": {

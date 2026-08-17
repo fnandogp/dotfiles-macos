@@ -25,7 +25,7 @@ config/nvim/
         ├── picker.lua        # mini.pick (+ extra/visits); wires vim.ui.select
         ├── file-explorer.lua # mini.files
         ├── treesitter.lua    # syntax (nvim-treesitter main branch)
-        ├── colorscheme.lua   # catppuccin (configured) + rose-pine (active)
+        ├── colorscheme.lua   # catppuccin-latte + rose-pine colourschemes
         ├── diagnostic.lua    # placeholder (config lives in options.lua)
         ├── terminal.lua      # toggleterm
         ├── note-taking.lua   # obsidian.nvim (work + personal vaults)

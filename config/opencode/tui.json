@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/tui.json",
-  "theme": "rosepine",
+  "theme": "catppuccin-latte",
   "scroll_acceleration": {
     "enabled": true
   }
