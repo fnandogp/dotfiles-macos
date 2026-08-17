@@ -1,6 +1,10 @@
 macos-option-as-alt = true
-# theme = dark:catppuccin-frappe,light:catppuccin-latte
-theme = dark:Rose Pine,light:Rose Pine Dawn
+theme = Gruvbox Dark
+# theme = Gruvbox Light
+# theme = Dracula
+# theme = alucard
+# theme = Catppuccin Latte
+# theme = dark:Rose Pine,light:Rose Pine Dawn
 font-family = ""
 font-family = "JetBrainsMonoNL NFM"
 font-size = 15

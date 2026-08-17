@@ -1,0 +1,25 @@
+# Alucard - Dracula's official light theme.
+# Colours from the official palette in dracula/vim (colors/alucard.vim),
+# including its ANSI terminal mapping (black/white swapped for light bg).
+palette = 0=#FFFBEB
+palette = 1=#CB3A2A
+palette = 2=#14710A
+palette = 3=#846E15
+palette = 4=#644AC9
+palette = 5=#A3144D
+palette = 6=#036A96
+palette = 7=#1F1F1F
+palette = 8=#6C664B
+palette = 9=#D74C3D
+palette = 10=#198D0C
+palette = 11=#9E841A
+palette = 12=#7862D0
+palette = 13=#BF185A
+palette = 14=#047FB4
+palette = 15=#2C2B31
+background = #FFFBEB
+foreground = #1F1F1F
+cursor-color = #1F1F1F
+cursor-text = #FFFBEB
+selection-background = #CFCFDE
+selection-foreground = #1F1F1F

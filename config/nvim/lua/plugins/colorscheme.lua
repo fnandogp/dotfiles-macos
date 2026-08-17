@@ -44,7 +44,30 @@ return {
           },
         },
       })
-      vim.cmd([[colorscheme catppuccin-latte]])
+      -- vim.cmd([[colorscheme catppuccin-latte]])
+    end,
+  },
+  -- Dracula (official dracula/vim port; also ships the light "alucard" variant)
+  {
+    "dracula/vim",
+    name = "dracula",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      -- vim.cmd([[colorscheme dracula]])
+      -- vim.cmd([[colorscheme alucard]])
+    end,
+  },
+  -- Gruvbox (lua port of the gruvbox community palette)
+  {
+    "ellisonleao/gruvbox.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("gruvbox").setup({})
+      -- gruvbox.nvim picks its light/dark palette from 'background'
+      vim.o.background = "dark"
+      vim.cmd([[colorscheme gruvbox]])
     end,
   },
   -- Rose Pine (light "dawn" variant)
