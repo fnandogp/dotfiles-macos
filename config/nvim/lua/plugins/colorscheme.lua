@@ -77,13 +77,15 @@ return {
     priority = 1000,
     config = function()
       require("tokyonight").setup({})
-      vim.cmd([[colorscheme tokyonight-night]])
+      -- vim.cmd([[colorscheme tokyonight-night]])
     end,
   },
   -- Rose Pine (light "dawn" variant)
   {
     "rose-pine/neovim",
     name = "rose-pine",
+    lazy = false,
+    priority = 1000,
     config = function()
       require("rose-pine").setup({
         variant = "dawn", -- auto, main, moon, or dawn
@@ -126,7 +128,7 @@ return {
         },
       })
 
-      -- vim.cmd("colorscheme rose-pine")
+      vim.cmd("colorscheme rose-pine")
     end,
   },
 }
