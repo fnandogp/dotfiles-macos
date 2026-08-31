@@ -3,6 +3,8 @@
   "theme": "catppuccin-latte",
   "scroll_acceleration": {
     "enabled": true
-  }
+  },
+  "plugin": [
+    "oh-my-opencode-slim"
+  ]
 }
-
