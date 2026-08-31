@@ -1,0 +1,123 @@
+{
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+  "preset": "silkroad",
+  "presets": {
+    "openai": {
+      "orchestrator": {
+        "model": "openrouter/openai/gpt-5.6-terra",
+        "variant": "high",
+        "skills": ["*"],
+        "mcps": ["*", "!context7"]
+      },
+      "oracle": {
+        "model": "openrouter/openai/gpt-5.6-sol",
+        "variant": "high",
+        "skills": ["simplify"],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "variant": "low",
+        "skills": [],
+        "mcps": ["context7", "gh_grep"]
+      },
+      "explorer": {
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      },
+      "designer": {
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "variant": "medium",
+        "skills": [],
+        "mcps": []
+      },
+      "fixer": {
+        "model": "openrouter/openai/gpt-5.6-luna",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      }
+    },
+    "silkroad": {
+      "orchestrator": {
+        "model": "openrouter/z-ai/glm-5.3",
+        "skills": ["*"],
+        "mcps": ["github", "memory", "serena"]
+      },
+      "oracle": {
+        "model": "openrouter/deepseek/deepseek-v4-pro",
+        "skills": ["simplify"],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "openrouter/deepseek/deepseek-v4-flash",
+        "skills": [],
+        "mcps": ["context7", "gh_grep"]
+      },
+      "explorer": {
+        "model": "openrouter/deepseek/deepseek-v4-flash",
+        "skills": [],
+        "mcps": []
+      },
+      "designer": {
+        "model": "openrouter/moonshotai/kimi-k2.7-code",
+        "skills": [],
+        "mcps": ["playwright"]
+      },
+      "fixer": {
+        "model": "openrouter/deepseek/deepseek-v4-flash",
+        "skills": [],
+        "mcps": []
+      },
+      "observer": {
+        "model": "openrouter/xiaomi/mimo-v2.5",
+        "skills": [],
+        "mcps": []
+      }
+    },
+    "opencode-go": {
+      "orchestrator": {
+        "model": "opencode-go/minimax-m3",
+        "variant": "thinking",
+        "skills": ["*"],
+        "mcps": ["*", "!context7"]
+      },
+      "oracle": {
+        "model": "opencode-go/qwen3.7-max",
+        "variant": "max",
+        "skills": ["simplify"],
+        "mcps": []
+      },
+      "explorer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "variant": "high",
+        "skills": [],
+        "mcps": ["context7", "gh_grep"]
+      },
+      "designer": {
+        "model": "opencode-go/kimi-k2.7-code",
+        "skills": [],
+        "mcps": []
+      },
+      "fixer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      },
+      "observer": {
+        "model": "opencode-go/mimo-v2.5",
+        "skills": [],
+        "mcps": []
+      }
+    }
+  }
+}
