@@ -4,3 +4,4 @@
 !agents/**
 !commands
 !commands/**
+!statusline.sh
