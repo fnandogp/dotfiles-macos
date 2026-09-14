@@ -1,0 +1,15 @@
+# Credentials & secrets
+.env*
+!.env.example
+*.credentials.json
+*.pem
+*.key
+*.p12
+id_rsa*
+
+# Claude Code (user manages separately)
+.claude/
+
+# Tool working state
+.sisyphus/evidence/
+.sisyphus/drafts/
