@@ -8,7 +8,7 @@ return {
       -- Events that trigger a (debounced) lint pass
       events = { "BufWritePost", "BufReadPost", "InsertLeave" },
       linters_by_ft = {
-        markdown = { "markdownlint" },
+        markdown = {},
         lua = { "luacheck" },
         javascript = { "deno", "biomejs", "oxlint", "eslint" },
         typescript = { "deno", "biomejs", "oxlint", "eslint" },
