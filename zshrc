@@ -22,6 +22,10 @@ export GPG_TTY=$(tty)
 # hardcoded white foreground, unreadable on light terminals (gh#16470)
 export OPENCODE_EXPERIMENTAL_MARKDOWN=0
 
+# oh-my-opencode-slim: background subagents + exa websearch
+export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
+export OPENCODE_ENABLE_EXA=1
+
 source <(fzf --zsh)
 
 # mise activation (must be after all PATH modifications)
