@@ -46,7 +46,7 @@
       "url": "https://mcp.cloudflare.com/mcp",
       "enabled": true,
       "headers": {
-        "Authorization": "Bearer {env:CLOUDFLARE_API_KEY}"
+        "Authorization": "Bearer {env:SUPPORT_DOTCOLLECTIVE_READ_ONLY_CLOUDFLARE_API_TOKEN}"
       }
     },
     "github": {
