@@ -10,8 +10,7 @@ COLOR="blue"
 
 C_RESET='\033[0m'
 C_TEXT='\033[39m'      # terminal default foreground
-C_BAR_EMPTY='\033[90m'     # bright black foreground (muted)
-C_BAR_EMPTY_BG='\033[100m' # same slot as background, fills the top half of a partial cell
+C_BAR_EMPTY='\033[90m' # bright black (muted)
 
 case "$COLOR" in
 blue) C_ACCENT='\033[34m' ;;
@@ -39,9 +38,9 @@ for ((i = 0; i < bar_width; i++)); do
 	if [[ $progress -ge 8 ]]; then
 		bar+="${C_ACCENT}█${C_RESET}"
 	elif [[ $progress -ge 3 ]]; then
-		bar+="${C_ACCENT}${C_BAR_EMPTY_BG}▄${C_RESET}"
+		bar+="${C_ACCENT}▒${C_RESET}"
 	else
-		bar+="${C_BAR_EMPTY}█${C_RESET}"
+		bar+="${C_BAR_EMPTY}░${C_RESET}"
 	fi
 done
 
