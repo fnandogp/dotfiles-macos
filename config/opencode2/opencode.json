@@ -35,7 +35,11 @@
       },
       "cloudflare-api": {
         "type": "remote",
-        "url": "https://mcp.cloudflare.com/mcp"
+        "url": "https://mcp.cloudflare.com/mcp",
+        "oauth": false,
+        "headers": {
+          "Authorization": "Bearer {env:SUPPORT_DOTCOLLECTIVE_READ_ONLY_CLOUDFLARE_API_TOKEN}"
+        }
       },
       "github": {
         "type": "remote",
