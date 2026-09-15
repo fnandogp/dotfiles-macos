@@ -7,7 +7,7 @@ zinit wait lucid nocd for \
         zdharma-continuum/fast-syntax-highlighting \
     atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
-    blockf atpull'zinit creinstall -q .' \
+    blockf atpull'zinit cclear; zinit creinstall -q .' \
         zsh-users/zsh-completions
 
 # History substring search on arrow keys (both normal and application cursor modes)
