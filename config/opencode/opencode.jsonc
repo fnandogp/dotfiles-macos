@@ -44,7 +44,10 @@
     "cloudflare-api": {
       "type": "remote",
       "url": "https://mcp.cloudflare.com/mcp",
-      "enabled": true
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer {env:CLOUDFLARE_API_KEY}"
+      }
     },
     "github": {
       "type": "remote",
