@@ -34,3 +34,6 @@ alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 # OpenCode v2 (separate config dir to avoid v1/v2 config shape conflicts)
 alias c2='OPENCODE_CONFIG_DIR="$HOME/.config/opencode2" opencode2'
 
+
+# Update zinit (via Homebrew) and all plugins now
+alias zup='brew upgrade zinit && zinit update --all'

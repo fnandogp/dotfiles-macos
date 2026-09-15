@@ -29,6 +29,17 @@ zinit wait lucid nocd for \
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
 
+# Weekly plugin update, run on the first interactive shell once the stamp is
+# older than 7 days. Foreground so atpull hooks run and errors are visible.
+# zinit itself is updated by Homebrew (brew upgrade zinit), not self-update.
+zinit_update_stamp="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zinit-last-update"
+zinit_stale_stamp=( ${~zinit_update_stamp}(N.mw+1) )
+if [[ ! -f $zinit_update_stamp || -n $zinit_stale_stamp ]]; then
+  mkdir -p "${zinit_update_stamp:h}"
+  zinit update --all -q && touch "$zinit_update_stamp"
+fi
+unset zinit_update_stamp zinit_stale_stamp
+
 # Completion behaviour
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
