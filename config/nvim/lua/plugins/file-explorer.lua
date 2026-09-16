@@ -1,6 +1,7 @@
 -- File explorer: mini.files with preview pane.
 -- Adds custom buffer-local mappings: dotfile toggle, open-in-split,
--- set cwd / yank name/path from entry under cursor, plus a global toggle.
+-- set cwd / yank name/path / OS open / reveal in Finder from entry under
+-- cursor, plus a global toggle.
 return {
   "nvim-mini/mini.files",
   version = "*",
@@ -88,6 +89,21 @@ return {
     local yank_full = yank_entry(function(path) return path end, "path")
     local yank_relative = yank_entry(function(path) return vim.fn.fnamemodify(path, ":.") end, "relative path")
 
+    -- Open the entry with the OS default handler (file in its app, directory
+    -- in Finder)
+    local os_open = function()
+      local path = (MiniFiles.get_fs_entry() or {}).path
+      if path == nil then return vim.notify("Cursor is not on valid entry") end
+      vim.ui.open(path)
+    end
+
+    -- Reveal the entry in Finder, selected in its parent folder
+    local reveal_in_finder = function()
+      local path = (MiniFiles.get_fs_entry() or {}).path
+      if path == nil then return vim.notify("Cursor is not on valid entry") end
+      vim.system({ "open", "-R", path })
+    end
+
     vim.api.nvim_create_autocmd("User", {
       pattern = "MiniFilesBufferCreate",
       callback = function(args)
@@ -96,6 +112,8 @@ return {
         vim.keymap.set("n", "gyf", yank_name, { buffer = b, desc = "Yank filename" })
         vim.keymap.set("n", "gyp", yank_full, { buffer = b, desc = "Yank full path" })
         vim.keymap.set("n", "gyr", yank_relative, { buffer = b, desc = "Yank relative path" })
+        vim.keymap.set("n", "go", os_open, { buffer = b, desc = "OS open" })
+        vim.keymap.set("n", "gf", reveal_in_finder, { buffer = b, desc = "Reveal in Finder" })
       end,
     })
 
