@@ -56,3 +56,4 @@ generate_completion() {
 generate_completion pnpm "pnpm completion zsh"
 generate_completion bun "bun completions"
 generate_completion opencode "opencode completion zsh"
+
