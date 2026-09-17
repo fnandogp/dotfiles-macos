@@ -1,59 +1,69 @@
-// tmux-agent-indicator plugin for OpenCode.
-// Install to ~/.config/opencode/plugins/ or .opencode/plugins/ (project-level).
+// tmux-agent-indicator plugin for OpenCode V2.
+// Auto-discovered from ~/.config/opencode/plugins/.
 // Tracks session state and calls agent-state.sh to update tmux pane visuals.
 
-export const TmuxAgentIndicator = async ({ $ }) => {
-  const dir = process.env.TMUX_AGENT_INDICATOR_DIR
-    || `${process.env.HOME}/.config/tmux/plugins/tmux-agent-indicator`;
-  const script = `${dir}/scripts/agent-state.sh`;
+import { execFile } from "node:child_process"
+import { promisify } from "node:util"
 
-  let lastState = "off";
-  let idleAt = 0;
+const run = promisify(execFile)
 
-  const setState = async (state) => {
-    if (state === lastState) return;
-    lastState = state;
-    try {
-      if (state === "running") {
-        await $`bash ${script} --agent opencode --state off`;
+export default {
+  id: "tmux-agent-indicator",
+  setup(ctx) {
+    const dir = process.env.TMUX_AGENT_INDICATOR_DIR
+      || `${process.env.HOME}/.config/tmux/plugins/tmux-agent-indicator`
+    const script = `${dir}/scripts/agent-state.sh`
+
+    let lastState = "off"
+    let idleAt = 0
+
+    const setState = async (state) => {
+      if (state === lastState) return
+      lastState = state
+      try {
+        if (state === "running") {
+          await run("bash", [script, "--agent", "opencode", "--state", "off"])
+        }
+        await run("bash", [script, "--agent", "opencode", "--state", state])
+      } catch {
+        // non-fatal: tmux may not be available
       }
-      await $`bash ${script} --agent opencode --state ${state}`;
-    } catch {
-      // non-fatal: tmux may not be available
     }
-  };
 
-  return {
-    event: async ({ event }) => {
-      if (event.type === "session.status"
-          && event.properties.status.type === "busy") {
-        // Guard: don't override done/error if idle fired recently (race condition)
-        if (Date.now() - idleAt < 2000) return;
-        await setState("running");
-      }
+    const controller = new AbortController()
 
-      if (event.type === "permission.updated"
-          || event.type === "permission.asked") {
-        await setState("needs-input");
-      }
+    void (async () => {
+      for await (const event of ctx.event.subscribe({ signal: controller.signal })) {
+        const properties = event.properties ?? {}
 
-      if (event.type === "session.idle") {
-        idleAt = Date.now();
-        await setState("done");
-      }
+        if (event.type === "session.status") {
+          const type = properties.status?.type ?? properties.type
+          if (type === "busy") {
+            // Guard: don't override done/error if idle fired recently (race condition)
+            if (Date.now() - idleAt < 2000) continue
+            await setState("running")
+          }
+        }
 
-      if (event.type === "session.error") {
-        idleAt = Date.now();
-        await setState("done");
+        if (event.type === "permission.updated") {
+          await setState("needs-input")
+        }
+
+        if (event.type === "session.idle" || event.type === "session.error") {
+          idleAt = Date.now()
+          await setState("done")
+        }
       }
-    },
-    "permission.ask": async () => {
-      await setState("needs-input");
-    },
-    "tool.execute.before": async (input) => {
-      if (input.tool === "question") {
-        await setState("needs-input");
-      }
-    },
-  };
-};
+    })()
+
+    void (async () => {
+      await ctx.tool.hook("execute.before", async (event) => {
+        if (event.tool === "question") {
+          await setState("needs-input")
+        }
+      })
+    })()
+
+    return () => controller.abort()
+  },
+}
