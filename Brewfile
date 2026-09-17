@@ -2,8 +2,6 @@ tap "abue-ammar/tinycast", trusted: true
 tap "entireio/tap", trusted: true
 tap "shobhit99/tap", trusted: { casks: ["holdmylid", "supercmd"] }
 tap "thoughtbot/formulae", trusted: true
-# Search tool like grep, but optimized for programmers
-brew "ack"
 # Code searching, linting, rewriting
 brew "ast-grep"
 # Automatic configure script builder
@@ -46,8 +44,6 @@ brew "direnv"
 brew "docker-compose"
 # Simple, fast and user-friendly alternative to find
 brew "fd"
-# CLI application for interacting with a Cloudflare account
-brew "flarectl"
 # Command-line fuzzy finder written in Go
 brew "fzf"
 # GNU awk utility
@@ -70,8 +66,6 @@ brew "gh"
 brew "git"
 # Quickly rewrite git repository history
 brew "git-filter-repo"
-# Blazing fast terminal-ui for git written in rust
-brew "gitui"
 # GNU implementation of the famous stream editor
 brew "gnu-sed"
 # GNU version of the tar archiving utility
@@ -80,8 +74,6 @@ brew "gnu-tar"
 brew "go"
 # Agent multiplexer that lives in your terminal
 brew "herdr"
-# User-friendly cURL replacement (command-line HTTP client)
-brew "httpie"
 # C/C++ and Java libraries for Unicode and globalization
 brew "icu4c@76"
 # Library to communicate with iOS devices natively
@@ -90,8 +82,6 @@ brew "libimobiledevice"
 brew "ios-webkit-debug-proxy"
 # Update of iperf: measures TCP, UDP, and SCTP bandwidth
 brew "iperf3"
-# Git-compatible distributed version control system
-brew "jj"
 # Image manipulation library
 brew "jpeg"
 # Lightweight and flexible command-line JSON processor
@@ -164,8 +154,6 @@ brew "tailscale", restart_service: :changed
 brew "taplo"
 # General purpose fuzzy finder TUI
 brew "television"
-# Code-search similar to ack
-brew "the_silver_searcher"
 # Terminal multiplexer
 brew "tmux"
 # Plugin manager for tmux
@@ -194,8 +182,6 @@ brew "watchman"
 brew "wget"
 # JavaScript package manager
 brew "yarn"
-# Blazing fast terminal file manager written in Rust, based on async I/O
-brew "yazi"
 # Feature-rich command-line audio/video downloader
 brew "yt-dlp"
 # Flexible and fast Zsh plugin manager
@@ -272,12 +258,8 @@ cask "granola"
 cask "handy"
 # Windows manager and desktop organiser
 cask "hazeover"
-# Testing client for REST, GraphQL, and HTTP APIs
-cask "httpie-desktop"
 # Free and open-source media player
 cask "iina"
-# HTTP and GraphQL Client
-cask "insomnia"
 # GPU-based terminal emulator
 cask "kitty"
 # Free cross-platform office suite, fresh version
@@ -302,8 +284,6 @@ cask "notion-mail"
 cask "obsidian"
 # Local-first alternative to Logitech Options+ for HID++ devices
 cask "openlogi"
-# Collaboration platform for API development
-cask "postman"
 # Quick Look plugin for CSV files
 cask "quicklook-csv"
 # Control your tools with a few keystrokes
@@ -330,7 +310,6 @@ cask "whatsapp"
 cask "zoom"
 mas "Amphetamine", id: 937984704
 mas "Dato", id: 1470584107
-mas "HazeOver", id: 430798174
 mas "Velja", id: 1607635845
 uv "claude-monitor"
 uv "klaviyo-mcp-server"
