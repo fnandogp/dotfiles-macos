@@ -256,8 +256,6 @@ cask "grammarly-desktop"
 cask "granola"
 # Speech to text application
 cask "handy"
-# Windows manager and desktop organiser
-cask "hazeover"
 # Free and open-source media player
 cask "iina"
 # GPU-based terminal emulator
@@ -310,6 +308,7 @@ cask "whatsapp"
 cask "zoom"
 mas "Amphetamine", id: 937984704
 mas "Dato", id: 1470584107
+mas "HazeOver", id: 430798174
 mas "Velja", id: 1607635845
 uv "claude-monitor"
 uv "klaviyo-mcp-server"
