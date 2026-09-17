@@ -33,7 +33,6 @@ alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 
 # OpenCode (unified v2 via pnpm, default config dir)
 alias c='opencode'
-alias c2='opencode'
 
 
 # Update zinit (via Homebrew) and all plugins now

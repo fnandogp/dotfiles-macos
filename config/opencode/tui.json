@@ -4,6 +4,9 @@
   "scroll_acceleration": {
     "enabled": true
   },
+  "tabs": {
+    "enabled": false
+  },
   "plugin": [
     "oh-my-opencode-slim"
   ]
