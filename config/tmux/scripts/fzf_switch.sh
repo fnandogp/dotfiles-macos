@@ -38,7 +38,7 @@ list() {
         | grep -v "^$current	"
       ;;
     opencode)
-      # f1 id (hidden) f2 dir f3 age f4 state (● running, ! waiting for input) f5 title
+      # f1 id (hidden) f2 status (● running, ! waiting for input) f3 name f4 age
       # Top-level sessions only (background/child agent sessions are noise).
       active=$(opencode api get /api/session/active 2>/dev/null || echo '{}')
       opencode_waiting_on_input() {
@@ -47,9 +47,9 @@ list() {
         done
         return 1
       }
-      while IFS=$'\t' read -r id dir age dot title; do
-        [[ "$dot" == "●" ]] && opencode_waiting_on_input "$id" && dot='!'
-        printf '%s\t%s\t%s\t%s\t%s\n' "$id" "$dir" "$age" "$dot" "$title"
+      while IFS=$'\t' read -r id status name age; do
+        [[ "$status" == "●" ]] && opencode_waiting_on_input "$id" && status='!'
+        printf '%s\t%s\t%s\t%s\n' "$id" "$status" "$name" "$age"
       done < <(opencode api get /api/session 2>/dev/null | jq -r \
         --arg home "$HOME" --argjson now "$(date +%s)" --arg active "$active" '
         ($active | fromjson).data as $act
@@ -62,10 +62,9 @@ list() {
         | map(select(.parentID == null))
         | sort_by(-(.time.updated // 0))[]
         | [ .id,
-            (.location.directory | sub("^" + $home; "~") | if length > 34 then .[0:31] + "..." else . end),
-            ago(.time.updated // .time.created // 0),
             (if $act[.id] then "●" else " " end),
-            (.title // "untitled")
+            (.title // "untitled"),
+            ago(.time.updated // .time.created // 0)
           ] | @tsv')
       ;;
   esac
@@ -89,7 +88,7 @@ accent=$(theme session); pointer=$(theme prefix)
 
 if [[ "$mode" == opencode ]]; then
   target=$(list | fzf --tmux center,62%,38% \
-    --delimiter $'\t' --with-nth 2,3,4,5 --accept-nth 1 \
+    --delimiter $'\t' --with-nth 2.. --accept-nth 1 \
     --layout=reverse --no-scrollbar --no-separator --info=inline-right \
     --highlight-line --cycle --pointer '' \
     --prompt 'opencode  ' \
