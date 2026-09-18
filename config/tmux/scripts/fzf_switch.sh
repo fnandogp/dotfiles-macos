@@ -18,6 +18,13 @@ mode="$1"
 client_args=()
 [[ -n "$TMUX_CLIENT" ]] && client_args=(-c "$TMUX_CLIENT")
 
+# tmux's server env can go stale (run-shell never sources zprofile/pathrc);
+# pnpm moved its global bin to $PNPM_HOME/bin, which old servers don't know.
+if ! command -v opencode >/dev/null 2>&1; then
+  PATH="$HOME/Library/pnpm/bin:$PATH"
+  export PATH
+fi
+
 list() {
   case "$mode" in
     session)
@@ -114,9 +121,12 @@ if [[ "$mode" == oc ]]; then
   if [[ -n "$win" ]]; then
     tmux switch-client "${client_args[@]}" -t "$win"
   else
+    # resolve the binary here: the new pane inherits the (possibly stale)
+    # server env and may not find `opencode` on its own PATH
+    oc_bin=$(command -v opencode)
     sess=$(tmux display-message -p "${client_args[@]}" '#S')
     new=$(tmux new-window -d -P -F '#{session_name}:#{window_index}' \
-      -t "$sess:" -c "$dir" -n "oc" "opencode -s '$target'")
+      -t "$sess:" -c "$dir" -n "oc" "'$oc_bin' -s '$target'")
     tmux switch-client "${client_args[@]}" -t "$new"
   fi
   exit 0
