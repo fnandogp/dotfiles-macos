@@ -2,7 +2,7 @@
 # Session / window switcher in a native fzf floating pane (fzf --tmux).
 # On tmux >= 3.7 the border is drawn by tmux, so fzf never repaints a frame.
 #
-# usage: fzf_switch.sh session|window|opencode [list|preview <sessionID>]
+# usage: fzf_switch.sh session|window|opencode|claude [list|preview <sessionID>]
 #   list    print "<target>\t<label>" lines only (fzf reload after ctrl-x kill)
 #   preview print recent messages of an opencode session (opencode mode preview)
 #
@@ -10,6 +10,10 @@
 # ! waiting for input). If a tmux window already runs it (TUI pane title
 # "OC | <title>", cwd fallback) switch there, else open a new window with
 # `opencode -s <id>` in the session's directory.
+#
+# claude: pick a window running the Claude Code TUI (pane_current_command ==
+# claude). Purely tmux-side, no session matching: the window is the target.
+# The TUI stamps pane_title as "✳ <session title>", shown as the label.
 #
 # Bind with TMUX_CLIENT='#{client_tty}' so the switch lands on the client that
 # opened the picker, not the most recently active one.
@@ -91,6 +95,16 @@ list() {
         done
       done <<<"$pane_map"
       ;;
+    claude)
+      # f1 window target (hidden) f2 tmux session f3 title
+      # only windows whose foreground process is the claude TUI;
+      # shells with a leftover ✳ title (claude exited) are excluded
+      while IFS=$'\t' read -r target cmd ptitle tsess; do
+        ((${#tsess} > 12)) && tsess="${tsess:0:11}…"
+        printf '%s\t%-12s\t%s\n' "$target" "$tsess" "${ptitle#✳ }"
+      done < <(tmux list-panes -a -F '#{session_name}:#{window_index}	#{pane_current_command}	#{pane_title}	#{session_name}' \
+        | awk -F'\t' '$2 == "claude"')
+      ;;
   esac
 }
 
@@ -111,6 +125,22 @@ opencode_preview() {
 theme() { tmux show -gqv "@theme_$1"; }
 fg=$(theme fg); surface=$(theme surface); muted=$(theme muted)
 accent=$(theme session); pointer=$(theme prefix)
+
+if [[ "$mode" == claude ]]; then
+  target=$(list | fzf --tmux center,62%,38% \
+    --delimiter $'\t' --with-nth 2.. --accept-nth 1 \
+    --layout=reverse --no-scrollbar --no-separator --info=inline-right \
+    --highlight-line --cycle --pointer '' \
+    --prompt 'claude  ' \
+    --header 'enter jump   ctrl-x kill window   ? preview' \
+    --color "fg:${fg:--1},bg:-1,gutter:-1,hl:${accent:--1},fg+:${fg:--1},bg+:${surface:--1},hl+:${accent:--1},prompt:${accent:--1},pointer:${pointer:--1},info:${muted:--1},header:${muted:--1},border:${surface:--1},preview-border:${surface:--1}" \
+    --preview 'tmux capture-pane -ep -t {1}' --preview-window 'right,55%,hidden' \
+    --bind '?:toggle-preview' \
+    --bind "ctrl-x:execute-silent(tmux kill-window -t {1})+reload($0 claude list)") || exit 0
+
+  tmux switch-client "${client_args[@]}" -t "$target"
+  exit 0
+fi
 
 if [[ "$mode" == opencode ]]; then
   target=$(list | fzf --tmux center,62%,38% \
