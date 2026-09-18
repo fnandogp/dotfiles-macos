@@ -42,8 +42,9 @@ list() {
     agent)
       # Unified picker: AI coding sessions currently open in tmux (claude +
       # opencode). Both TUIs stamp pane_title ("<glyph> <session title>").
-      # f1 target (opencode: session id; claude: window) f2 tool
-      # f3 status f4 window f5 tmux session f6 title f7 age
+      # f1 target (opencode: session id; claude: window) f2 tool (hidden,
+      # full name for dispatch) f3 status f4 tool display (oc/cl)
+      # f5 window f6 tmux session f7 title f8 age
       trunc() {
         local s=$1 n=$2
         ((${#s} > n)) && printf '%s…' "${s:0:n-1}" || printf '%s' "$s"
@@ -52,8 +53,8 @@ list() {
       # claude TUIs: foreground process is claude, window is the target;
       # shells with a leftover ✳ title (claude exited) are excluded
       while IFS=$'\t' read -r target cmd ptitle tsess; do
-        printf '%s\t%-8s\t%-2s\t%-2s\t%-12s\t%-60s\t%s\n' \
-          "$target" claude " " "${target##*:}" "$(trunc "$tsess" 12)" "$(trunc "${ptitle#✳ }" 60)" ""
+        printf '%s\t%s\t%-2s\t%-2s\t%-2s\t%-12s\t%-60s\t%s\n' \
+          "$target" claude " " cl "${target##*:}" "$(trunc "$tsess" 12)" "$(trunc "${ptitle#✳ }" 60)" ""
       done < <(tmux list-panes -a -F '#{session_name}:#{window_index}	#{pane_current_command}	#{pane_title}	#{session_name}' \
         | awk -F'\t' '$2 == "claude"')
 
@@ -98,8 +99,8 @@ list() {
              || { [[ -z "${t// /}" || "$t" == "untitled" ]] && [[ "$dir" == "$ppath" ]]; }; then
             listed[$id]=1
             [[ "$status" == "●" ]] && opencode_waiting_on_input "$id" && status='!'
-            printf '%s\t%-8s\t%-2s\t%-2s\t%-12s\t%-60s\t%s\n' \
-              "$id" opencode "$status" "$widx" "$(trunc "$tsess" 12)" "$(trunc "$name" 60)" "$age"
+            printf '%s\t%s\t%-2s\t%-2s\t%-2s\t%-12s\t%-60s\t%s\n' \
+              "$id" opencode "$status" oc "$widx" "$(trunc "$tsess" 12)" "$(trunc "$name" 60)" "$age"
             break
           fi
         done
@@ -138,7 +139,8 @@ accent=$(theme session); pointer=$(theme prefix)
 
 if [[ "$mode" == agent ]]; then
   IFS=$'\t' read -r target tool < <(list | fzf --tmux center,62%,38% \
-    --delimiter $'\t' --with-nth 2.. --accept-nth 1,2 \
+    --delimiter $'\t' --with-nth 3.. --accept-nth 1,2 \
+    --tabstop 1 \
     --layout=reverse --no-scrollbar --no-separator --info=inline-right \
     --highlight-line --cycle --pointer '' \
     --prompt 'agents  ' \
