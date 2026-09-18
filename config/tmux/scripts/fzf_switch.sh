@@ -2,18 +2,16 @@
 # Session / window switcher in a native fzf floating pane (fzf --tmux).
 # On tmux >= 3.7 the border is drawn by tmux, so fzf never repaints a frame.
 #
-# usage: fzf_switch.sh session|window|opencode|claude [list|preview <sessionID>]
+# usage: fzf_switch.sh session|window|agent [list|preview <tool> <target>|delete <tool> <target>]
 #   list    print "<target>\t<label>" lines only (fzf reload after ctrl-x kill)
-#   preview print recent messages of an opencode session (opencode mode preview)
+#   preview print messages of an opencode session / capture a claude window
+#   delete  kill a claude window / delete an opencode session
 #
-# opencode: pick an opencode session (local API, top-level sessions only, ● running /
-# ! waiting for input). If a tmux window already runs it (TUI pane title
-# "OC | <title>", cwd fallback) switch there, else open a new window with
-# `opencode -s <id>` in the session's directory.
-#
-# claude: pick a window running the Claude Code TUI (pane_current_command ==
-# claude). Purely tmux-side, no session matching: the window is the target.
-# The TUI stamps pane_title as "✳ <session title>", shown as the label.
+# agent: unified picker for AI coding sessions open in tmux (claude + opencode),
+# with a tool column telling them apart. Only live TUIs are listed.
+# claude: foreground process is claude, the window is the target ("✳ <title>"
+# pane stamp is the label). opencode: the TUI stamps pane_title "OC | <title>",
+# matched to API sessions for status/id; jump falls back to cwd matching.
 #
 # Bind with TMUX_CLIENT='#{client_tty}' so the switch lands on the client that
 # opened the picker, not the most recently active one.
@@ -41,11 +39,27 @@ list() {
       tmux list-windows -a -F '#S:#I	#{p22:session_name} #{p2:window_index} #{p16:window_name} #{pane_current_command}' \
         | grep -v "^$current	"
       ;;
-    opencode)
-      # Only sessions currently open in a tmux window (opencode pane) - the
-      # TUI stamps pane_title as "OC | <session title>" (tmux may truncate
-      # with …), so drive the list from the panes and match API sessions to
-      # them. Closed/archived sessions are not relevant here.
+    agent)
+      # Unified picker: AI coding sessions currently open in tmux (claude +
+      # opencode). Both TUIs stamp pane_title ("<glyph> <session title>").
+      # f1 target (opencode: session id; claude: window) f2 tool
+      # f3 status f4 tmux session f5 title f6 age
+      trunc() {
+        local s=$1 n=$2
+        ((${#s} > n)) && printf '%s…' "${s:0:n-1}" || printf '%s' "$s"
+      }
+
+      # claude TUIs: foreground process is claude, window is the target;
+      # shells with a leftover ✳ title (claude exited) are excluded
+      while IFS=$'\t' read -r target cmd ptitle tsess; do
+        printf '%s\t%s\t%-2s\t%-12s\t%-40s\t%s\n' \
+          "$target" claude " " "$(trunc "$tsess" 12)" "$(trunc "${ptitle#✳ }" 40)" ""
+      done < <(tmux list-panes -a -F '#{session_name}:#{window_index}	#{pane_current_command}	#{pane_title}	#{session_name}' \
+        | awk -F'\t' '$2 == "claude"')
+
+      # opencode TUIs: only sessions open in a window - the TUI stamps
+      # pane_title as "OC | <session title>" (tmux may truncate with …),
+      # so drive the list from the panes and match API sessions to them.
       active=$(opencode api get /api/session/active 2>/dev/null || echo '{}')
       pane_map=$(tmux list-panes -a -F '#{pane_title}	#{session_name}	#{pane_current_path}	#{pane_current_command}' \
         | awk -F'\t' '$4 ~ /opencode/')
@@ -54,10 +68,6 @@ list() {
           opencode api get "/api/session/$1/$ep" 2>/dev/null | jq -e '.data | length > 0' >/dev/null 2>&1 && return 0
         done
         return 1
-      }
-      trunc() {
-        local s=$1 n=$2
-        ((${#s} > n)) && printf '%s…' "${s:0:n-1}" || printf '%s' "$s"
       }
       # API rows: id status name age dir (top-level only; background children are noise)
       mapfile -t api_rows < <(opencode api get /api/session 2>/dev/null | jq -r \
@@ -88,22 +98,12 @@ list() {
              || { [[ -z "${t// /}" || "$t" == "untitled" ]] && [[ "$dir" == "$ppath" ]]; }; then
             listed[$id]=1
             [[ "$status" == "●" ]] && opencode_waiting_on_input "$id" && status='!'
-            printf '%s\t%-2s\t%-12s\t%-40s\t%s\n' \
-              "$id" "$status" "$(trunc "$tsess" 12)" "$(trunc "$name" 40)" "$age"
+            printf '%s\t%s\t%-2s\t%-12s\t%-40s\t%s\n' \
+              "$id" opencode "$status" "$(trunc "$tsess" 12)" "$(trunc "$name" 40)" "$age"
             break
           fi
         done
       done <<<"$pane_map"
-      ;;
-    claude)
-      # f1 window target (hidden) f2 tmux session f3 title
-      # only windows whose foreground process is the claude TUI;
-      # shells with a leftover ✳ title (claude exited) are excluded
-      while IFS=$'\t' read -r target cmd ptitle tsess; do
-        ((${#tsess} > 12)) && tsess="${tsess:0:11}…"
-        printf '%s\t%-12s\t%s\n' "$target" "$tsess" "${ptitle#✳ }"
-      done < <(tmux list-panes -a -F '#{session_name}:#{window_index}	#{pane_current_command}	#{pane_title}	#{session_name}' \
-        | awk -F'\t' '$2 == "claude"')
       ;;
   esac
 }
@@ -119,40 +119,40 @@ opencode_preview() {
 }
 
 [[ "$2" == list ]] && { list; exit; }
-[[ "$2" == preview ]] && { opencode_preview "$3"; exit; }
+# agent helpers: dispatch on tool (claude: tmux window / opencode: session id)
+[[ "$2" == preview ]] && {
+  if [[ "$3" == claude ]]; then tmux capture-pane -ep -t "$4"
+  else opencode_preview "$4"; fi
+  exit
+}
+[[ "$2" == delete ]] && {
+  if [[ "$3" == claude ]]; then tmux kill-window -t "$4"
+  else opencode session delete "$4"; fi
+  exit
+}
 
 # Palette from the active tmux theme (@theme_* options set in themes/*.conf)
 theme() { tmux show -gqv "@theme_$1"; }
 fg=$(theme fg); surface=$(theme surface); muted=$(theme muted)
 accent=$(theme session); pointer=$(theme prefix)
 
-if [[ "$mode" == claude ]]; then
-  target=$(list | fzf --tmux center,62%,38% \
-    --delimiter $'\t' --with-nth 2.. --accept-nth 1 \
+if [[ "$mode" == agent ]]; then
+  IFS=$'\t' read -r target tool < <(list | fzf --tmux center,62%,38% \
+    --delimiter $'\t' --with-nth 3.. --accept-nth 1,2 \
     --layout=reverse --no-scrollbar --no-separator --info=inline-right \
     --highlight-line --cycle --pointer '' \
-    --prompt 'claude  ' \
-    --header 'enter jump   ctrl-x kill window   ? preview' \
+    --prompt 'agents  ' \
+    --header 'enter jump   ctrl-x kill/delete   ? preview   ● running   ! waiting' \
     --color "fg:${fg:--1},bg:-1,gutter:-1,hl:${accent:--1},fg+:${fg:--1},bg+:${surface:--1},hl+:${accent:--1},prompt:${accent:--1},pointer:${pointer:--1},info:${muted:--1},header:${muted:--1},border:${surface:--1},preview-border:${surface:--1}" \
-    --preview 'tmux capture-pane -ep -t {1}' --preview-window 'right,55%,hidden' \
+    --preview "$0 agent preview {2} {1}" --preview-window 'right,55%,hidden' \
     --bind '?:toggle-preview' \
-    --bind "ctrl-x:execute-silent(tmux kill-window -t {1})+reload($0 claude list)") || exit 0
+    --bind "ctrl-x:execute-silent($0 agent delete {2} {1})+reload($0 agent list)") || exit 0
 
-  tmux switch-client "${client_args[@]}" -t "$target"
-  exit 0
-fi
-
-if [[ "$mode" == opencode ]]; then
-  target=$(list | fzf --tmux center,62%,38% \
-    --delimiter $'\t' --with-nth 2.. --accept-nth 1 \
-    --layout=reverse --no-scrollbar --no-separator --info=inline-right \
-    --highlight-line --cycle --pointer '' \
-    --prompt 'opencode  ' \
-    --header 'enter open/jump   ctrl-x delete   ? messages   ● running   ! waiting' \
-    --color "fg:${fg:--1},bg:-1,gutter:-1,hl:${accent:--1},fg+:${fg:--1},bg+:${surface:--1},hl+:${accent:--1},prompt:${accent:--1},pointer:${pointer:--1},info:${muted:--1},header:${muted:--1},border:${surface:--1},preview-border:${surface:--1}" \
-    --preview "$0 opencode preview {1}" --preview-window 'right,55%,hidden' \
-    --bind '?:toggle-preview' \
-    --bind "ctrl-x:execute-silent(opencode session delete {1})+reload($0 opencode list)") || exit 0
+  if [[ "$tool" == claude ]]; then
+    tmux switch-client "${client_args[@]}" -t "$target"
+    exit 0
+  fi
+  [[ -z "$target" ]] && exit 1   # opencode row selected
 
   IFS=$'\t' read -r dir title < <(opencode api get "/api/session/$target" 2>/dev/null \
     | jq -r '[.data.location.directory, (.data.title // "untitled")] | @tsv')
