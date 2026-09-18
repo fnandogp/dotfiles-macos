@@ -43,7 +43,7 @@ list() {
       # Unified picker: AI coding sessions currently open in tmux (claude +
       # opencode). Both TUIs stamp pane_title ("<glyph> <session title>").
       # f1 target (opencode: session id; claude: window) f2 tool
-      # f3 status f4 tmux session f5 title f6 age
+      # f3 status f4 tmux session f5 window f6 title f7 age
       trunc() {
         local s=$1 n=$2
         ((${#s} > n)) && printf '%s…' "${s:0:n-1}" || printf '%s' "$s"
@@ -52,8 +52,8 @@ list() {
       # claude TUIs: foreground process is claude, window is the target;
       # shells with a leftover ✳ title (claude exited) are excluded
       while IFS=$'\t' read -r target cmd ptitle tsess; do
-        printf '%s\t%s\t%-2s\t%-12s\t%-40s\t%s\n' \
-          "$target" claude " " "$(trunc "$tsess" 12)" "$(trunc "${ptitle#✳ }" 40)" ""
+        printf '%s\t%s\t%-2s\t%-12s\t%-3s\t%-60s\t%s\n' \
+          "$target" claude " " "$(trunc "$tsess" 12)" "${target##*:}" "$(trunc "${ptitle#✳ }" 60)" ""
       done < <(tmux list-panes -a -F '#{session_name}:#{window_index}	#{pane_current_command}	#{pane_title}	#{session_name}' \
         | awk -F'\t' '$2 == "claude"')
 
@@ -61,8 +61,8 @@ list() {
       # pane_title as "OC | <session title>" (tmux may truncate with …),
       # so drive the list from the panes and match API sessions to them.
       active=$(opencode api get /api/session/active 2>/dev/null || echo '{}')
-      pane_map=$(tmux list-panes -a -F '#{pane_title}	#{session_name}	#{pane_current_path}	#{pane_current_command}' \
-        | awk -F'\t' '$4 ~ /opencode/')
+      pane_map=$(tmux list-panes -a -F '#{pane_title}	#{session_name}	#{window_index}	#{pane_current_path}	#{pane_current_command}' \
+        | awk -F'\t' '$5 ~ /opencode/')
       opencode_waiting_on_input() {
         for ep in permission form; do
           opencode api get "/api/session/$1/$ep" 2>/dev/null | jq -e '.data | length > 0' >/dev/null 2>&1 && return 0
@@ -88,7 +88,7 @@ list() {
             .location.directory
           ] | @tsv')
       declare -A listed=()
-      while IFS=$'\t' read -r ptitle tsess ppath cmd; do
+      while IFS=$'\t' read -r ptitle tsess widx ppath cmd; do
         t="${ptitle#OC | }"
         for row in "${api_rows[@]}"; do
           IFS=$'\t' read -r id status name age dir <<<"$row"
@@ -98,8 +98,8 @@ list() {
              || { [[ -z "${t// /}" || "$t" == "untitled" ]] && [[ "$dir" == "$ppath" ]]; }; then
             listed[$id]=1
             [[ "$status" == "●" ]] && opencode_waiting_on_input "$id" && status='!'
-            printf '%s\t%s\t%-2s\t%-12s\t%-40s\t%s\n' \
-              "$id" opencode "$status" "$(trunc "$tsess" 12)" "$(trunc "$name" 40)" "$age"
+            printf '%s\t%s\t%-2s\t%-12s\t%-3s\t%-60s\t%s\n' \
+              "$id" opencode "$status" "$(trunc "$tsess" 12)" "$widx" "$(trunc "$name" 60)" "$age"
             break
           fi
         done
