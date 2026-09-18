@@ -2,11 +2,11 @@
 # Session / window switcher in a native fzf floating pane (fzf --tmux).
 # On tmux >= 3.7 the border is drawn by tmux, so fzf never repaints a frame.
 #
-# usage: fzf_switch.sh session|window|oc [list|preview <sessionID>]
+# usage: fzf_switch.sh session|window|opencode [list|preview <sessionID>]
 #   list    print "<target>\t<label>" lines only (fzf reload after ctrl-x kill)
-#   preview print recent messages of an opencode session (oc mode fzf preview)
+#   preview print recent messages of an opencode session (opencode mode preview)
 #
-# oc: pick an opencode session (local API, top-level sessions only, ● running /
+# opencode: pick an opencode session (local API, top-level sessions only, ● running /
 # ! waiting for input). If a tmux window already runs it (TUI pane title
 # "OC | <title>", cwd fallback) switch there, else open a new window with
 # `opencode -s <id>` in the session's directory.
@@ -37,18 +37,18 @@ list() {
       tmux list-windows -a -F '#S:#I	#{p22:session_name} #{p2:window_index} #{p16:window_name} #{pane_current_command}' \
         | grep -v "^$current	"
       ;;
-    oc)
+    opencode)
       # f1 id (hidden) f2 dir f3 age f4 state (● running, ! waiting for input) f5 title
       # Top-level sessions only (background/child agent sessions are noise).
       active=$(opencode api get /api/session/active 2>/dev/null || echo '{}')
-      oc_pend() {
+      opencode_waiting_on_input() {
         for ep in permission form; do
           opencode api get "/api/session/$1/$ep" 2>/dev/null | jq -e '.data | length > 0' >/dev/null 2>&1 && return 0
         done
         return 1
       }
       while IFS=$'\t' read -r id dir age dot title; do
-        [[ "$dot" == "●" ]] && oc_pend "$id" && dot='!'
+        [[ "$dot" == "●" ]] && opencode_waiting_on_input "$id" && dot='!'
         printf '%s\t%s\t%s\t%s\t%s\n' "$id" "$dir" "$age" "$dot" "$title"
       done < <(opencode api get /api/session 2>/dev/null | jq -r \
         --arg home "$HOME" --argjson now "$(date +%s)" --arg active "$active" '
@@ -71,7 +71,7 @@ list() {
   esac
 }
 
-oc_preview() {
+opencode_preview() {
   opencode api get "/api/session/$1/message" 2>/dev/null | jq -r '
     .data[-10:][] | select(.type == "user" or .type == "assistant")
     | ("[" + .type + "] " + (if .type == "user" then (.text // "")
@@ -80,14 +80,14 @@ oc_preview() {
 }
 
 [[ "$2" == list ]] && { list; exit; }
-[[ "$2" == preview ]] && { oc_preview "$3"; exit; }
+[[ "$2" == preview ]] && { opencode_preview "$3"; exit; }
 
 # Palette from the active tmux theme (@theme_* options set in themes/*.conf)
 theme() { tmux show -gqv "@theme_$1"; }
 fg=$(theme fg); surface=$(theme surface); muted=$(theme muted)
 accent=$(theme session); pointer=$(theme prefix)
 
-if [[ "$mode" == oc ]]; then
+if [[ "$mode" == opencode ]]; then
   target=$(list | fzf --tmux center,62%,38% \
     --delimiter $'\t' --with-nth 2,3,4,5 --accept-nth 1 \
     --layout=reverse --no-scrollbar --no-separator --info=inline-right \
@@ -95,9 +95,9 @@ if [[ "$mode" == oc ]]; then
     --prompt 'opencode  ' \
     --header 'enter open/jump   ctrl-x delete   ? messages   ● running   ! waiting' \
     --color "fg:${fg:--1},bg:-1,gutter:-1,hl:${accent:--1},fg+:${fg:--1},bg+:${surface:--1},hl+:${accent:--1},prompt:${accent:--1},pointer:${pointer:--1},info:${muted:--1},header:${muted:--1},border:${surface:--1},preview-border:${surface:--1}" \
-    --preview "$0 oc preview {1}" --preview-window 'right,55%,hidden' \
+    --preview "$0 opencode preview {1}" --preview-window 'right,55%,hidden' \
     --bind '?:toggle-preview' \
-    --bind "ctrl-x:execute-silent(opencode session delete {1})+reload($0 oc list)") || exit 0
+    --bind "ctrl-x:execute-silent(opencode session delete {1})+reload($0 opencode list)") || exit 0
 
   IFS=$'\t' read -r dir title < <(opencode api get "/api/session/$target" 2>/dev/null \
     | jq -r '[.data.location.directory, (.data.title // "untitled")] | @tsv')
@@ -123,10 +123,10 @@ if [[ "$mode" == oc ]]; then
   else
     # resolve the binary here: the new pane inherits the (possibly stale)
     # server env and may not find `opencode` on its own PATH
-    oc_bin=$(command -v opencode)
+    opencode_bin=$(command -v opencode)
     sess=$(tmux display-message -p "${client_args[@]}" '#S')
     new=$(tmux new-window -d -P -F '#{session_name}:#{window_index}' \
-      -t "$sess:" -c "$dir" -n "oc" "'$oc_bin' -s '$target'")
+      -t "$sess:" -c "$dir" -n "opencode" "'$opencode_bin' -s '$target'")
     tmux switch-client "${client_args[@]}" -t "$new"
   fi
   exit 0
