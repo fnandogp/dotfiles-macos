@@ -42,26 +42,34 @@ list() {
       # f6 dir (hidden, used to locate the tmux session for closed sessions)
       # Top-level sessions only (background/child agent sessions are noise).
       active=$(opencode api get /api/session/active 2>/dev/null || echo '{}')
-      # running opencode panes, for title / dir -> tmux session lookup
+      # running opencode panes + tmux session paths, for lookups
       pane_map=$(tmux list-panes -a -F '#{pane_title}	#{session_name}	#{pane_current_path}	#{pane_current_command}' \
         | awk -F'\t' '$4 ~ /opencode/')
+      sess_paths=$(tmux list-sessions -F '#{session_name}	#{session_path}')
       opencode_waiting_on_input() {
         for ep in permission form; do
           opencode api get "/api/session/$1/$ep" 2>/dev/null | jq -e '.data | length > 0' >/dev/null 2>&1 && return 0
         done
         return 1
       }
-      # tmux session hosting this opencode session: match the TUI pane title
-      # ("OC | <title>", tmux may truncate with …); fall back to the pane cwd
+      # tmux session hosting this opencode session:
+      # 1) running TUI pane title match ("OC | <title>", tmux may truncate with …)
+      # 2) running TUI pane cwd match
+      # 3) any tmux session rooted at the session's directory
+      # 4) last resort: directory name ("~" for $HOME)
       opencode_tmux_session() {
-        local title=$1 dir=$2 ptitle sess ppath cmd t
+        local title=$1 dir=$2 ptitle sess ppath cmd t out
         while IFS=$'\t' read -r ptitle sess ppath cmd; do
           t="${ptitle#OC | }"
           if [[ "$t" == "$title" || ( "$t" == *… && "$title" == "${t%…}"* ) ]]; then
             printf '%s' "$sess"; return 0
           fi
         done <<<"$pane_map"
-        awk -F'\t' -v d="$dir" '$3 == d {print $2; exit}' <<<"$pane_map"
+        out=$(awk -F'\t' -v d="$dir" '$3 == d {print $2; exit}' <<<"$pane_map")
+        [[ -n "$out" ]] && { printf '%s' "$out"; return 0; }
+        out=$(awk -F'\t' -v d="$dir" '$2 == d {print $1; exit}' <<<"$sess_paths")
+        [[ -n "$out" ]] && { printf '%s' "$out"; return 0; }
+        printf '%s' "$(basename "${dir/#$HOME/\~}")"
       }
       trunc() {
         local s=$1 n=$2
@@ -73,8 +81,8 @@ list() {
         printf '%s\t%-2s\t%-12s\t%-40s\t%s\n' \
           "$id" "$status" "$(trunc "$sess" 12)" "$(trunc "$name" 40)" "$age"
       done < <(opencode api get /api/session 2>/dev/null | jq -r \
-        --arg home "$HOME" --argjson now "$(date +%s)" --arg active "$active" '
-        ($active | fromjson).data as $act
+        --argjson now "$(date +%s)" --arg active "$active" '
+        (($active | fromjson? // {}).data) as $act
         | def ago(ms): ($now - (ms/1000) | floor) as $s
             | if $s < 60 then "\($s)s ago"
               elif $s < 3600 then "\($s/60|floor)m ago"
@@ -87,18 +95,20 @@ list() {
             (if $act[.id] then "●" else " " end),
             (.title // "untitled"),
             ago(.time.updated // .time.created // 0),
-            (.location.directory | sub("^" + $home; "~"))
+            .location.directory
           ] | @tsv')
       ;;
   esac
 }
 
 opencode_preview() {
+  # .data // [] guards against null (deleted session, stale list entry)
   opencode api get "/api/session/$1/message" 2>/dev/null | jq -r '
-    .data[-10:][] | select(.type == "user" or .type == "assistant")
+    (.data // [])[-10:][] | select(.type == "user" or .type == "assistant")
     | ("[" + .type + "] " + (if .type == "user" then (.text // "")
         else ([.content[]?.text // ""] | join(" ")) end
-      | gsub("\n+"; " ") | .[0:200]))'
+      | gsub("\n+"; " ") | .[0:200]))' \
+    | sed -E '/^\[(user|assistant)\] *$/d'   # drop empty-text messages
 }
 
 [[ "$2" == list ]] && { list; exit; }
