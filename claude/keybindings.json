@@ -6,7 +6,8 @@
       "context": "Chat",
       "bindings": {
         "ctrl+u": null,
-        "ctrl+x m": "chat:modelPicker"
+        "ctrl+x m": "chat:modelPicker",
+        "ctrl+x l": "command:resume"
       }
     }
   ]
