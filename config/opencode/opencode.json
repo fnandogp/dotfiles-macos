@@ -64,6 +64,22 @@
           "clientId": "{env:SLACK_MCP_CLIENT_ID}",
           "clientSecret": "{env:SLACK_MCP_CLIENT_SECRET}"
         }
+      },
+      "gmail": {
+        "type": "remote",
+        "url": "https://gmailmcp.googleapis.com/mcp/v1"
+      },
+      "gcal": {
+        "type": "remote",
+        "url": "https://calendarmcp.googleapis.com/mcp/v1"
+      },
+      "gdrive": {
+        "type": "remote",
+        "url": "https://drivemcp.googleapis.com/mcp/v1"
+      },
+      "notion": {
+        "type": "remote",
+        "url": "https://mcp.notion.com/mcp"
       }
     }
   }
