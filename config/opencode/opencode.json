@@ -61,8 +61,8 @@
         "type": "remote",
         "url": "https://mcp.slack.com/mcp",
         "oauth": {
-          "clientId": "{env:SLACK_MCP_CLIENT_ID}",
-          "clientSecret": "{env:SLACK_MCP_CLIENT_SECRET}"
+          "clientId": "1601185624273.8899143856786",
+          "callbackPort": 3118
         }
       },
       "gmail": {
