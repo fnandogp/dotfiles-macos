@@ -38,18 +38,40 @@ list() {
         | grep -v "^$current	"
       ;;
     opencode)
-      # f1 id (hidden) f2 status (● running, ! waiting for input) f3 name f4 age
+      # f1 id (hidden) f2 status f3 tmux session f4 name (truncated) f5 age
+      # f6 dir (hidden, used to locate the tmux session for closed sessions)
       # Top-level sessions only (background/child agent sessions are noise).
       active=$(opencode api get /api/session/active 2>/dev/null || echo '{}')
+      # running opencode panes, for title / dir -> tmux session lookup
+      pane_map=$(tmux list-panes -a -F '#{pane_title}	#{session_name}	#{pane_current_path}	#{pane_current_command}' \
+        | awk -F'\t' '$4 ~ /opencode/')
       opencode_waiting_on_input() {
         for ep in permission form; do
           opencode api get "/api/session/$1/$ep" 2>/dev/null | jq -e '.data | length > 0' >/dev/null 2>&1 && return 0
         done
         return 1
       }
-      while IFS=$'\t' read -r id status name age; do
+      # tmux session hosting this opencode session: match the TUI pane title
+      # ("OC | <title>", tmux may truncate with …); fall back to the pane cwd
+      opencode_tmux_session() {
+        local title=$1 dir=$2 ptitle sess ppath cmd t
+        while IFS=$'\t' read -r ptitle sess ppath cmd; do
+          t="${ptitle#OC | }"
+          if [[ "$t" == "$title" || ( "$t" == *… && "$title" == "${t%…}"* ) ]]; then
+            printf '%s' "$sess"; return 0
+          fi
+        done <<<"$pane_map"
+        awk -F'\t' -v d="$dir" '$3 == d {print $2; exit}' <<<"$pane_map"
+      }
+      trunc() {
+        local s=$1 n=$2
+        ((${#s} > n)) && printf '%s…' "${s:0:n-1}" || printf '%s' "$s"
+      }
+      while IFS=$'\t' read -r id status name age dir; do
         [[ "$status" == "●" ]] && opencode_waiting_on_input "$id" && status='!'
-        printf '%s\t%s\t%s\t%s\n' "$id" "$status" "$name" "$age"
+        sess=$(opencode_tmux_session "$name" "$dir")
+        printf '%s\t%-2s\t%-12s\t%-40s\t%s\n' \
+          "$id" "$status" "$(trunc "$sess" 12)" "$(trunc "$name" 40)" "$age"
       done < <(opencode api get /api/session 2>/dev/null | jq -r \
         --arg home "$HOME" --argjson now "$(date +%s)" --arg active "$active" '
         ($active | fromjson).data as $act
@@ -64,7 +86,8 @@ list() {
         | [ .id,
             (if $act[.id] then "●" else " " end),
             (.title // "untitled"),
-            ago(.time.updated // .time.created // 0)
+            ago(.time.updated // .time.created // 0),
+            (.location.directory | sub("^" + $home; "~"))
           ] | @tsv')
       ;;
   esac
