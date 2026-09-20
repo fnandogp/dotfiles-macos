@@ -1,145 +1,67 @@
 # CLAUDE.md
 
-@AGENTS.md
-
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Repository Overview
+@AGENTS.md
 
-This is a macOS dotfiles repository that manages system configuration using `rcm` (RC file management). The configuration includes:
+macOS dotfiles managed by `rcm`. This repo is the single source of truth; `rcup` symlinks files into `~`. Edit here, never at the destination (see AGENTS.md). Run `rcup` after every change and commit.
 
-- **Neovim**: Modern Lua-based configuration with extensive plugin ecosystem
-- **Zsh**: Shell configuration with plugins and custom aliases  
-- **Terminal**: Kitty and Ghostty terminal configurations
-- **Development Tools**: Homebrew packages, mise for runtime management
-- **AI Integration**: Code Companion with MCP (Model Context Protocol) support
+## Commands
 
-## Common Commands
-
-### Package Management
 ```bash
-# Install/update Homebrew packages
-brew bundle install
+rcup                                    # link repo files into ~ (run after every change)
+brew bundle install                     # install/upgrade Homebrew packages from Brewfile
+brew bundle dump --file ~/.dotfiles/Brewfile -f   # rewrite Brewfile from installed packages
+zup                                     # alias: brew upgrade zinit && zinit update --all
 
-# Update Brewfile with currently installed packages
-brew bundle dump --file ~/.dotfiles/Brewfile -f
-
-# Sync dotfiles (apply configuration changes)
-rcup
+# Neovim (config/nvim)
+stylua config/nvim                      # format Lua (stylua.toml: 2 spaces, width 160, collapse simple statements)
+nvim --headless "+checkhealth" +qa      # health check
+nvim "+DepsUpdate"                      # review + apply plugin updates, then :DepsSnapSave and commit mini-deps-snap
+nvim --headless "+DepsUpdateOffline" +qa   # install plugins exactly as the config/snapshot says
 ```
 
-### Neovim Development
+Headless smoke test after nvim config changes (mini.notify swallows errors from stderr, so read its history):
+
 ```bash
-# Format Lua code
-stylua .
-
-# No specific linting setup - relies on LSP diagnostics
-# Test by opening Neovim and checking for errors: nvim
+nvim --headless "+lua vim.defer_fn(function() for _, n in ipairs(require('mini.notify').get_all()) do io.stderr:write(n.level .. ' ' .. n.msg .. '\n') end; vim.cmd('qa!') end, 6000)"
 ```
 
-### Runtime Management (mise)
-```bash
-# Set global runtime versions
-mise use --global node@22
-mise use --global ruby@latest
-mise use --global python@latest
+## rcm mapping
 
-# Run specific version ad-hoc
-mise exec node@20 -- node -v
-mise exec python@3.11 -- python script.py
-```
+- `rcrc`: `EXCLUDES="scripts/* README.md CLAUDE.md Brewfile .claude .serena .sisyphus .git"`. Excluded files are not linked.
+- Root-level `name` -> `~/.name` (`zshrc`, `gitconfig`, `vimrc`, `ripgreprc`, `claude/` -> `~/.claude/`).
+- `config/<app>` -> `~/.config/<app>` (nvim, tmux, kitty, ghostty, opencode, starship.toml).
+- Directories are linked file by file, so a removed repo file leaves a dangling symlink at the destination. After deleting files: `find ~/.config/<app> -type l ! -exec test -e {} \; -delete`.
+- `claude/.gitignore` whitelists only `agents/`, `commands/`, `statusline.sh`, `keybindings.json`; the rest of `~/.claude` is not versioned.
 
-## Code Architecture
+## Shell (zsh)
 
-### Neovim Configuration Structure
-```
-config/nvim/
-├── init.lua                    # Entry point, lazy.nvim bootstrap
-├── lua/
-│   ├── options.lua            # Vim options and diagnostics config
-│   ├── keymaps.lua            # Global keymaps (leader = ",")
-│   ├── ft.lua                 # Filetype-specific settings
-│   └── plugins/               # Plugin configurations
-│       ├── init.lua           # Core plugins (neoconf, neodev, mini.basics)
-│       ├── ai-assistant.lua   # Neocodeium + Code Companion + MCP
-│       ├── lsp.lua            # LSP config with Mason
-│       ├── autocomplete.lua   # Blink.cmp completion
-│       ├── picker.lua         # mini.pick fuzzy finder
-│       ├── file-explorer.lua  # Mini.files file browser
-│       ├── editor.lua         # Editor enhancements
-│       ├── formatting.lua     # Code formatting
-│       ├── linting.lua        # Code linting
-│       ├── treesitter.lua     # Syntax highlighting
-│       ├── terminal.lua       # Terminal integration
-│       ├── colorscheme.lua    # Theme configuration
-│       ├── coding.lua         # Coding utilities
-│       ├── diagnostic.lua     # Diagnostic display
-│       ├── note-taking.lua    # Note-taking tools
-│       ├── ui.lua             # UI enhancements
-│       └── utils/             # Utility modules
-```
+- Load order in `zshrc`: `pathrc.zsh` -> `aliasrc.zsh` -> `zinit.zsh` -> `~/.env` (untracked secrets) -> fzf, zoxide, mise, direnv -> generated completions.
+- `zinit.zsh`: plugins load in turbo mode after the first prompt; pure prompt loads synchronously. Weekly `zinit update --all` via a cache stamp. zinit itself is a Homebrew package.
+- `zprofile` only runs `brew shellenv`; `pathrc.zsh` repeats it guarded for non-login shells.
 
-### Key Plugin Systems
+## Neovim (config/nvim)
 
-**AI Integration**:
-- **Neocodeium**: AI code completion (Alt+Y to accept)
-- **Code Companion**: AI chat assistant with Anthropic adapter
-- **MCP Hub**: Model Context Protocol for tool integration
+Full detail in `config/nvim/README.md`. Essentials:
 
-**LSP Configuration**:
-- Uses `nvim-lspconfig` with Mason for server management
-- TypeScript via `vtsls`, Lua via `lua_ls`
-- Custom diagnostics with float configuration
-- Navigation breadcrumbs via `nvim-navic`
+- Plugin manager is **mini.deps**, not lazy.nvim. `init.lua` bootstraps `mini.nvim` (stable branch) into `pack/deps/start`, then `require`s `lua/plugins/*.lua` in an explicit order.
+- Each plugin module calls `MiniDeps.add()` plus `now()` (first screen draw: colourscheme, basics, icons/statusline/notify, treesitter, sessions/starter) or `later()` (everything else). There is no event/keys/ft lazy loading; `later()` is the only staging. Anything needing `VimEnter` must be in `now()`.
+- `mini-deps-snap` is the lockfile. Update flow: `:DepsUpdate` -> `:DepsSnapSave` -> commit.
+- Built almost entirely on mini.nvim modules (pick, files, completion, snippets, diff, git, sessions, starter, statusline, notify, clue, etc.). Prefer a mini module over a new plugin when one exists. `mini.operators` is intentionally not used.
+- Leader is `,`. Git hunk keys live under `<leader>h` (mini.diff/mini.git). `<CR>` in normal mode is mini.jump2d; quickfix restores native `<CR>` via a FileType autocmd.
+- Treesitter uses the `main` branch API: `vim.treesitter.start` is called from a FileType autocmd; parsers install via the `post_install` hook and `:TSUpdate` via `post_checkout`.
+- LSP: `vim.lsp.config()` per server + Mason. `utils/config_detection.lua` and `utils/project_roots.lua` decide vtsls vs denols and pick the formatter/linter (Deno/Biome/oxc/Prettier/ESLint) per buffer, so both never attach to the same file.
+- Sessions: one global session per `(cwd, git branch)`, autoloaded on bare `nvim` inside `~/.dotfiles` or `~/workspace/*` (`editor.lua`).
+- Comments describe current behaviour only. No before/after or migration history in comments.
 
-**Key Keybindings**:
-- Leader key: `,`
-- Code Companion: `<leader>cc` (chat), `<leader>ct` (toggle), `<leader>cx` (actions), `ga` (add file)
-- LSP: `gn` (rename), `gx` (code action), `gl` (diagnostics), `gj`/`gk` (next/prev diagnostic)
-- File operations: `<leader>w` (save), `<leader>q` (quit)
+## tmux (config/tmux)
 
-### Dotfiles Management
+- `tmux.conf` sources only `theme.conf`. `theme.conf` resets styling, sets positioning and picks the active theme; `themes/*.conf` are palette-only files that source the shared layout in `styles.conf`. Change theme by editing `theme.conf`, not `tmux.conf`.
+- `prefix-r` reloads.
 
-**RCM Structure**:
-- Root level files are symlinked to `~/.filename`
-- `config/` directory maps to `~/.config/`
-- Uses `rcrc` for rcm configuration
-- Excludes: README.md, Brewfile, etc.
+## Other
 
-**Shell Configuration**:
-- `zshrc`: Main shell config, sources modular files
-- `aliasrc.zsh`: Command aliases (nvim shortcuts: `v`, `n`; navigation: `..`, `...`; workspace: `ws`, `wsd`)
-- `pathrc.zsh`: PATH modifications  
-- `zplug.zsh`: Plugin manager configuration
-- Integrates: zplug, fzf, zoxide, starship prompt
-
-## MCP (Model Context Protocol) Setup
-
-The repository includes MCP integration for enhanced AI tooling:
-
-- **mcphub.nvim**: Neovim plugin for MCP integration with Code Companion
-- **Code Companion Extensions**: Automatically loads MCP tools in AI chat
-- **Available Tools**: File operations, Git commands, GitHub API, web search
-- **Custom Adapters**: Anthropic (primary), local Ollama models (deepseek-coder, deepseek-r1)
-
-To enable additional MCP servers, install servers via `npm install -g mcp-hub@latest` and configure environment variables (GITHUB_TOKEN, BRAVE_API_KEY).
-
-## Development Workflow
-
-1. **Making Changes**: Edit configurations in the dotfiles directory
-2. **Testing**: Use `rcup` to sync changes to home directory
-3. **Neovim**: Restart Neovim or use `:Lazy reload` for plugin changes
-4. **Version Control**: Commit changes using standard Git workflow
-
-## Important Notes
-
-- Neovim uses Lazy.nvim for plugin management with automatic updates
-- Mason handles LSP server installations automatically  
-- Code Companion is configured for Anthropic models with local Ollama fallbacks
-- MCP integration requires Node.js and `npm install -g mcp-hub@latest`
-- All package management is handled through Homebrew Bundle (Brewfile)
-- Runtime versions are managed via `mise` (replaces asdf)
-
-## Code Writing Guidelines
-
-- Always use declarative variable names
+- `config/opencode/`: opencode config and `AGENTS.md` (same response-style rules as `~/.claude/CLAUDE.md`). Its `package.json`, lockfile and `node_modules` at the destination are generated and not rcm-managed.
+- `scripts/git-clone-bare-for-worktrees.sh`: clones a repo bare into `<name>/.bare` for a sibling-worktree layout. Not linked (excluded).
+- Use declarative variable names in Lua and shell.
