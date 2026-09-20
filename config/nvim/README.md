@@ -116,6 +116,7 @@ Leader = `,`
 | `<A-j>` / `<A-k>` | Move selected lines down / up |
 | `<C-M-h/j/k/l>` | Move window left/bottom/top/right |
 | `<Esc>` (terminal) | Leave terminal mode |
+| `q` / `Q` | Disabled (no macro recording); plugin buffers keep their own `q` to close |
 
 ### Git (`coding.lua`)
 | Key | Action |

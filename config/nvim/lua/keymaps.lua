@@ -43,3 +43,8 @@ vim.keymap.set("n", "<C-M-h>", "<C-w>H", { desc = "Move window to left" })
 vim.keymap.set("n", "<C-M-j>", "<C-w>J", { desc = "Move window to bottom" })
 vim.keymap.set("n", "<C-M-k>", "<C-w>K", { desc = "Move window to top" })
 vim.keymap.set("n", "<C-M-l>", "<C-w>L", { desc = "Move window to right" })
+
+-- Macros disabled: q/Q do nothing so a stray q never starts recording.
+-- Buffer-local q mappings (close diffview/grug-far/toggleterm) still win.
+vim.keymap.set({ "n", "x" }, "q", "<Nop>")
+vim.keymap.set({ "n", "x" }, "Q", "<Nop>")
