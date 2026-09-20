@@ -1,114 +1,91 @@
 -- Linting via nvim-lint. Runs on the listed events; for JS/TS the linter is chosen
 -- by which project config exists (Deno/Biome/oxc/ESLint) via the conditions below.
-return {
-  "mfussenegger/nvim-lint",
-  opts = function()
-    local config_detection = require("plugins.utils.config_detection")
-    return {
-      -- Events that trigger a (debounced) lint pass
-      events = { "BufWritePost", "BufReadPost", "InsertLeave" },
-      linters_by_ft = {
-        markdown = {},
-        lua = { "luacheck" },
-        javascript = { "deno", "biomejs", "oxlint", "eslint" },
-        typescript = { "deno", "biomejs", "oxlint", "eslint" },
-        javascriptreact = { "deno", "biomejs", "oxlint", "eslint" },
-        typescriptreact = { "deno", "biomejs", "oxlint", "eslint" },
-        svelte = { "biomejs", "oxlint", "eslint" },
-        php = { "php", "phpstan", "phpmd" },
-        css = { "stylelint" },
-        scss = { "stylelint" },
-        yaml = { "yamllint" },
-        ruby = { "rubocop" },
-      },
-      -- Each JS-ecosystem linter only runs when its project config is detected (mutually exclusive)
-      linters = {
-        eslint = {
-          condition = function(ctx)
-            local bufnr = vim.fn.bufnr(ctx.filename, false)
-            if bufnr == -1 then return false end
-            return config_detection.has_eslint_config(bufnr)
-          end,
-        },
-        deno = {
-          condition = function(ctx)
-            local bufnr = vim.fn.bufnr(ctx.filename, false)
-            if bufnr == -1 then return false end
-            return config_detection.has_deno_config(bufnr)
-          end,
-        },
-        biomejs = {
-          condition = function(ctx)
-            local bufnr = vim.fn.bufnr(ctx.filename, false)
-            if bufnr == -1 then return false end
-            return config_detection.has_biome_config(bufnr)
-          end,
-        },
-        oxlint = {
-          condition = function(ctx)
-            local bufnr = vim.fn.bufnr(ctx.filename, false)
-            if bufnr == -1 then return false end
-            return config_detection.has_oxc_config(bufnr)
-          end,
-        },
-      },
-    }
-  end,
-  config = function(_, opts)
-    local M = {}
+local add, later = MiniDeps.add, MiniDeps.later
 
-    local lint = require("lint")
-    -- Merge our linter overrides into nvim-lint's defaults (and append any prepend_args)
-    for name, linter in pairs(opts.linters) do
-      if type(linter) == "table" and type(lint.linters[name]) == "table" then
-        lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
-        if type(linter.prepend_args) == "table" then
-          lint.linters[name].args = lint.linters[name].args or {}
-          vim.list_extend(lint.linters[name].args, linter.prepend_args)
-        end
-      else
-        lint.linters[name] = linter
+later(function()
+  add("mfussenegger/nvim-lint")
+  local lint = require("lint")
+  local config_detection = require("plugins.utils.config_detection")
+
+  -- Each JS-ecosystem linter only runs when its project config is detected (mutually exclusive)
+  local function config_condition(has_config)
+    return function(ctx)
+      local bufnr = vim.fn.bufnr(ctx.filename, false)
+      if bufnr == -1 then return false end
+      return has_config(bufnr)
+    end
+  end
+  local linters = {
+    eslint = { condition = config_condition(config_detection.has_eslint_config) },
+    deno = { condition = config_condition(config_detection.has_deno_config) },
+    biomejs = { condition = config_condition(config_detection.has_biome_config) },
+    oxlint = { condition = config_condition(config_detection.has_oxc_config) },
+  }
+
+  -- Merge our linter overrides into nvim-lint's defaults (and append any prepend_args)
+  for name, linter in pairs(linters) do
+    if type(linter) == "table" and type(lint.linters[name]) == "table" then
+      lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
+      if type(linter.prepend_args) == "table" then
+        lint.linters[name].args = lint.linters[name].args or {}
+        vim.list_extend(lint.linters[name].args, linter.prepend_args)
       end
+    else
+      lint.linters[name] = linter
     end
-    lint.linters_by_ft = opts.linters_by_ft
+  end
 
-    -- Coalesce rapid triggers so we lint once after activity settles
-    function M.debounce(ms, fn)
-      local timer = vim.uv.new_timer()
-      return function(...)
-        local argv = { ... }
-        timer:start(ms, 0, function()
-          timer:stop()
-          vim.schedule_wrap(fn)(unpack(argv))
-        end)
-      end
+  lint.linters_by_ft = {
+    markdown = {},
+    lua = { "luacheck" },
+    javascript = { "deno", "biomejs", "oxlint", "eslint" },
+    typescript = { "deno", "biomejs", "oxlint", "eslint" },
+    javascriptreact = { "deno", "biomejs", "oxlint", "eslint" },
+    typescriptreact = { "deno", "biomejs", "oxlint", "eslint" },
+    svelte = { "biomejs", "oxlint", "eslint" },
+    php = { "php", "phpstan", "phpmd" },
+    css = { "stylelint" },
+    scss = { "stylelint" },
+    yaml = { "yamllint" },
+    ruby = { "rubocop" },
+  }
+
+  -- Coalesce rapid triggers so we lint once after activity settles
+  local function debounce(ms, fn)
+    local timer = vim.uv.new_timer()
+    return function(...)
+      local argv = { ... }
+      timer:start(ms, 0, function()
+        timer:stop()
+        vim.schedule_wrap(fn)(unpack(argv))
+      end)
     end
+  end
 
-    -- Resolve linters for the current buffer and run those whose condition passes
-    function M.lint()
-      local names = lint._resolve_linter_by_ft(vim.bo.filetype)
-      names = vim.list_extend({}, names)
+  -- Resolve linters for the current buffer and run those whose condition passes
+  local function run_lint()
+    local names = lint._resolve_linter_by_ft(vim.bo.filetype)
+    names = vim.list_extend({}, names)
 
-      -- "_" = fallback linters when none match the filetype; "*" = always-run linters
-      if #names == 0 then vim.list_extend(names, lint.linters_by_ft["_"] or {}) end
+    -- "_" = fallback linters when none match the filetype; "*" = always-run linters
+    if #names == 0 then vim.list_extend(names, lint.linters_by_ft["_"] or {}) end
+    vim.list_extend(names, lint.linters_by_ft["*"] or {})
 
-      vim.list_extend(names, lint.linters_by_ft["*"] or {})
+    local ctx = { filename = vim.api.nvim_buf_get_name(0) }
+    ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
+    -- Drop linters that aren't installed or whose condition fails
+    names = vim.tbl_filter(function(name)
+      local linter = lint.linters[name]
+      if not linter then vim.notify("Linter not found: " .. name, vim.log.levels.WARN) end
+      return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
+    end, names)
 
-      local ctx = { filename = vim.api.nvim_buf_get_name(0) }
-      ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
-      -- Drop linters that aren't installed or whose condition fails
-      names = vim.tbl_filter(function(name)
-        local linter = lint.linters[name]
-        if not linter then vim.notify("Linter not found: " .. name, vim.log.levels.WARN) end
-        return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
-      end, names)
+    if #names > 0 then lint.try_lint(names) end
+  end
 
-      if #names > 0 then lint.try_lint(names) end
-    end
-
-    vim.api.nvim_create_autocmd(opts.events, {
-      group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
-      callback = M.debounce(100, M.lint),
-    })
-  end,
-}
+  -- Events that trigger a (debounced) lint pass
+  vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+    group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
+    callback = debounce(100, run_lint),
+  })
+end)

@@ -1,134 +1,106 @@
--- Colourschemes. One `colorscheme` call applies the theme; the other plugin stays
--- installed so swapping means flipping which line is commented.
-return {
+-- Colourschemes. All are installed and set up in now() so switching is a matter of
+-- flipping which `colorscheme` line is commented. rose-pine (dawn) is active.
+local add, now = MiniDeps.add, MiniDeps.now
+
+now(function()
   -- Catppuccin (light "latte" variant)
-  {
-    "catppuccin/nvim",
-    name = "catppuccin-nvim",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      require("catppuccin").setup({
-        show_end_of_buffer = true,
-        dim_inactive = {
-          enabled = true,
-          shade = "dark",
-          percentage = 0.15,
-        },
-        custom_highlights = function(colors)
-          return {
-            -- Whole float family sits on `base` so bodies, borders and titles share
-            -- one background; the rounded border line does the visual separation.
-            -- MiniNotify/MiniPick/LSP floats all link back to these three groups.
-            NormalFloat = { fg = colors.text, bg = colors.base },
-            FloatBorder = { fg = colors.overlay0, bg = colors.base },
-            FloatTitle = { fg = colors.mauve, bg = colors.base, bold = true },
-            FloatFooter = { fg = colors.subtext0, bg = colors.base },
-            MiniNotifyLspProgress = { fg = colors.subtext0, bg = colors.base },
-          }
-        end,
-        -- Per-plugin highlight integrations
-        integrations = {
-          neogit = true,
-          grug_far = true,
-          mason = true,
-          lsp_trouble = true,
-          toggleterm = true,
-          mini = {
-            enabled = true,
-            indentscope_color = "",
-          },
-          navic = {
-            enabled = true,
-            custom_bg = "NONE", -- "lualine" will set background to mantle
-          },
-        },
-      })
-      -- vim.cmd([[colorscheme catppuccin-latte]])
+  add({ source = "catppuccin/nvim", name = "catppuccin" })
+  require("catppuccin").setup({
+    show_end_of_buffer = true,
+    dim_inactive = {
+      enabled = true,
+      shade = "dark",
+      percentage = 0.15,
+    },
+    custom_highlights = function(colors)
+      return {
+        -- Whole float family sits on `base` so bodies, borders and titles share
+        -- one background; the rounded border line does the visual separation.
+        -- MiniNotify/MiniPick/LSP floats all link back to these three groups.
+        NormalFloat = { fg = colors.text, bg = colors.base },
+        FloatBorder = { fg = colors.overlay0, bg = colors.base },
+        FloatTitle = { fg = colors.mauve, bg = colors.base, bold = true },
+        FloatFooter = { fg = colors.subtext0, bg = colors.base },
+        MiniNotifyLspProgress = { fg = colors.subtext0, bg = colors.base },
+      }
     end,
-  },
+    -- Per-plugin highlight integrations
+    integrations = {
+      neogit = true,
+      grug_far = true,
+      mason = true,
+      lsp_trouble = true,
+      toggleterm = true,
+      mini = {
+        enabled = true,
+        indentscope_color = "",
+      },
+      navic = {
+        enabled = true,
+        custom_bg = "NONE", -- "lualine" will set background to mantle
+      },
+    },
+  })
+  -- vim.cmd([[colorscheme catppuccin-latte]])
+
   -- Dracula (official dracula/vim port; also ships the light "alucard" variant)
-  {
-    "dracula/vim",
-    name = "dracula",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      -- vim.cmd([[colorscheme dracula]])
-      -- vim.cmd([[colorscheme alucard]])
-    end,
-  },
+  add({ source = "dracula/vim", name = "dracula" })
+  -- vim.cmd([[colorscheme dracula]])
+  -- vim.cmd([[colorscheme alucard]])
+
   -- Gruvbox (lua port of the gruvbox community palette)
-  {
-    "ellisonleao/gruvbox.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("gruvbox").setup({})
-      -- gruvbox.nvim picks its light/dark palette from 'background'
-      vim.o.background = "dark"
-      -- vim.cmd([[colorscheme gruvbox]])
-    end,
-  },
+  add("ellisonleao/gruvbox.nvim")
+  require("gruvbox").setup({})
+  -- gruvbox.nvim picks its light/dark palette from 'background'
+  vim.o.background = "dark"
+  -- vim.cmd([[colorscheme gruvbox]])
+
   -- Tokyo Night (folke/tokyonight.nvim; night/storm/moon/day variants)
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("tokyonight").setup({})
-      -- vim.cmd([[colorscheme tokyonight-night]])
-    end,
-  },
+  add("folke/tokyonight.nvim")
+  require("tokyonight").setup({})
+  -- vim.cmd([[colorscheme tokyonight-night]])
+
   -- Rose Pine (light "dawn" variant)
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("rose-pine").setup({
-        variant = "dawn", -- auto, main, moon, or dawn
-        dark_variant = "main", -- main, moon, or dawn
-        dim_inactive_windows = false,
-        extend_background_behind_borders = true,
+  add({ source = "rose-pine/neovim", name = "rose-pine" })
+  require("rose-pine").setup({
+    variant = "dawn", -- auto, main, moon, or dawn
+    dark_variant = "main", -- main, moon, or dawn
+    dim_inactive_windows = false,
+    extend_background_behind_borders = true,
 
-        enable = {
-          terminal = true,
-          legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
-          migrations = true, -- Handle deprecated options automatically
-        },
+    enable = {
+      terminal = true,
+      legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+      migrations = true, -- Handle deprecated options automatically
+    },
 
-        styles = {
-          bold = true,
-          italic = true,
-          transparency = false,
-        },
+    styles = {
+      bold = true,
+      italic = true,
+      transparency = false,
+    },
 
-        -- Completion popup (mini.completion / native pum) styled with rose-pine palette roles
-        highlight_groups = {
-          Pmenu = { fg = "text", bg = "surface" }, -- item rows
-          PmenuSel = { fg = "text", bg = "overlay", bold = true }, -- selected row
-          PmenuKind = { bg = "surface" }, -- kind/icon column (per-item colour set via mini.icons)
-          PmenuKindSel = { bg = "overlay" },
-          PmenuExtra = { fg = "muted", bg = "surface" }, -- menu/detail column
-          PmenuExtraSel = { fg = "subtle", bg = "overlay" },
-          PmenuMatch = { fg = "rose", bg = "surface", bold = true }, -- fuzzy-matched chars
-          PmenuMatchSel = { fg = "rose", bg = "overlay", bold = true },
-          PmenuSbar = { bg = "surface" }, -- scrollbar track
-          PmenuThumb = { bg = "muted" }, -- scrollbar thumb
+    -- Completion popup (mini.completion / native pum) styled with rose-pine palette roles
+    highlight_groups = {
+      Pmenu = { fg = "text", bg = "surface" }, -- item rows
+      PmenuSel = { fg = "text", bg = "overlay", bold = true }, -- selected row
+      PmenuKind = { bg = "surface" }, -- kind/icon column (per-item colour set via mini.icons)
+      PmenuKindSel = { bg = "overlay" },
+      PmenuExtra = { fg = "muted", bg = "surface" }, -- menu/detail column
+      PmenuExtraSel = { fg = "subtle", bg = "overlay" },
+      PmenuMatch = { fg = "rose", bg = "surface", bold = true }, -- fuzzy-matched chars
+      PmenuMatchSel = { fg = "rose", bg = "overlay", bold = true },
+      PmenuSbar = { bg = "surface" }, -- scrollbar track
+      PmenuThumb = { bg = "muted" }, -- scrollbar thumb
 
-          -- Floating windows (LSP hover/K, signature, info docs, diagnostics).
-          -- Body bg matches the buffer (base) so there's no tint; the rounded
-          -- border line does all the visual separation (see vim.o.winborder).
-          NormalFloat = { fg = "text", bg = "base" }, -- float body, same bg as buffer
-          FloatBorder = { fg = "muted", bg = "base" }, -- the rounded line
-          FloatTitle = { fg = "rose", bg = "base", bold = true }, -- title (e.g. "hover")
-          FloatFooter = { fg = "subtle", bg = "base" },
-        },
-      })
-
-      vim.cmd("colorscheme rose-pine")
-    end,
-  },
-}
+      -- Floating windows (LSP hover/K, signature, info docs, diagnostics).
+      -- Body bg matches the buffer (base) so there's no tint; the rounded
+      -- border line does all the visual separation (see vim.o.winborder).
+      NormalFloat = { fg = "text", bg = "base" }, -- float body, same bg as buffer
+      FloatBorder = { fg = "muted", bg = "base" }, -- the rounded line
+      FloatTitle = { fg = "rose", bg = "base", bold = true }, -- title (e.g. "hover")
+      FloatFooter = { fg = "subtle", bg = "base" },
+    },
+  })
+  vim.cmd("colorscheme rose-pine")
+end)

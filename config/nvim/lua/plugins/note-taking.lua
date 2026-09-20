@@ -1,104 +1,48 @@
 -- Note-taking: obsidian.nvim over Obsidian vaults in ~/Documents/Vaults.
 -- Two workspaces (work/personal), Zettelkasten note IDs, daily notes.
--- (diagram.nvim/image.nvim block below kept disabled for reference.)
-return {
-  {
-    "obsidian-nvim/obsidian.nvim",
-    version = "*",
-    ft = "markdown",
-    -- Also load early when opening any markdown file inside the vaults dir
-    event = {
-      "BufReadPre " .. vim.fn.expand("~") .. "/Documents/Vaults/*.md",
+local add, later = MiniDeps.add, MiniDeps.later
+
+later(function()
+  add({ source = "obsidian-nvim/obsidian.nvim", depends = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" } })
+  require("obsidian").setup({
+    legacy_commands = false,
+    -- Disable built-in concealing UI (render-markdown handles it)
+    ui = { enable = false },
+    -- Checkbox states cycled with the toggle command, in this order
+    checkboxes = {
+      order = { " ", "x", "-", "~", "?" },
     },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-mini/mini.pick",
+    workspaces = {
+      { name = "work", path = "~/Documents/Vaults/Work/" },
+      { name = "personal", path = "~/Documents/Vaults/Personal/" },
     },
-    opts = {
-      legacy_commands = false,
-      -- Disable built-in concealing UI (handled elsewhere / not wanted)
-      ui = { enable = false },
-      -- Checkbox states cycled with the toggle command, in this order
-      checkboxes = {
-        order = { " ", "x", "-", "~", "?" },
-      },
-      workspaces = {
-        { name = "work", path = "~/Documents/Vaults/Work/" },
-        { name = "personal", path = "~/Documents/Vaults/Personal/" },
-      },
-      daily_notes = {
-        -- Optional, if you keep daily notes in a separate directory.
-        folder = "dailies",
-        -- Optional, if you want to change the date format for the ID of daily notes.
-        date_format = "%Y-%m-%d",
-        -- Optional, if you want to change the date format of the default alias of daily notes.
-        alias_format = "%A, %B %-d, %Y",
-        -- Optional, default tags to add to each new daily note created.
-        default_tags = { "daily-notes" },
-      },
-      -- Optional, customize how note IDs are generated given an optional title.
-      ---@param title string|?
-      ---@return string
-      note_id_func = function(title)
-        -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
-        -- In this case a note with the title 'My new note' will be given an ID that looks
-        -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
-        local suffix = ""
-        if title ~= nil then
-          -- If title is given, transform it into valid file name.
-          suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-        else
-          -- If title is nil, just add 4 random uppercase letters to the suffix.
-          for _ = 1, 4 do
-            suffix = suffix .. string.char(math.random(65, 90))
-          end
+    daily_notes = {
+      folder = "dailies",
+      date_format = "%Y-%m-%d",
+      alias_format = "%A, %B %-d, %Y",
+      default_tags = { "daily-notes" },
+    },
+    -- Zettelkasten IDs: '<unix time>-<slugified title>' or 4 random uppercase letters when untitled
+    ---@param title string|?
+    ---@return string
+    note_id_func = function(title)
+      local suffix = ""
+      if title ~= nil then
+        suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+      else
+        for _ = 1, 4 do
+          suffix = suffix .. string.char(math.random(65, 90))
         end
-        return tostring(os.time()) .. "-" .. suffix
-      end,
-    },
-    keys = {
-      { "<Leader>nn", "<cmd>Obsidian new<CR>", desc = "Create an Obsidian note" },
-      { "<Leader>nf", "<cmd>Obsidian quick_switch<CR>", desc = "Find an Obsidian note" },
-      { "<Leader>ns", "<cmd>Obsidian search<CR>", desc = "Search for an Obsidian note" },
-      { "<Leader>nl", "<cmd>Obsidian links<CR>", desc = "List Obsidian links" },
-      { "<Leader>nb", "<cmd>Obsidian backlinks<CR>", desc = "List Obsidian back links" },
-      { "<Leader>nt", "<cmd>Obsidian today<CR>", desc = "Create a new daily note in Obsidian" },
-    },
-  },
-  -- {
-  --   "3rd/diagram.nvim",
-  --   dependencies = {
-  --     {
-  --       "3rd/image.nvim",
-  --       opts = {
-  --         integrations = {
-  --           markdown = {
-  --             only_render_image_at_cursor = true,
-  --             only_render_image_at_cursor_mode = "inline", -- or "inline"
-  --             floating_windows = true, -- if true, images will be rendered in floating markdown windows
-  --           },
-  --         },
-  --         max_width_window_percentage = 80,
-  --         max_height_window_percentage = 80,
-  --         tmux_show_only_in_active_window = true, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
-  --       },
-  --     },
-  --   },
-  --   opts = {
-  --     events = {
-  --       render_buffer = { "InsertLeave", "BufWinEnter", "TextChanged" },
-  --       clear_buffer = { "BufLeave" },
-  --     },
-  --     renderer_options = {
-  --       mermaid = {
-  --         background = "white", -- nil | "transparent" | "white" | "#hex"
-  --         theme = "neutral", --| "dark" | "forest" | "neutral"
-  --         -- scale = 1, -- nil | 1 (default) | 2 | 3 | ...
-  --         -- width = 400, -- nil | 800 | 400 | ...
-  --         -- height = nil, -- nil | 600 | 300 | ...
-  --       },
-  --     },
-  --   },
-  -- },
-}
+      end
+      return tostring(os.time()) .. "-" .. suffix
+    end,
+  })
+
+  local map = vim.keymap.set
+  map("n", "<Leader>nn", "<cmd>Obsidian new<CR>", { desc = "Create an Obsidian note" })
+  map("n", "<Leader>nf", "<cmd>Obsidian quick_switch<CR>", { desc = "Find an Obsidian note" })
+  map("n", "<Leader>ns", "<cmd>Obsidian search<CR>", { desc = "Search for an Obsidian note" })
+  map("n", "<Leader>nl", "<cmd>Obsidian links<CR>", { desc = "List Obsidian links" })
+  map("n", "<Leader>nb", "<cmd>Obsidian backlinks<CR>", { desc = "List Obsidian back links" })
+  map("n", "<Leader>nt", "<cmd>Obsidian today<CR>", { desc = "Create a new daily note in Obsidian" })
+end)
