@@ -116,7 +116,7 @@ Leader = `,`
 | `<A-j>` / `<A-k>` | Move selected lines down / up |
 | `<C-M-h/j/k/l>` | Move window left/bottom/top/right |
 | `<Esc>` (terminal) | Leave terminal mode |
-| `q` / `Q` | Disabled (no macro recording); plugin buffers keep their own `q` to close |
+| `q` / `Q` / `@` | Disabled (no macro record/replay; `@:` kept). `q` closes utility windows: help, man, quickfix, checkhealth, `:Git` output, notify history, deps confirm, start screen, Neogit, mini.files, Outline, diffview, grug-far, toggleterm |
 
 ### Git (`coding.lua`)
 | Key | Action |

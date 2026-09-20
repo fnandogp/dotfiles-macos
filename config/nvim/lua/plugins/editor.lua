@@ -40,6 +40,7 @@ now(function()
   MiniStarter.setup({
     autoopen = false, -- opened below only when no session is auto-read
     evaluate_single = true,
+    query_updaters = "abcdefghijklmnoprstuvwxyz0123456789_-.", -- no q: it closes the screen instead
     items = {
       MiniStarter.sections.sessions(5, true),
       MiniStarter.sections.recent_files(5, true, false),
@@ -51,6 +52,14 @@ now(function()
       MiniStarter.gen_hook.indexing("all", { "Builtin actions" }),
       MiniStarter.gen_hook.aligning("center", "center"),
     },
+  })
+
+  -- q closes the start screen (q is not a query character, see query_updaters)
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MiniStarterOpened",
+    callback = function(args)
+      vim.keymap.set("n", "q", function() MiniStarter.close() end, { buffer = args.buf, desc = "Close start screen" })
+    end,
   })
 
   -- Bare `nvim`: read the matching session, or start tracking a new one and show the start screen

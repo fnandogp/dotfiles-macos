@@ -44,7 +44,23 @@ vim.keymap.set("n", "<C-M-j>", "<C-w>J", { desc = "Move window to bottom" })
 vim.keymap.set("n", "<C-M-k>", "<C-w>K", { desc = "Move window to top" })
 vim.keymap.set("n", "<C-M-l>", "<C-w>L", { desc = "Move window to right" })
 
--- Macros disabled: q/Q do nothing so a stray q never starts recording.
--- Buffer-local q mappings (close diffview/grug-far/toggleterm) still win.
+-- Macros disabled: q/Q/@ do nothing so a stray key never records or replays.
+-- @: is kept so the last command line can still be repeated.
 vim.keymap.set({ "n", "x" }, "q", "<Nop>")
 vim.keymap.set({ "n", "x" }, "Q", "<Nop>")
+vim.keymap.set({ "n", "x" }, "@", "<Nop>")
+vim.keymap.set("n", "@:", "@:", { desc = "Repeat last command line" })
+
+-- q closes utility windows (help, man, quickfix, :checkhealth, mini.git output,
+-- notify history, deps confirm, Mason). Only for non-file buffers so a real
+-- .diff or .git file keeps q disabled. Plugin buffers such as Neogit, mini.files,
+-- Outline, diffview, grug-far and toggleterm map their own q.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "help", "man", "qf", "checkhealth", "git", "diff", "mininotify-history", "minideps-confirm", "mason", "lspinfo" },
+  callback = function(args)
+    vim.schedule(function()
+      if not vim.api.nvim_buf_is_valid(args.buf) or vim.bo[args.buf].buftype == "" then return end
+      vim.keymap.set("n", "q", function() pcall(vim.cmd.close) end, { buffer = args.buf, desc = "Close window" })
+    end)
+  end,
+})

@@ -56,6 +56,7 @@ now(function()
     vim.bo.bufhidden = "wipe"
     vim.bo.swapfile = false
     vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(messages, "\n"))
+    vim.keymap.set("n", "q", "<Cmd>close<CR>", { buffer = true, desc = "Close window" })
   end, { desc = "All messages (:messages)" })
 end)
 
