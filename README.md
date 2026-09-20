@@ -76,7 +76,7 @@ mise exec python@3.11 -- python script.py
 
 This dotfiles setup includes:
 
-- **Neovim**: Modern Lua configuration with AI integration (Code Companion, Neocodeium)
-- **Terminal**: Kitty and Ghostty configurations
-- **Shell**: Zsh with plugins (fzf, zoxide, starship prompt)
-- **AI Tools**: MCP (Model Context Protocol) integration for enhanced development
+- **Neovim**: Lua config on mini.deps, built mostly from mini.nvim modules; Neocodeium inline completion (see `config/nvim/README.md`)
+- **Terminal**: Kitty and Ghostty configurations, tmux with switchable themes
+- **Shell**: Zsh via zinit (turbo mode), pure prompt, fzf, zoxide, mise, direnv
+- **Agents**: Claude Code agents/commands (`claude/`) and opencode config (`config/opencode/`)
