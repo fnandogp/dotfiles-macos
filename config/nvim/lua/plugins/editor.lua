@@ -7,12 +7,21 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 now(function()
   -- Sessions: one global session per (cwd, git branch), auto-read on a bare
   -- `nvim` inside a session dir, auto-written on exit. Local Session.vim disabled.
+  -- Wipe start screen buffers before a session is written. Otherwise mksession records
+  -- `edit ministarter://N/welcome` and the next read restores a dead buffer.
+  local function wipe_starter_buffers()
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.bo[buf].filetype == "ministarter" then vim.api.nvim_buf_delete(buf, { force = true }) end
+    end
+  end
+
   local MiniSessions = require("mini.sessions")
   MiniSessions.setup({
     autoread = false, -- handled below so it is scoped to session_dirs
     autowrite = true,
     file = "",
     verbose = { read = false, write = false, delete = true },
+    hooks = { pre = { write = wipe_starter_buffers } },
   })
 
   local session_dirs = { "~/.dotfiles", "~/workspace/" }
@@ -41,10 +50,17 @@ now(function()
     autoopen = false, -- opened below only when no session is auto-read
     evaluate_single = true,
     query_updaters = "abcdefghijklmnoprstuvwxyz0123456789_-.", -- no q: it closes the screen instead
+    header = function()
+      local hour = tonumber(vim.fn.strftime("%H"))
+      local greeting = (hour < 4 or hour >= 20) and "Good evening" or (hour < 12 and "Good morning" or "Good afternoon")
+      return greeting .. ", Fernando"
+    end,
+    footer = "type to filter  ·  <CR> open  ·  q close",
     items = {
-      MiniStarter.sections.sessions(5, true),
       MiniStarter.sections.recent_files(5, true, false),
       MiniStarter.sections.pick(),
+      { name = "Neogit", action = "Neogit", section = "Git" },
+      { name = "Update plugins (:DepsUpdate)", action = "DepsUpdate", section = "Plugins" },
       MiniStarter.sections.builtin_actions(),
     },
     content_hooks = {
@@ -62,18 +78,37 @@ now(function()
     end,
   })
 
+  -- Same checks as mini.starter autoopen: a named buffer, a filetype, or buffer text means
+  -- something is shown. A dead `ministarter://` buffer restored from a session does not count.
+  local function current_window_shows_something()
+    local buf_name = vim.api.nvim_buf_get_name(0)
+    if buf_name ~= "" and not vim.startswith(buf_name, "ministarter://") then return true end
+    if vim.bo.filetype ~= "" then return true end
+    return vim.api.nvim_buf_line_count(0) > 1 or vim.api.nvim_buf_get_lines(0, 0, 1, true)[1] ~= ""
+  end
+
   -- Bare `nvim`: read the matching session, or start tracking a new one and show the start screen
   vim.api.nvim_create_autocmd("VimEnter", {
     once = true,
     nested = true,
     callback = function()
-      -- Skip when files were given or the buffer already has content (stdin)
-      if vim.fn.argc() > 0 or vim.fn.line2byte("$") ~= -1 then return end
+      -- Skip when Neovim was opened to show something: files in arguments, or content in the window
+      if vim.fn.argc() > 0 or current_window_shows_something() then return end
 
       if in_session_dir() then
         local name = session_name()
-        if MiniSessions.detected[name] then return MiniSessions.read(name) end
-        MiniSessions.write(name)
+        if MiniSessions.detected[name] then
+          MiniSessions.read(name)
+          -- A session saved from the start screen or an empty window restores nothing visible:
+          -- show the start screen again (hidden buffers stay listed and reachable)
+          if current_window_shows_something() then return end
+        else
+          MiniSessions.write(name)
+        end
+      end
+      -- Drop dead `ministarter://` buffers restored from older session files
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.startswith(vim.api.nvim_buf_get_name(buf), "ministarter://") then vim.api.nvim_buf_delete(buf, { force = true }) end
       end
       MiniStarter.open()
     end,
