@@ -1,8 +1,0 @@
-*
-!.gitignore
-!agents
-!agents/**
-!commands
-!commands/**
-!statusline.sh
-!keybindings.json

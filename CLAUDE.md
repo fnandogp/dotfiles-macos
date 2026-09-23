@@ -29,11 +29,11 @@ nvim --headless "+lua vim.defer_fn(function() for _, n in ipairs(require('mini.n
 
 ## rcm mapping
 
-- `rcrc`: `EXCLUDES="scripts/* README.md CLAUDE.md Brewfile .claude .serena .sisyphus .git"`. Excluded files are not linked.
-- Root-level `name` -> `~/.name` (`zshrc`, `gitconfig`, `vimrc`, `ripgreprc`, `claude/` -> `~/.claude/`).
+- `rcrc`: `EXCLUDES="claude scripts/* README.md CLAUDE.md Brewfile .claude .serena .sisyphus .git"`. Excluded files are not linked.
+- Root-level `name` -> `~/.name` (`zshrc`, `gitconfig`, `vimrc`, `ripgreprc`).
 - `config/<app>` -> `~/.config/<app>` (nvim, tmux, kitty, ghostty, opencode, starship.toml).
 - Directories are linked file by file, so a removed repo file leaves a dangling symlink at the destination. After deleting files: `find ~/.config/<app> -type l ! -exec test -e {} \; -delete`.
-- `claude/.gitignore` whitelists only `agents/`, `commands/`, `statusline.sh`, `keybindings.json`; the rest of `~/.claude` is not versioned.
+- `~/.claude` is not managed here (skills, agents, commands live in another project).
 
 ## Shell (zsh)
 
