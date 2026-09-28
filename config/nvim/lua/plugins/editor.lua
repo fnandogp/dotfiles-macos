@@ -44,7 +44,7 @@ now(function()
 
   vim.keymap.set("n", "<leader>S", function() MiniSessions.select() end, { desc = "Select session" })
 
-  -- Start screen: sessions, recent files in cwd, pickers, builtin actions
+  -- Start screen: recent files in cwd
   local MiniStarter = require("mini.starter")
   MiniStarter.setup({
     autoopen = false, -- opened below only when no session is auto-read
@@ -57,15 +57,11 @@ now(function()
     end,
     footer = "type to filter  ·  <CR> open  ·  q close",
     items = {
-      MiniStarter.sections.recent_files(5, true, false),
-      MiniStarter.sections.pick(),
-      { name = "Neogit", action = "Neogit", section = "Git" },
-      { name = "Update plugins (:DepsUpdate)", action = "DepsUpdate", section = "Plugins" },
-      MiniStarter.sections.builtin_actions(),
+      MiniStarter.sections.recent_files(9, true, false),
     },
     content_hooks = {
       MiniStarter.gen_hook.adding_bullet(),
-      MiniStarter.gen_hook.indexing("all", { "Builtin actions" }),
+      MiniStarter.gen_hook.indexing("all"),
       MiniStarter.gen_hook.aligning("center", "center"),
     },
   })
