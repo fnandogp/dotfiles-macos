@@ -20,6 +20,9 @@ mode="$1"
 client_args=()
 [[ -n "$TMUX_CLIENT" ]] && client_args=(-c "$TMUX_CLIENT")
 
+# Remember the invoking window before the picker can switch the client.
+origin_window=$(tmux display-message -p "${client_args[@]}" '#{window_id}' 2>/dev/null || :)
+
 # tmux's server env can go stale (run-shell never sources zprofile/pathrc);
 # pnpm moved its global bin to $PNPM_HOME/bin, which old servers don't know.
 if ! command -v opencode >/dev/null 2>&1; then
@@ -137,7 +140,85 @@ theme() { tmux show -gqv "@theme_$1"; }
 fg=$(theme fg); surface=$(theme surface); muted=$(theme muted)
 accent=$(theme session); pointer=$(theme prefix)
 
+# Dim default-colour cells in the originating window while fzf's native popup
+# is open. Explicit ANSI colours are outside tmux's window-style control.
+scrim_lock_held=0
+scrim_changed=0
+window_style_was_set=0
+window_active_style_was_set=0
+window_style_before=""
+window_active_style_before=""
+
+scrim_cleanup() {
+  local status=$?
+  trap - EXIT HUP INT TERM
+  if ((scrim_changed)) && [[ -n "$origin_window" ]]; then
+    if ((window_style_was_set)); then
+      tmux set-option -w -t "$origin_window" window-style "$window_style_before" >/dev/null 2>&1 || :
+    else
+      tmux set-option -uw -t "$origin_window" window-style >/dev/null 2>&1 || :
+    fi
+    if ((window_active_style_was_set)); then
+      tmux set-option -w -t "$origin_window" window-active-style "$window_active_style_before" >/dev/null 2>&1 || :
+    else
+      tmux set-option -uw -t "$origin_window" window-active-style >/dev/null 2>&1 || :
+    fi
+  fi
+  if ((scrim_lock_held)); then
+    exec 9>&-
+  fi
+  return "$status"
+}
+
+scrim_begin() {
+  [[ -n "$origin_window" ]] || return 0
+
+  # Serialise pickers on one window, so one cannot restore styles while
+  # another still has its popup open. Keep the descriptor open for the
+  # lifetime of this shell; lockf's descriptor form leaves the lock held.
+  trap scrim_cleanup EXIT
+  trap 'exit 129' HUP
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
+  local socket_path socket_key lock_dir lock_path
+  socket_path=$(tmux display-message -p '#{socket_path}' 2>/dev/null) || return 0
+  [[ -n "$socket_path" ]] || return 0
+  socket_key=$(printf '%s' "$socket_path" | shasum -a 256 2>/dev/null) || return 0
+  socket_key=${socket_key%% *}
+  [[ -n "$socket_key" ]] || return 0
+  lock_dir="${TMPDIR:-/tmp}/tmux-fzf-scrim-${UID:-$(id -u)}"
+  mkdir -p -m 700 "$lock_dir" 2>/dev/null || return 0
+  chmod 700 "$lock_dir" 2>/dev/null || return 0
+  lock_path="$lock_dir/${socket_key}-${origin_window}.lock"
+  if ! { exec 9>"$lock_path"; } 2>/dev/null; then return 0; fi
+  lockf -s -t 0 9 >/dev/null 2>&1 || { exec 9>&-; return 0; }
+  scrim_lock_held=1
+
+  # If the origin disappeared while waiting, never touch the newly active window.
+  tmux display-message -p -t "$origin_window" '#{window_id}' >/dev/null 2>&1 || return 0
+
+  if [[ -n $(tmux show-option -wq -t "$origin_window" window-style 2>/dev/null) ]]; then
+    window_style_before=$(tmux show-option -wqv -t "$origin_window" window-style)
+    window_style_was_set=1
+  fi
+  if [[ -n $(tmux show-option -wq -t "$origin_window" window-active-style 2>/dev/null) ]]; then
+    window_active_style_before=$(tmux show-option -wqv -t "$origin_window" window-active-style)
+    window_active_style_was_set=1
+  fi
+
+  # Mark before writing so even a partial failure restores both prior states.
+  scrim_changed=1
+  local bg surface muted
+  bg=$(theme bg); surface=$(theme surface); muted=$(theme muted)
+  bg=${bg:-default}
+  surface=${surface:-$bg}
+  muted=${muted:-default}
+  tmux set-option -w -t "$origin_window" window-style "bg=$surface,fg=$muted" >/dev/null 2>&1 || return 0
+  tmux set-option -w -t "$origin_window" window-active-style "bg=$bg,fg=$muted" >/dev/null 2>&1 || return 0
+}
+
 if [[ "$mode" == agent ]]; then
+  scrim_begin
   IFS=$'\t' read -r target tool < <(list | fzf --tmux center,62%,38% \
     --delimiter $'\t' --with-nth 3.. --accept-nth 1,2 \
     --tabstop 1 \
@@ -189,6 +270,7 @@ if [[ "$mode" == agent ]]; then
   exit 0
 fi
 
+scrim_begin
 target=$(list | fzf --tmux center,62%,38% \
   --delimiter $'\t' --with-nth 2.. --accept-nth 1 \
   --layout=reverse --no-scrollbar --no-separator --info=inline-right \
