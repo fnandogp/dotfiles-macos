@@ -44,7 +44,7 @@ now(function()
 
   vim.keymap.set("n", "<leader>S", function() MiniSessions.select() end, { desc = "Select session" })
 
-  -- Start screen: recent files in cwd
+  -- Start screen: recent files in cwd (1-9), plugin update (0)
   local MiniStarter = require("mini.starter")
   MiniStarter.setup({
     autoopen = false, -- opened below only when no session is auto-read
@@ -58,10 +58,11 @@ now(function()
     footer = "type to filter  ·  <CR> open  ·  q close",
     items = {
       MiniStarter.sections.recent_files(9, true, false),
+      { name = "0. Update plugins (:DepsUpdate)", action = "DepsUpdate", section = "Plugins" },
     },
     content_hooks = {
       MiniStarter.gen_hook.adding_bullet(),
-      MiniStarter.gen_hook.indexing("all"),
+      MiniStarter.gen_hook.indexing("all", { "Plugins" }),
       MiniStarter.gen_hook.aligning("center", "center"),
     },
   })
