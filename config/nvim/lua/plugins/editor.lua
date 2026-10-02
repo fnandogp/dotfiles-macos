@@ -46,6 +46,15 @@ now(function()
 
   -- Start screen: recent files in cwd (1-9), plugin update (0)
   local MiniStarter = require("mini.starter")
+  local recent_files_section = MiniStarter.sections.recent_files(9, true, false)
+  local update_plugins_item = { name = "0. Update plugins (:DepsUpdate)", action = "DepsUpdate", section = "Plugins" }
+  -- Without recent files the placeholder item is inactive, so the plugin item would be the
+  -- only active item and evaluate_single would run it on open. Show only the placeholder then.
+  local function start_screen_items()
+    local recent_file_items = recent_files_section()
+    if #recent_file_items == 1 and recent_file_items[1].action == "" then return recent_file_items end
+    return vim.list_extend(recent_file_items, { update_plugins_item })
+  end
   MiniStarter.setup({
     autoopen = false, -- opened below only when no session is auto-read
     evaluate_single = true,
@@ -56,10 +65,7 @@ now(function()
       return greeting .. ", Fernando"
     end,
     footer = "type to filter  ·  <CR> open  ·  q close",
-    items = {
-      MiniStarter.sections.recent_files(9, true, false),
-      { name = "0. Update plugins (:DepsUpdate)", action = "DepsUpdate", section = "Plugins" },
-    },
+    items = { start_screen_items },
     content_hooks = {
       MiniStarter.gen_hook.adding_bullet(),
       MiniStarter.gen_hook.indexing("all", { "Plugins" }),
