@@ -31,6 +31,10 @@ export OPENCODE_EXPERIMENTAL_MARKDOWN=0
 export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
 export OPENCODE_ENABLE_EXA=1
 
+# Claude Code: keep 24-bit colour inside tmux so theme backgrounds are not
+# rounded to the nearest 256-colour (rose pine prompt bg becomes white)
+export CLAUDE_CODE_TMUX_TRUECOLOR=1
+
 source <(fzf --zsh)
 
 eval "$(zoxide init zsh)"
