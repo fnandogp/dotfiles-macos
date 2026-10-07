@@ -5,6 +5,7 @@
 # Common
 alias vim="vim -u DEFAULTS"
 alias n="nvim"
+alias t="tmux"
 
 alias '..'='cd ..'
 alias '...'='cd ../..'
