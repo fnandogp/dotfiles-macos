@@ -74,8 +74,6 @@ brew "gnu-tar"
 brew "go"
 # Agent multiplexer that lives in your terminal
 brew "herdr"
-# C/C++ and Java libraries for Unicode and globalization
-brew "icu4c@76"
 # Library to communicate with iOS devices natively
 brew "libimobiledevice"
 # DevTools proxy for iOS devices
@@ -128,8 +126,6 @@ brew "pandoc"
 brew "peco"
 # Paste PNG into files
 brew "pngpaste"
-# Object-relational database system
-brew "postgresql@14"
 # Monitor data's progress through a pipe
 brew "pv"
 # Software environment for statistical computing
@@ -218,8 +214,6 @@ cask "claude-code@latest"
 cask "cleanshot"
 # OpenAI's coding agent that runs in your terminal
 cask "codex"
-# OpenAI's Codex desktop app for managing coding agents
-cask "codex-app"
 # Universal database tool and SQL client
 cask "dbeaver-community"
 # App to build and share containerised applications and microservices
