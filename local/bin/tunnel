@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# tunnel — send ports to one host over one SSH master.
+# Use case: OAuth callback listeners, which pick a new random port each attempt.
+# Run this on the machine where the browser opens localhost (the SSH client).
+# Override the target with TUNNEL_HOST, the socket with TUNNEL_SOCK.
+set -euo pipefail
+
+HOST="${TUNNEL_HOST:-fnandogp@home}"
+SOCK="${TUNNEL_SOCK:-/tmp/opencode/tunnel-home.sock}"
+
+usage() {
+  echo "Use: tunnel open PORT...   start master, add forwards"
+  echo "     tunnel close PORT...  remove forwards"
+  echo "     tunnel status         show master state"
+  echo "     tunnel down           close master and all forwards"
+}
+
+master_up() { ssh -S "$SOCK" -O check "$HOST" >/dev/null 2>&1; }
+
+case "${1:-}" in
+  open)
+    shift; (($#)) || { echo "Give one or more ports."; exit 1; }
+    mkdir -p "$(dirname "$SOCK")"
+    master_up || ssh -M -f -N -S "$SOCK" \
+        -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
+        "$HOST"
+    for port in "$@"; do
+      ssh -S "$SOCK" -O forward -L "$port:localhost:$port" "$HOST"
+      echo "Forward up: localhost:$port -> $HOST"
+    done ;;
+  close)
+    shift; (($#)) || { echo "Give one or more ports."; exit 1; }
+    for port in "$@"; do
+      ssh -S "$SOCK" -O cancel -L "$port:localhost:$port" "$HOST" \
+        && echo "Forward closed: $port"
+    done ;;
+  status) master_up && echo "Master up. Socket: $SOCK" || echo "Master down." ;;
+  down)   ssh -S "$SOCK" -O exit "$HOST" && echo "Master closed." ;;
+  *)      usage; exit 1 ;;
+esac
