@@ -208,8 +208,6 @@ cask "brave-browser"
 cask "chatgpt"
 # Anthropic's official Claude AI desktop app
 cask "claude"
-# Terminal-based AI coding assistant
-cask "claude-code@latest"
 # Screen capturing tool
 cask "cleanshot"
 # OpenAI's coding agent that runs in your terminal

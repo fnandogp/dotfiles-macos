@@ -34,6 +34,8 @@ export OPENCODE_ENABLE_EXA=1
 # Claude Code: keep 24-bit colour inside tmux so theme backgrounds are not
 # rounded to the nearest 256-colour (rose pine prompt bg becomes white)
 export CLAUDE_CODE_TMUX_TRUECOLOR=1
+# Claude Code is installed by mise; mise upgrades it, not the built-in updater
+export DISABLE_AUTOUPDATER=1
 
 source <(fzf --zsh)
 

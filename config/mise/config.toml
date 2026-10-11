@@ -1,0 +1,12 @@
+[tools]
+bun = "latest"
+claude = "latest"
+deno = "latest"
+java = "latest"
+node = "lts"
+pnpm = "latest"
+python = "latest"
+ruby = "latest"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node"]
