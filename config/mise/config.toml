@@ -1,6 +1,6 @@
 [tools]
 bun = "latest"
-claude = "latest"
+claude = { version = "latest", auto_update = true }
 deno = "latest"
 java = "latest"
 node = "lts"
