@@ -1,7 +1,7 @@
 source /opt/homebrew/opt/zinit/zinit.zsh
 
 # Turbo mode: everything below loads after the first prompt.
-# nocd: do not chdir into the plugin dir while running ices (pure would flash the path).
+# nocd: do not chdir into the plugin dir while running ices (the prompt would flash the path).
 zinit wait lucid nocd for \
     atinit"zicompinit; zicdreplay" \
         zdharma-continuum/fast-syntax-highlighting \
@@ -25,11 +25,8 @@ zinit wait lucid nocd for \
     OMZP::command-not-found \
     OMZP::tmux
 
-# Pure prompt (loaded synchronously so the first prompt is already styled)
-zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-zinit light sindresorhus/pure
-# Hide user@host (pure shows it over SSH)
-psvar[13]=
+# Starship prompt (loaded synchronously so the first prompt is already styled)
+eval "$(starship init zsh)"
 
 # Weekly plugin update, run on the first interactive shell once the stamp is
 # older than 7 days. Foreground so atpull hooks run and errors are visible.

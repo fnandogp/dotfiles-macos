@@ -38,7 +38,7 @@ nvim --headless "+lua vim.defer_fn(function() for _, n in ipairs(require('mini.n
 ## Shell (zsh)
 
 - Load order in `zshrc`: `pathrc.zsh` -> `aliasrc.zsh` -> `zinit.zsh` -> `~/.env` (untracked secrets) -> fzf, zoxide, mise, direnv -> generated completions.
-- `zinit.zsh`: plugins load in turbo mode after the first prompt; pure prompt loads synchronously. Weekly `zinit update --all` via a cache stamp. zinit itself is a Homebrew package.
+- `zinit.zsh`: plugins load in turbo mode after the first prompt; starship prompt (`config/starship.toml`) loads synchronously. Weekly `zinit update --all` via a cache stamp. zinit itself is a Homebrew package.
 - `zprofile` only runs `brew shellenv`; `pathrc.zsh` repeats it guarded for non-login shells.
 
 ## Neovim (config/nvim)

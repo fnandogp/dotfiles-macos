@@ -78,5 +78,5 @@ This dotfiles setup includes:
 
 - **Neovim**: Lua config on mini.deps, built mostly from mini.nvim modules; Neocodeium inline completion (see `config/nvim/README.md`)
 - **Terminal**: Kitty and Ghostty configurations, tmux with switchable themes
-- **Shell**: Zsh via zinit (turbo mode), pure prompt, fzf, zoxide, mise, direnv
+- **Shell**: Zsh via zinit (turbo mode), starship prompt, fzf, zoxide, mise, direnv
 - **Agents**: Claude Code agents/commands (`claude/`) and opencode config (`config/opencode/`)
