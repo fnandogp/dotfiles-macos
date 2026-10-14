@@ -15,6 +15,8 @@ command_timeout=5000
 
 [directory]
 style = "blue"
+truncation_length = 2
+truncate_to_repo = false
 read_only = " ro"
 
 [character]
@@ -23,12 +25,13 @@ error_symbol = "[❯](red)"
 vimcmd_symbol = "[❮](green)"
 
 [git_branch]
-format = "on [$branch]($style)"
+format = "[$branch]($style)"
 symbol = "git "
 style = "bright-black"
 
 [git_status]
-format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
+format = "[(*$conflicted$untracked$modified$staged$renamed$deleted)](218)( [$ahead_behind$stashed]($style)) "
+stashed = "≡"
 style = "cyan"
 
 [git_state]
@@ -45,7 +48,8 @@ symbol = "python "
 style = "bright-black"
 
 [nodejs]
-format = 'via [$symbol$version](green) '
+format = '[$symbol$version]($style) '
+style = "bright-black"
 symbol = "node "
 
 [aws]
