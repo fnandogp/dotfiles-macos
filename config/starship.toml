@@ -15,7 +15,7 @@ command_timeout=5000
 
 [directory]
 style = "blue"
-read_only = " 󰌾"
+read_only = " ro"
 
 [character]
 success_symbol = "[❯](purple)"
@@ -24,7 +24,7 @@ vimcmd_symbol = "[❮](green)"
 
 [git_branch]
 format = "on [$branch]($style)"
-symbol = " "
+symbol = "git "
 style = "bright-black"
 
 [git_status]
@@ -41,162 +41,162 @@ style = "yellow"
 
 [python]
 format = "[$virtualenv]($style) "
-symbol = " "
+symbol = "python "
 style = "bright-black"
 
 [nodejs]
-format = 'via [node $version](green) '
-symbol = " "
+format = 'via [$symbol$version](green) '
+symbol = "node "
 
 [aws]
-symbol = "  "
+symbol = "aws "
 
 [buf]
-symbol = " "
+symbol = "buf "
 
 [c]
-symbol = " "
+symbol = "c "
 
 [conda]
-symbol = " "
+symbol = "conda "
 
 [crystal]
-symbol = " "
+symbol = "crystal "
 
 [dart]
-symbol = " "
+symbol = "dart "
 
 [docker_context]
-symbol = " "
+symbol = "docker "
 
 [elixir]
-symbol = " "
+symbol = "elixir "
 
 [elm]
-symbol = " "
+symbol = "elm "
 
 [fennel]
-symbol = " "
+symbol = "fennel "
 
 [fossil_branch]
-symbol = " "
+symbol = "fossil "
 
 [golang]
-symbol = " "
+symbol = "go "
 
 [guix_shell]
-symbol = " "
+symbol = "guix "
 
 [haskell]
-symbol = " "
+symbol = "haskell "
 
 [haxe]
-symbol = " "
+symbol = "haxe "
 
 [hg_branch]
-symbol = " "
+symbol = "hg "
 
 [hostname]
-ssh_symbol = " "
+ssh_symbol = "ssh "
 
 [java]
-symbol = " "
+symbol = "java "
 
 [julia]
-symbol = " "
+symbol = "julia "
 
 [kotlin]
-symbol = " "
+symbol = "kotlin "
 
 [lua]
-symbol = " "
+symbol = "lua "
 
 [memory_usage]
-symbol = "󰍛 "
+symbol = "mem "
 
 [meson]
-symbol = "󰔷 "
+symbol = "meson "
 
 [nim]
-symbol = "󰆥 "
+symbol = "nim "
 
 [nix_shell]
-symbol = " "
+symbol = "nix "
 
 [ocaml]
-symbol = " "
+symbol = "ocaml "
 
 [os.symbols]
-Alpaquita = " "
-Alpine = " "
-AlmaLinux = " "
-Amazon = " "
-Android = " "
-Arch = " "
-Artix = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "󰛓 "
-Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
-Kali = " "
-Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-RockyLinux = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Void = " "
-Windows = "󰍲 "
+Alpaquita = "alpaquita "
+Alpine = "alpine "
+AlmaLinux = "almalinux "
+Amazon = "amazon "
+Android = "android "
+Arch = "arch "
+Artix = "artix "
+CentOS = "centos "
+Debian = "debian "
+DragonFly = "dragonfly "
+Emscripten = "emscripten "
+EndeavourOS = "endeavouros "
+Fedora = "fedora "
+FreeBSD = "freebsd "
+Garuda = "garuda "
+Gentoo = "gentoo "
+HardenedBSD = "hardenedbsd "
+Illumos = "illumos "
+Kali = "kali "
+Linux = "linux "
+Mabox = "mabox "
+Macos = "macos "
+Manjaro = "manjaro "
+Mariner = "mariner "
+MidnightBSD = "midnightbsd "
+Mint = "mint "
+NetBSD = "netbsd "
+NixOS = "nixos "
+OpenBSD = "openbsd "
+openSUSE = "opensuse "
+OracleLinux = "oraclelinux "
+Pop = "pop "
+Raspbian = "raspbian "
+Redhat = "redhat "
+RedHatEnterprise = "redhatenterprise "
+RockyLinux = "rockylinux "
+Redox = "redox "
+Solus = "solus "
+SUSE = "suse "
+Ubuntu = "ubuntu "
+Unknown = "unknown "
+Void = "void "
+Windows = "windows "
 
 [package]
-symbol = "󰏗 "
+symbol = "pkg "
 
 [perl]
-symbol = " "
+symbol = "perl "
 
 [php]
-symbol = " "
+symbol = "php "
 
 [pijul_channel]
-symbol = " "
+symbol = "pijul "
 
 [rlang]
-symbol = "󰟔 "
+symbol = "r "
 
 [ruby]
-symbol = " "
+symbol = "ruby "
 
 [rust]
-symbol = "󱘗 "
+symbol = "rust "
 
 [scala]
-symbol = " "
+symbol = "scala "
 
 [swift]
-symbol = " "
+symbol = "swift "
 
 [zig]
-symbol = " "
+symbol = "zig "
