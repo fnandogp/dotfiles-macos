@@ -28,6 +28,8 @@ zinit wait lucid nocd for \
 # Pure prompt (loaded synchronously so the first prompt is already styled)
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
+# Hide user@host (pure shows it over SSH)
+psvar[13]=
 
 # Weekly plugin update, run on the first interactive shell once the stamp is
 # older than 7 days. Foreground so atpull hooks run and errors are visible.
