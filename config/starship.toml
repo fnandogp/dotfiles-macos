@@ -45,7 +45,7 @@ symbol = " "
 style = "bright-black"
 
 [nodejs]
-format = 'via [$symbol$version](green) '
+format = 'via [node $version](green) '
 symbol = " "
 
 [aws]
