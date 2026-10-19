@@ -15,9 +15,12 @@ command_timeout=5000
 
 [directory]
 style = "blue"
-truncation_length = 2
+truncation_length = 0
 truncate_to_repo = false
 read_only = " ro"
+
+[directory.substitutions]
+"~/workspace/" = ""
 
 [character]
 success_symbol = "[❯](purple)"
