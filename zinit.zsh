@@ -15,12 +15,13 @@ zinit wait lucid nocd for \
     atload"bindkey '^[[A' history-substring-search-up; bindkey '^[OA' history-substring-search-up; bindkey '^[[B' history-substring-search-down; bindkey '^[OB' history-substring-search-down" \
         zsh-users/zsh-history-substring-search
 
-# Oh-my-zsh snippets
+# Oh-my-zsh snippets (common-aliases defines t as tail -f; atload remaps it to tmux)
 zinit wait lucid nocd for \
     OMZL::git.zsh \
     OMZP::git \
     OMZP::aliases \
     OMZP::brew \
+    atload"alias t=tmux" \
     OMZP::common-aliases \
     OMZP::command-not-found \
     OMZP::tmux
