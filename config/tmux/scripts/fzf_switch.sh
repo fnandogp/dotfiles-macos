@@ -2,9 +2,10 @@
 # Session / window switcher in a native fzf floating pane (fzf --tmux).
 # On tmux >= 3.7 the border is drawn by tmux, so fzf never repaints a frame.
 #
-# usage: fzf_switch.sh session|window|agent [list|preview <tool> <target>|delete <tool> <target>]
+# usage: fzf_switch.sh session|window|agent [list|preview [<tool>] <target>|delete <tool> <target>]
 #   list    print "<target>\t<label>" lines only (fzf reload after ctrl-x kill)
-#   preview print messages of an opencode session / capture a claude window
+#   preview session: name, windows and active pane / agent: messages of an
+#           opencode session or capture of a claude window
 #   delete  kill a claude window / delete an opencode session
 #
 # agent: unified picker for AI coding sessions open in tmux (claude + opencode),
@@ -33,9 +34,15 @@ fi
 list() {
   case "$mode" in
     session)
-      current=$(tmux display-message -p "${client_args[@]}" '#S')
-      tmux list-sessions -F "#S	#{p28:session_name} #{session_windows}w  #{s|$HOME|~|:session_path}" \
-        | grep -v "^$current	"
+      # target is the session id: names can be empty or contain ':' '.'
+      # path is the active pane's cwd, not the stale session start dir
+      current=$(tmux display-message -p "${client_args[@]}" '#{session_id}')
+      tmux list-sessions -F "#{session_id}	#{?session_name,#S,(unnamed)}	#{session_windows}	#{s|$HOME|~|:pane_current_path}" \
+        | awk -F'\t' -v current="$current" '
+            $1 != current { rows[++count] = $0; if (length($2) > name_width) name_width = length($2) }
+            END { for (i = 1; i <= count; i++) { split(rows[i], f, "\t")
+              printf "%s\t%-*s  %3sw  %s\n", f[1], name_width, f[2], f[3], f[4] } }'
+
       ;;
     window)
       current=$(tmux display-message -p "${client_args[@]}" '#S:#I')
@@ -122,7 +129,15 @@ opencode_preview() {
     | sed -E '/^\[(user|assistant)\] *$/d'   # drop empty-text messages
 }
 
+session_preview() {
+  printf '\e[1m%s\e[0m\n' "$(tmux display-message -p -t "$1" '#{?session_name,#S,(unnamed)}')"
+  tmux list-windows -t "$1" -F "#{?window_active,*, } #I #{p16:window_name} #{s|$HOME|~|:pane_current_path}"
+  echo
+  tmux capture-pane -ep -t "$1"
+}
+
 [[ "$2" == list ]] && { list; exit; }
+[[ "$mode" == session && "$2" == preview ]] && { session_preview "$3"; exit; }
 # agent helpers: dispatch on tool (claude: tmux window / opencode: session id)
 [[ "$2" == preview ]] && {
   if [[ "$3" == claude ]]; then tmux capture-pane -ep -t "$4"
@@ -270,6 +285,9 @@ if [[ "$mode" == agent ]]; then
   exit 0
 fi
 
+preview_cmd='tmux capture-pane -ep -t {1}'
+[[ "$mode" == session ]] && preview_cmd="$0 session preview {1}"
+
 scrim_begin
 target=$(list | fzf --tmux center,62%,38% \
   --delimiter $'\t' --with-nth 2.. --accept-nth 1 \
@@ -278,7 +296,7 @@ target=$(list | fzf --tmux center,62%,38% \
   --prompt "${mode}s  " \
   --header 'enter switch   ctrl-x kill   ? preview' \
   --color "fg:${fg:--1},bg:-1,gutter:-1,hl:${accent:--1},fg+:${fg:--1},bg+:${surface:--1},hl+:${accent:--1},prompt:${accent:--1},pointer:${pointer:--1},info:${muted:--1},header:${muted:--1},border:${surface:--1},preview-border:${surface:--1}" \
-  --preview 'tmux capture-pane -ep -t {1}' --preview-window 'right,55%,hidden' \
+  --preview "$preview_cmd" --preview-window 'right,55%,hidden' \
   --bind '?:toggle-preview' \
   --bind "ctrl-x:execute-silent(tmux kill-$mode -t {1})+reload($0 $mode list)") || exit 0
 
